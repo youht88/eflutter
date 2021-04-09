@@ -26,48 +26,34 @@ class MyApp extends StatelessWidget {
   }
 }
 
+String option(String type) => return '''
+    {
+      xAxis: {
+        type: 'category',
+        data: ['周一', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [{
+        data: [820, 932, 901, 934, 1290, 1330, 1320],
+        smooth:true,
+        type: $type
+      }]
+    }
+  ''';
+
 class MyHomePage extends StatelessWidget {
-  final option1 = '''
-    {
-      xAxis: {
-        type: 'category',
-        data: ['周一', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [{
-        data: [820, 932, 901, 934, 1290, 1330, 1320],
-        smooth:true,
-        type: 'line'
-      }]
-    }
-  ''';
-  final option2 = '''
-    {
-      xAxis: {
-        type: 'category',
-        data: ['周一', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-      },
-      yAxis: {
-        type: 'value'
-      },
-      series: [{
-        data: [820, 932, 901, 934, 1290, 1330, 1320],
-        smooth:true,
-        type: 'bar'
-      }]
-    }
-  ''';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text("chart")),
         body: ListView(children: [
-          Text("hello"),
+          Text("ppp"),
           //Echart.setOption(option1, width: 300, height: 250),
-          Echart.setOption(option2, width: 300, height: 250),
-          Echart.setOption(option1, width: 300, height: 250),
+          Echart.setOption(option("line"), width: 300, height: 250),
+          SizedBox(height: 8),
+          Echart.setOption(option("bar"), width: 300, height: 250),
         ]));
   }
 }
