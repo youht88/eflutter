@@ -2,15 +2,16 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_echarts/flutter_echarts.dart';
 
 import 'package:get/get.dart';
 
 import 'utils/util.dart';
+import 'components/comm.dart';
 
 void main() {
   final crypto = Crypto();
-  print(crypto);
-  final request = runApp(MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -26,9 +27,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
-  Widget getChart(String type) => Container(
-        child: Echarts(
-          option: '''
+  final option1 = '''
     {
       xAxis: {
         type: 'category',
@@ -40,22 +39,35 @@ class MyHomePage extends StatelessWidget {
       series: [{
         data: [820, 932, 901, 934, 1290, 1330, 1320],
         smooth:true,
-        type: '$type'
+        type: 'line'
       }]
     }
-  ''',
-        ),
-        width: 500,
-        height: 250,
-      );
+  ''';
+  final option2 = '''
+    {
+      xAxis: {
+        type: 'category',
+        data: ['周一', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [{
+        data: [820, 932, 901, 934, 1290, 1330, 1320],
+        smooth:true,
+        type: 'bar'
+      }]
+    }
+  ''';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: Text("chart")),
         body: ListView(children: [
-          getChart("bar"),
-          getChart("line"),
-          getChart("pie"),
+          Text("hello"),
+          //Echart.setOption(option1, width: 300, height: 250),
+          Echart.setOption(option2, width: 300, height: 250),
+          Echart.setOption(option1, width: 300, height: 250),
         ]));
   }
 }
