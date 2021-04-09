@@ -3,13 +3,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
-import 'package:flutter_echarts/flutter_echarts.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-
 import 'package:get/get.dart';
-import 'package:cryptography/cryptography.dart';
+
+import 'utils/util.dart';
 
 void main() {
+  final crypto = Crypto();
+  print(crypto);
   final request = runApp(MyApp());
 }
 
