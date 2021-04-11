@@ -18,8 +18,21 @@ class Login extends StatelessWidget {
           ),
           title: Text("Login"),
         ),
-        body: Center(
-          child: Container(child: Text("hello world!!")),
-        ));
+        body: Stack(children: [
+          Align(
+            alignment: Alignment.topCenter,
+            child: Column(
+              children: [
+                Center(
+                  child: Text("登录"),
+                ),
+                SizedBox(height: 8),
+                Row(children: [Text("用户名"), TextField()]),
+                SizedBox(height: 8),
+                Row(children: [Text("密码"), TextField()]),
+              ],
+            ),
+          ),
+        ]));
   }
 }

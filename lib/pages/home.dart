@@ -32,6 +32,21 @@ class Home extends StatelessWidget {
             func: () => Get.toNamed("/webview",
                 arguments: {"url": "https://flutterchina.club/"}),
           ),
+          MyTile(
+            title: "echart",
+            subtitle: "一个Echart的例子",
+            //func: () => Get.toNamed("/echart"),
+          ),
+          MyTile(
+            title: "flchart",
+            subtitle: "一个flchart的例子",
+            func: () => Get.toNamed("/flchart"),
+          ),
+          MyTile(
+            title: "http",
+            subtitle: "一个http的例子",
+            func: () => Get.toNamed("/http"),
+          ),
         ]),
       ),
     );

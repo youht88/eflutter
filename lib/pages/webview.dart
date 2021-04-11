@@ -22,7 +22,16 @@ class Webview extends StatelessWidget {
         ),
         title: Text("Webview"),
       ),
-      body: WebView(initialUrl: args["url"]),
+      body: //WebView(initialUrl: args["url"]),
+          //SizedBox(height: 8),
+          GetPlatform.isWeb
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("不支持Web"),
+                )
+              : WebView(
+                  initialUrl:
+                      "http://localhost:28080/ipns/bafzm3jqbedgk66fls373ftdpwxcmt33plqkqobpux47d5k3bjluka7yqmpnr2"),
     );
   }
 }
