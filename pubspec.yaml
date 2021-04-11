@@ -26,8 +26,16 @@ dependencies:
   webview_flutter: ^2.0.3
   flutter_echarts: ^2.0.0
   fl_chart: ^0.35.0
+  curved_bottom_navigation: ^1.0.0
   get: ^4.1.3
-  cryptography: ^2.0.1
+  get_storage: ^2.0.2
+  
+  cryptography: ^2.0.0
+  #crypto_keys: ^0.3.0
+  animated_text_kit: ^4.1.1
+  url_launcher: ^6.0.3
+  #sm2cipher: ^0.0.3
+  #crypton: ^2.0.1
   #flutter_webview_plugin: ^0.3.11
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
