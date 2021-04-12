@@ -7,6 +7,7 @@ class Controller extends GetxController {
   var esName = ''.obs;
   var esUuid = ''.obs;
   var firstName = ''.obs;
+  var userData = {}.obs;
   void getData() async {
     final res1 = await HttpClient.get("http://youht.cc:18083/es/");
     final res2 =
@@ -19,6 +20,18 @@ class Controller extends GetxController {
     esName.value = res1['name'];
     esUuid.value = res1['cluster_uuid'];
     firstName.value = res2['hits']['hits'][0]['_source']['name'];
+    userData = res2['hits']['hits']
+        .map((x) => {
+              "id": x["_source"]["id"],
+              "name": x["_source"]["name"],
+              "sex": x["_source"]["sex"],
+              "salary": x["_source"]["salary"],
+              "comp": x["_source"]["comp"],
+            })
+        .toList();
+    List userView = userData
+        .map((x) => ListTile(title: x["name"], subtitle: x["comp"]))
+        .toList();
   }
 }
 
