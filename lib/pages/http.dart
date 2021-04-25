@@ -7,31 +7,26 @@ class Controller extends GetxController {
   var esName = ''.obs;
   var esUuid = ''.obs;
   var firstName = ''.obs;
-  var userData = {}.obs;
+  List<Widget> data = [];
   void getData() async {
     final res1 = await HttpClient.get("http://youht.cc:18083/es/");
     final res2 =
         await HttpClient.post("http://youht.cc:18083/es/qjzid2/_search", body: {
+      "size": 50,
       "query": {
         "match": {"name": "张"}
       }
     });
-    print(res2);
     esName.value = res1['name'];
     esUuid.value = res1['cluster_uuid'];
     firstName.value = res2['hits']['hits'][0]['_source']['name'];
-    userData = res2['hits']['hits']
-        .map((x) => {
-              "id": x["_source"]["id"],
-              "name": x["_source"]["name"],
-              "sex": x["_source"]["sex"],
-              "salary": x["_source"]["salary"],
-              "comp": x["_source"]["comp"],
-            })
+    data = res2['hits']['hits']
+        .map<Widget>((x) => ListTile(
+            title: Text('${x["_source"]["name"]}'),
+            subtitle: Text(
+                '公司:${x["_source"]["comp"]},工资:${x["_source"]["salary"]}')))
         .toList();
-    // List userView = userData
-    //     .map((x) => ListTile(title: x["name"], subtitle: x["comp"]))
-    //     .toList();
+    print(data);
   }
 }
 
@@ -70,6 +65,7 @@ class HttpView extends StatelessWidget {
                 ),
               )),
         ),
+        ListView(padding: EdgeInsets.all(20), children: c.data),
       ]),
       floatingActionButton: FloatingActionButton(
         onPressed: c.getData,
