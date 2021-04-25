@@ -98,15 +98,15 @@ class Login extends StatelessWidget {
               )),
           Expanded(
               child: Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(),
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(150),
-                          topRight: Radius.circular(150))),
+                  //decoration: BoxDecoration(
+                  //border: Border.all(),
+                  //borderRadius: BorderRadius.only(
+                  //    topLeft: Radius.circular(150),
+                  //    topRight: Radius.circular(150))),
                   child: Image.asset(
-                    "assets/images/fj1.jpeg",
-                    fit: BoxFit.cover,
-                  )))
+            "assets/images/fj1.jpeg",
+            fit: BoxFit.cover,
+          )))
         ]));
   }
 }
