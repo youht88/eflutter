@@ -23,6 +23,30 @@ class Config extends StatelessWidget {
         title: Text("Config"),
       ),
       body: Stack(children: [
+        // ClipPath(
+        //   clipper: MyPath(),
+        //   child: Container(width: 150, height: 150, color: Colors.green),
+        // ),
+        Padding(
+          padding: EdgeInsets.all(50),
+          child: Row(
+            //mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Expanded(
+                flex: 1,
+                child: RotatedBox(
+                  quarterTurns: 3,
+                  child: Text("hello1",
+                      style: TextStyle(backgroundColor: Colors.blue)),
+                ),
+              ),
+              Expanded(
+                  flex: 2,
+                  child: Text("good",
+                      style: TextStyle(backgroundColor: Colors.red))),
+            ],
+          ),
+        ),
         Center(
           child: Container(child: Text("hello ${args['name']}!!")),
         ),
@@ -30,7 +54,7 @@ class Config extends StatelessWidget {
           alignment: Alignment(0.75, -0.75),
           child: Obx(() => Container(
                 width: 150,
-                height: 150,
+                height: 50,
                 decoration: BoxDecoration(color: Colors.blue),
                 child: Center(
                   child: Text("${c.s}",
