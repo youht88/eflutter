@@ -8,6 +8,7 @@ import '../pages/webview.dart';
 import '../pages/echart.dart';
 import '../pages/flchart.dart';
 import '../pages/http.dart';
+import '../pages/path.dart';
 
 class MyRoutes {
   static final initialPath = "/home";
@@ -18,7 +19,8 @@ class MyRoutes {
     GetPage(name: "/webview", page: () => Webview()),
     GetPage(name: "/echart", page: () => EchartView()),
     GetPage(name: "/flchart", page: () => FlchartView()),
-    GetPage(name: "/http", page: () => HttpView())
+    GetPage(name: "/http", page: () => HttpView()),
+    GetPage(name: "/path", page: () => PathDemo()),
   ];
   static final unknowRoute = GetPage(name: "/unknow", page: () => Unknow());
 }

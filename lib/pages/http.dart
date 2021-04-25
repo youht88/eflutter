@@ -29,9 +29,9 @@ class Controller extends GetxController {
               "comp": x["_source"]["comp"],
             })
         .toList();
-    List userView = userData
-        .map((x) => ListTile(title: x["name"], subtitle: x["comp"]))
-        .toList();
+    // List userView = userData
+    //     .map((x) => ListTile(title: x["name"], subtitle: x["comp"]))
+    //     .toList();
   }
 }
 
