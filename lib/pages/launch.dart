@@ -1,0 +1,77 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'dart:async';
+
+import '../comm/utils.dart';
+
+import 'package:url_launcher/url_launcher.dart';
+
+class Controller extends GetxController {
+  var s = ''.obs;
+  var _phone = ''.obs;
+  adds() => s.value = s.value + 's';
+}
+
+class Launch extends StatefulWidget {
+  @override
+  _LaunchState createState() => _LaunchState();
+}
+
+class _LaunchState extends State<Launch> {
+  Future<void> _launched;
+
+  Future<void> _launchInBrowser(String url) async {
+    if (await canLaunch(url)) {
+      await launch(
+        url,
+        forceSafariVC: false,
+        forceWebView: true,
+        enableJavaScript: true,
+        headers: <String, String>{'my_header_key': 'my_header_value'},
+      );
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  Widget _launchStatus(BuildContext context, AsyncSnapshot<void> snapshot) {
+    if (snapshot.hasError) {
+      return Text('Error: ${snapshot.error}');
+    } else {
+      return const Text('');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var args = Get.arguments;
+    const String toLaunch = 'https://www.baidu.com';
+    print(Storage.get("keys"));
+    final Controller c = Get.put(Controller());
+    return Scaffold(
+        appBar: AppBar(
+            leading: GestureDetector(
+              onTap: () => Get.back(),
+              child: Icon(Icons.arrow_back),
+            ),
+            title: Text("launch")),
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: TextField(
+                  onChanged: (String text) => c._phone.value = text,
+                  decoration: const InputDecoration(
+                      hintText: 'Input the phone number to launch')),
+            ),
+            ElevatedButton(
+              onPressed: () => setState(() {
+                _launched = _launchInBrowser(toLaunch);
+              }),
+              child: const Text('Launch in browser'),
+            ),
+            FutureBuilder<void>(future: _launched, builder: _launchStatus),
+          ],
+        ));
+  }
+}
