@@ -3,17 +3,12 @@ import 'package:get/get.dart';
 import 'dart:ui';
 
 import 'package:qr_flutter/qr_flutter.dart';
-//import 'package:scan/scan.dart';
+import 'package:flutter_qr_reader/flutter_qr_reader.dart';
 
 //ScanController controller = ScanController();
 
 class Controller extends GetxController {
   var qrcode = "".obs;
-  var scan = true;
-  toggle() {
-    scan = !scan;
-    //scan ? controller.resume() : controller.pause();
-  }
 }
 
 class FrostedView extends StatelessWidget {
@@ -70,27 +65,6 @@ class FrostedView extends StatelessWidget {
               version: QrVersions.auto,
               size: 200.0,
             ),
-            Expanded(
-              child: IconButton(
-                icon: Icon(Icons.qr_code_scanner, size: 36),
-                onPressed: c.toggle,
-              ),
-            ),
-//             Container(
-//               width: 250, // custom wrap size
-//               height: 250,
-//               child: ScanView(
-//                 controller: controller,
-// // custom scan area, if set to 1.0, will scan full area
-//                 scanAreaScale: .7,
-//                 scanLineColor: Colors.green.shade400,
-//                 onCapture: (data) {
-//                   c.qrcode.value = data;
-//                   // do something
-//                 },
-//               ),
-//             ),
-            Obx(() => Text("${c.qrcode}"))
           ],
         ));
   }

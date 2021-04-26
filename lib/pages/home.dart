@@ -62,6 +62,11 @@ class Home extends StatelessWidget {
             subtitle: "一个launch的例子",
             func: () => Get.toNamed("/launch"),
           ),
+          MyTile(
+            title: "qrscan",
+            subtitle: "一个扫描二维码的例子",
+            func: () => Get.toNamed("/qrscan"),
+          ),
         ]),
       ),
     );

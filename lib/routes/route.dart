@@ -11,6 +11,7 @@ import '../pages/http.dart';
 import '../pages/frosted.dart';
 import '../pages/path.dart';
 import '../pages/launch.dart';
+import '../pages/qrscan.dart';
 
 class MyRoutes {
   static final initialPath = "/home";
@@ -25,6 +26,7 @@ class MyRoutes {
     GetPage(name: "/frosted", page: () => FrostedView()),
     GetPage(name: "/path", page: () => PathDemo()),
     GetPage(name: "/launch", page: () => Launch()),
+    GetPage(name: "/qrscan", page: () => Qrscan()),
   ];
   static final unknowRoute = GetPage(name: "/unknow", page: () => Unknow());
 }
