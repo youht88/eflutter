@@ -10,6 +10,7 @@ import '../pages/flchart.dart';
 import '../pages/http.dart';
 import '../pages/frosted.dart';
 import '../pages/path.dart';
+import '../pages/launch.dart';
 
 class MyRoutes {
   static final initialPath = "/home";
@@ -23,6 +24,7 @@ class MyRoutes {
     GetPage(name: "/http", page: () => HttpView()),
     GetPage(name: "/frosted", page: () => FrostedView()),
     GetPage(name: "/path", page: () => PathDemo()),
+    GetPage(name: "/launch", page: () => Launch()),
   ];
   static final unknowRoute = GetPage(name: "/unknow", page: () => Unknow());
 }

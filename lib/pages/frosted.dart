@@ -2,9 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:ui';
 
-class FrostedController extends GetxController {
-  var count = 0.obs;
-  add() => count++;
+import 'package:qr_flutter/qr_flutter.dart';
+//import 'package:scan/scan.dart';
+
+//ScanController controller = ScanController();
+
+class Controller extends GetxController {
+  var qrcode = "".obs;
+  var scan = true;
+  toggle() {
+    scan = !scan;
+    //scan ? controller.resume() : controller.pause();
+  }
 }
 
 class FrostedView extends StatelessWidget {
@@ -12,7 +21,7 @@ class FrostedView extends StatelessWidget {
   Widget build(BuildContext context) {
     var args = Get.arguments;
     print(args);
-    final FrostedController c = Get.put(FrostedController());
+    final Controller c = Get.put(Controller());
 
     return Scaffold(
         appBar: AppBar(
@@ -22,32 +31,67 @@ class FrostedView extends StatelessWidget {
           ),
           title: Text("毛玻璃效果"),
         ),
-        body: Stack(children: [
-          ConstrainedBox(
-            constraints: BoxConstraints.expand(),
-            child: Image.network(
-                'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2496571732,442429806&fm=26&gp=0.jpg'),
-          ),
-          Center(
-            child: ClipRect(
-              // 可裁切矩形
-              child: BackdropFilter(
-                // 背景过滤器
-                filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                child: Opacity(
-                  opacity: 0.5,
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: double.infinity,
-                    width: double.infinity,
-                    decoration: BoxDecoration(color: Colors.grey.shade500),
-                    child: Text('Janise',
-                        style: Theme.of(context).textTheme.bodyText1),
+        body: Column(
+          children: [
+            Container(
+              width: 500,
+              height: 300,
+              child: Stack(children: [
+                ConstrainedBox(
+                  constraints: BoxConstraints.expand(),
+                  child: Image.network(
+                      'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2496571732,442429806&fm=26&gp=0.jpg'),
+                ),
+                Center(
+                  child: ClipRect(
+                    // 可裁切矩形
+                    child: BackdropFilter(
+                      // 背景过滤器
+                      filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                      child: Opacity(
+                        opacity: 0.5,
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: double.infinity,
+                          width: double.infinity,
+                          decoration: BoxDecoration(color: Colors.grey),
+                          child: Text('Hello',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 36)),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
+              ]),
+            ),
+            QrImage(
+              data: "1234567890abcdefghijklmnopqrstuvwxyz",
+              version: QrVersions.auto,
+              size: 200.0,
+            ),
+            Expanded(
+              child: IconButton(
+                icon: Icon(Icons.qr_code_scanner, size: 36),
+                onPressed: c.toggle,
               ),
             ),
-          ),
-        ]));
+//             Container(
+//               width: 250, // custom wrap size
+//               height: 250,
+//               child: ScanView(
+//                 controller: controller,
+// // custom scan area, if set to 1.0, will scan full area
+//                 scanAreaScale: .7,
+//                 scanLineColor: Colors.green.shade400,
+//                 onCapture: (data) {
+//                   c.qrcode.value = data;
+//                   // do something
+//                 },
+//               ),
+//             ),
+            Obx(() => Text("${c.qrcode}"))
+          ],
+        ));
   }
 }

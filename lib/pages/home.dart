@@ -57,6 +57,11 @@ class Home extends StatelessWidget {
             subtitle: "一个path的例子",
             func: () => Get.toNamed("/path"),
           ),
+          MyTile(
+            title: "launch",
+            subtitle: "一个launch的例子",
+            func: () => Get.toNamed("/launch"),
+          ),
         ]),
       ),
     );
