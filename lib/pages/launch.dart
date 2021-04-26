@@ -7,9 +7,7 @@ import '../comm/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Controller extends GetxController {
-  var s = ''.obs;
-  var _phone = ''.obs;
-  adds() => s.value = s.value + 's';
+  var _url = 'https://www.baidu.com'.obs;
 }
 
 class Launch extends StatefulWidget {
@@ -45,7 +43,6 @@ class _LaunchState extends State<Launch> {
   @override
   Widget build(BuildContext context) {
     var args = Get.arguments;
-    const String toLaunch = 'https://www.baidu.com';
     print(Storage.get("keys"));
     final Controller c = Get.put(Controller());
     return Scaffold(
@@ -60,15 +57,14 @@ class _LaunchState extends State<Launch> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: TextField(
-                  onChanged: (String text) => c._phone.value = text,
-                  decoration: const InputDecoration(
-                      hintText: 'Input the phone number to launch')),
+                  onChanged: (String text) => c._url.value = text,
+                  decoration: const InputDecoration(hintText: '输入URL')),
             ),
             ElevatedButton(
               onPressed: () => setState(() {
-                _launched = _launchInBrowser(toLaunch);
+                _launched = _launchInBrowser(c._url.value);
               }),
-              child: const Text('Launch in browser'),
+              child: const Text('查看'),
             ),
             FutureBuilder<void>(future: _launched, builder: _launchStatus),
           ],
