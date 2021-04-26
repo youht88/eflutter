@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'dart:ui';
 
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:flutter_qr_reader/flutter_qr_reader.dart';
 
 //ScanController controller = ScanController();
 

@@ -30,7 +30,7 @@ dependencies:
   get_storage: ^2.0.2
   cryptography: ^2.0.1
   qr_flutter: ^4.0.0
-  flutter_qr_reader: ^1.0.5
+  barcode_scan: ^1.0.0
   #images_picker: ^0.0.5
   #permission_handler: ^5.0.1+1
   #fluwx: ^3.4.2

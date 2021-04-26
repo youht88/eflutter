@@ -1,10 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.echart">
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    package="com.example.eflutter">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!--获取相机权限-->
+    <uses-permission android:name="android.permission.CAMERA" />
    <application
-        android:label="echart"
+        android:label="eflutter"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true">
+        <activity android:name="com.apptreesoftware.barcodescan.BarcodeScannerActivity"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
