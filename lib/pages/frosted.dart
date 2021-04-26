@@ -3,13 +3,16 @@ import 'package:get/get.dart';
 import 'dart:ui';
 
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:scan/scan.dart';
+
+ScanController controller = ScanController();
 
 class Controller extends GetxController {
-  var barcodeScanRes = "".obs;
-  void getQrCode() async {
-    barcodeScanRes.value = await FlutterBarcodeScanner.scanBarcode(
-        "#ff6666", "取消", false, ScanMode.DEFAULT);
+  var qrcode = "".obs;
+  var scan = true;
+  toggle() {
+    scan = !scan;
+    scan ? controller.resume() : controller.pause();
   }
 }
 
@@ -70,9 +73,24 @@ class FrostedView extends StatelessWidget {
             Expanded(
               child: IconButton(
                 icon: Icon(Icons.qr_code_scanner, size: 36),
-                onPressed: c.getQrCode,
+                onPressed: c.toggle,
               ),
             ),
+            Container(
+              width: 250, // custom wrap size
+              height: 250,
+              child: ScanView(
+                controller: controller,
+// custom scan area, if set to 1.0, will scan full area
+                scanAreaScale: .7,
+                scanLineColor: Colors.green.shade400,
+                onCapture: (data) {
+                  c.qrcode.value = data;
+                  // do something
+                },
+              ),
+            ),
+            Obx(() => Text("${c.qrcode}"))
           ],
         ));
   }
