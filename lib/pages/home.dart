@@ -71,6 +71,11 @@ class Home extends StatelessWidget {
             subtitle: "动画演示，数字翻板",
             func: () => Get.toNamed("/animate"),
           ),
+          MyTile(
+            title: "audio",
+            subtitle: "录音和播放",
+            func: () => Get.toNamed("/audio"),
+          ),
         ]),
       ),
     );

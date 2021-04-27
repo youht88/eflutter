@@ -13,6 +13,7 @@ import '../pages/path.dart';
 import '../pages/launch.dart';
 import '../pages/qrscan.dart';
 import '../pages/animate.dart';
+import '../pages/audio.dart';
 
 class MyRoutes {
   static final initialPath = "/home";
@@ -29,6 +30,7 @@ class MyRoutes {
     GetPage(name: "/launch", page: () => Launch()),
     GetPage(name: "/qrscan", page: () => Qrscan()),
     GetPage(name: "/animate", page: () => Animate()),
+    GetPage(name: "/audio", page: () => AudioView()),
   ];
   static final unknowRoute = GetPage(name: "/unknow", page: () => Unknow());
 }
