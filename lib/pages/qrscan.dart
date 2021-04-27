@@ -5,7 +5,7 @@ import 'package:barcode_scan/barcode_scan.dart';
 
 import '../comm/utils.dart';
 
-class Controller extends GetxController {
+class ScanController extends GetxController {
   var result = 'no data'.obs;
   Future scanQR() async {
     try {
@@ -24,11 +24,11 @@ class Qrscan extends StatelessWidget {
   Widget build(BuildContext context) {
     var args = Get.arguments;
     print(Storage.get("keys"));
-    final Controller c = Get.put(Controller());
+    final ScanController c = Get.put(ScanController());
     return Scaffold(
         appBar: AppBar(
           leading: GestureDetector(
-            onTap: () => Get.back(),
+            onTap: () => Get.back(result: {"result": c.result.value}),
             child: Icon(Icons.arrow_back),
           ),
           title: Text("Qrscan"),

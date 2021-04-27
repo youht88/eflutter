@@ -8,36 +8,8 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 class Controller extends GetxController {
   var qrcode = "".obs;
-}
-
-class MyClipper extends CustomClipper<Path> {
-  double x;
-  double y;
-  MyClipper(this.x, this.y);
-  @override
-  Path getClip(Size size) {
-    Path path = Path();
-    // 从 60，0 开始
-    path.moveTo(0, 0);
-    // 二阶贝塞尔曲线画弧
-    path.quadraticBezierTo(0, 0, 0, 60);
-    // 连接到底部
-    path.lineTo(0, size.height / 1.2);
-    // 三阶贝塞尔曲线画弧
-    path.cubicTo(size.width / x, size.height / y, size.width / 4 * 1.5,
-        size.height / 1.5, size.width, size.height / 1.1);
-    // 三阶贝塞尔曲线画弧
-    //path.cubicTo(size.width - 200, size.height, size.width / 4 * 3,
-    // size.height / 1.5, size.width, size.height / 1.1);
-    // 再连接回去
-    path.lineTo(size.width, 60);
-    // 再用二阶贝塞尔曲线画弧
-    path.quadraticBezierTo(size.width - 60, 60, size.width - 60, 0);
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+  var qrcode1 = "".obs;
+  var xxx;
 }
 
 class FrostedView extends StatelessWidget {
@@ -94,19 +66,24 @@ class FrostedView extends StatelessWidget {
               version: QrVersions.auto,
               size: 200.0,
             ),
-            Expanded(
-                child: ClipPath(
-                    clipper: MyClipper(3, 1.2),
-                    child: Container(
-                      //width: 500,
-                      //height: 200,
-                      decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [Colors.deepOrange, Colors.purple[800]],
-                      )),
-                    )))
+            Row(children: [
+              ElevatedButton.icon(
+                  icon: Icon(Icons.menu),
+                  label: Text("扫描"),
+                  // onPressed: () async {
+                  //   c.qrcode1.value =
+                  //       await Get.toNamed("/qrscan", arguments: {});
+                  // }),
+                  onPressed: () async {
+                    c.xxx = await Get.toNamed("/qrscan", arguments: {});
+                    print(c.xxx);
+                    c.qrcode1.value = c.xxx["result"];
+                  }),
+              SizedBox(width: 16),
+              Obx(() => c.qrcode1.value == ""
+                  ? Container()
+                  : Text("code is :${c.qrcode1.value}")),
+            ])
           ],
         ));
   }
