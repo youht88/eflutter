@@ -4,7 +4,7 @@ class Storage {
   Storage() {
     GetStorage.init();
   }
-  static final app = GetStorage();
-  static get(String key) => app.read(key);
-  static set(String key, value) => app.write(key, value);
+  static final box = GetStorage();
+  static get(String key) => box.read(key);
+  static set(String key, value) => box.write(key, value);
 }

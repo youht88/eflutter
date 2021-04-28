@@ -19,6 +19,5 @@ main() async {
 }
 
 void init() async {
-  Storage.get("keys") ?? Storage.set("keys", "24345");
-  print(Storage.get('keys'));
+  Storage.get("keys") ?? Storage.set("keys", "youht88");
 }

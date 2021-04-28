@@ -10,7 +10,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 4), () => Get.toNamed('/home'));
+    Future.delayed(Duration(seconds: 2), () => Get.toNamed('/home'));
   }
 
   @override
