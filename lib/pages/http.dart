@@ -36,10 +36,10 @@ class HttpView extends StatelessWidget {
     final Controller c = Get.put(Controller());
     return Scaffold(
       appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () => Get.back(),
-          child: Icon(Icons.arrow_back),
-        ),
+        // leading: GestureDetector(
+        //   onTap: () => Get.back(),
+        //   child: Icon(Icons.arrow_back),
+        // ),
         title: Text("HTTP"),
       ),
       body: Stack(children: [

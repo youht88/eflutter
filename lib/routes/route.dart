@@ -14,10 +14,12 @@ import '../pages/launch.dart';
 import '../pages/qrscan.dart';
 import '../pages/animate.dart';
 import '../pages/audio.dart';
+import '../pages/splash.dart';
 
 class MyRoutes {
-  static final initialPath = "/home";
+  static final initialPath = "/splash";
   static final List<GetPage> routes = [
+    GetPage(name: "/splash", page: () => SplashPage()),
     GetPage(name: "/home", page: () => Home()),
     GetPage(name: "/login", page: () => Login()),
     GetPage(name: "/config", page: () => Config()),

@@ -12,6 +12,7 @@ class Home extends StatelessWidget {
     final HomeController c = Get.put(HomeController());
     return Scaffold(
       appBar: AppBar(
+        leading: Container(),
         title: Text("HOME"),
       ),
       body: Center(

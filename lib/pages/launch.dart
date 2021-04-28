@@ -32,6 +32,9 @@ class _LaunchState extends State<Launch> {
     }
   }
 
+  Widget itemBuilder(
+      BuildContext context, int index, Animation<double> animate) {}
+
   Widget _launchStatus(BuildContext context, AsyncSnapshot<void> snapshot) {
     if (snapshot.hasError) {
       return Text('Error: ${snapshot.error}');
@@ -43,7 +46,6 @@ class _LaunchState extends State<Launch> {
   @override
   Widget build(BuildContext context) {
     var args = Get.arguments;
-    print(Storage.get("keys"));
     final Controller c = Get.put(Controller());
     return Scaffold(
         appBar: AppBar(
@@ -57,6 +59,7 @@ class _LaunchState extends State<Launch> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: TextField(
+                  onEditingComplete: () => {print("complete")},
                   onChanged: (String text) => c._url.value = text,
                   decoration: const InputDecoration(hintText: '输入URL')),
             ),
@@ -67,6 +70,7 @@ class _LaunchState extends State<Launch> {
               child: const Text('查看'),
             ),
             FutureBuilder<void>(future: _launched, builder: _launchStatus),
+            AnimatedList(itemBuilder: itemBuilder)
           ],
         ));
   }

@@ -5,7 +5,9 @@ import 'package:flutter_sound/flutter_sound.dart';
 
 import '../comm/utils.dart';
 
-class Controller extends GetxController {}
+class Controller extends GetxController {
+  FlutterSound flutterSound = FlutterSound();
+}
 
 class AudioView extends StatelessWidget {
   @override
@@ -25,7 +27,9 @@ class AudioView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
-                onPressed: () => {Get.defaultDialog()},
+                onPressed: () async {
+                  //Future<String> result = await c.flutterSound.startRecorder(file);
+                },
                 child: Text("录音"),
               ),
               ElevatedButton(
