@@ -17,8 +17,11 @@ class CryptoController extends GetxController {
     "ec.verify.message": "",
     "rsa.sign.message": "",
     "rsa.verify.message": "",
-    "passwd": "123456",
-    "ESA.cipher.message": "",
+    "rsa.encrypt.message": "",
+    "rsa.decrypt.message": "",
+    "passwd": "12345678",
+    "AES.encipher.message": "",
+    "AES.decipher.message": "",
   };
   Widget itemBuilder(BuildContext context, int index) {
     return RichText(
@@ -35,7 +38,7 @@ class CryptoController extends GetxController {
   }
 
   Widget separatorBuilder(BuildContext context, int index) {
-    return (index == 4 || index == 6 || index == 10)
+    return (index == 4 || index == 6 || index == 10 || index == 12)
         ? Divider(
             color: Colors.lightGreen,
             thickness: 1.5,
@@ -44,23 +47,44 @@ class CryptoController extends GetxController {
   }
 
   @override
-  void onInit() async {
-    final store = await CryptoLib.keystore();
-    print("=====>:$store");
-    final keyPair = await CryptoLib.genKeyPair();
-    info["ec.privatekey"] = keyPair["privateKey"];
-    info["ec.publickey"] = keyPair["publicKey"];
-    //sign
+  void onInit() {
+    //final store = await CryptoLib.keystore();
+    //print("=====>:$store");
+    final keyPairEC = CryptoLib.genKeyPair();
+    info["ec.privatekey"] = keyPairEC["privateKey"];
+    info["ec.publickey"] = keyPairEC["publicKey"];
+    final keyPairRSA = CryptoLib.genKeyPair(algType: "RSA");
+    info["rsa.privatekey"] = keyPairRSA["privateKey"];
+    info["rsa.publickey"] = keyPairRSA["publicKey"];
+    //EC Sign/Verify
     info["ec.sign.message"] = CryptoLib.sign("abcd", info["ec.privatekey"]);
+    info["ec.verify.message"] =
+        '${CryptoLib.verify("abcd", info["ec.publickey"], info["ec.sign.message"])}';
+    //RSA Sign/Verify
+    info["rsa.sign.message"] =
+        CryptoLib.sign("abcd", info["rsa.privatekey"], algType: "RSA");
+    info["rsa.verify.message"] =
+        '${CryptoLib.verify("abcd", info["rsa.publickey"], info["rsa.sign.message"], algType: "RSA")}';
+    //sha256
+    info["message.sha256"] = HashLib.sha256(info["message"]);
+    info["AES.encipher.message"] =
+        CryptoLib.encipher(info["message"], info["passwd"]);
+    //rsa ecrypt/decrypt
+    info["rsa.encrypt.message"] =
+        CryptoLib.encrypt(info["message"], info["rsa.publickey"]);
+    info["rsa.decrypt.message"] =
+        CryptoLib.decrypt(info["rsa.encrypt.message"], info["rsa.privatekey"]);
+    //aes encipher/decipher
+    //info["AES.decipher.message"] =
+    //    CryptoLib.decipher(info["AES.encipher.message"], info["passwd"]);
+    //print(info);
 
-    if (CryptoLib.verify(
-        "abcd", info["ec.publickey"], info["ec.sign.message"])) {
-      info["ec.verify.message"] = "ok";
-    } else {
-      info["ec.verify.message"] = "error";
-    }
-    info["message.sha256"] = await HashLib.sha256(info["message"]);
-    print(info);
+    //test safeSend function
+    final testData = CryptoLib.safeSend(
+        "hello world!", info["ec.privatekey"], info["rsa.publickey"]);
+    print(testData);
+    final testData1 = CryptoLib.safeRecieve(testData, info["rsa.privatekey"]);
+    print(testData1);
     super.onInit();
   }
 }
