@@ -15,7 +15,7 @@ import '../pages/qrscan.dart';
 import '../pages/animate.dart';
 import '../pages/audio.dart';
 import '../pages/splash.dart';
-import '../pages/crypto.dart';
+import '../pages/cryptoDemo.dart';
 
 class MyRoutes {
   static final initialPath = "/splash";

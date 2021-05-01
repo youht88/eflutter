@@ -2,7 +2,6 @@ import 'package:eflutter/comm/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:cryptography/cryptography.dart';
 import 'dart:convert';
 
 class CryptoController extends GetxController {
@@ -46,17 +45,13 @@ class CryptoController extends GetxController {
 
   @override
   void onInit() async {
-    final cryptoEC = Ed25519();
+    final store = await CryptoLib.keystore();
+    print("=====>:$store");
     final keyPair = await CryptoLib.genKeyPair();
     info["ec.privatekey"] = keyPair["privateKey"];
     info["ec.publickey"] = keyPair["publicKey"];
     //sign
-    var sign0 = await CryptoLib.sign(
-      info["message"],
-      keyPair["privateKey"],
-    );
-    var sign = {"sign": sign0.bytes, "publickey": sign0.publicKey};
-    info["ec.sign.message"] = base64Encode(sign["sign"]);
+    info["ec.sign.message"] = CryptoLib.sign("abcd", info["ec.privatekey"]);
     //info["ec.verify.message"] = (await cryptoEC.verify(
     //  utf8.encode(info["message"]),
     //  signature: Signature(sign["sign"], publicKey: sign["publicKey"]),
