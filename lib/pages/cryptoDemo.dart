@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'dart:convert';
 
 class CryptoController extends GetxController {
-  var info = {
+  Map<String, String> info = {
     "id": "youht",
     "ec.publickey": "",
     "ec.privatekey": "",
@@ -52,12 +52,13 @@ class CryptoController extends GetxController {
     info["ec.publickey"] = keyPair["publicKey"];
     //sign
     info["ec.sign.message"] = CryptoLib.sign("abcd", info["ec.privatekey"]);
-    //info["ec.verify.message"] = (await cryptoEC.verify(
-    //  utf8.encode(info["message"]),
-    //  signature: Signature(sign["sign"], publicKey: sign["publicKey"]),
-    //))
-    //    .toString();
-    //
+
+    if (CryptoLib.verify(
+        "abcd", info["ec.publickey"], info["ec.sign.message"])) {
+      info["ec.verify.message"] = "ok";
+    } else {
+      info["ec.verify.message"] = "error";
+    }
     info["message.sha256"] = await HashLib.sha256(info["message"]);
     print(info);
     super.onInit();
