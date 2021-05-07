@@ -1,9 +1,37 @@
+import 'package:eflutter/comm/components.dart';
+import 'package:eflutter/comm/global.dart' as global;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../comm/utils.dart';
 
-class Controller extends GetxController {}
+class Controller extends GetxController {
+  Future<Widget> test() async {
+    await Future.delayed(Duration(seconds: 5));
+    return Chip(
+      avatar: Icon(Icons.menu),
+      label: Text("login"),
+      deleteIcon: Icon(Icons.cancel),
+      deleteIconColor: Colors.red,
+      elevation: 10,
+    );
+  }
+
+  Future<Widget> table2() async {
+    await Future.delayed(Duration(seconds: 5));
+    return ylzDataTable(
+        columns: global.columns,
+        rows: global.rows,
+        headingTextStyle: TextStyle(
+            color: Colors.greenAccent,
+            fontSize: 18,
+            fontWeight: FontWeight.bold),
+        dataTextStyle: TextStyle(
+          color: Colors.white,
+          fontSize: 18,
+        ));
+  }
+}
 
 class MyClipper extends CustomClipper<Path> {
   double x;
@@ -64,12 +92,40 @@ class Animate extends StatelessWidget {
                     )),
                   ))),
           Positioned(
+            top: 20,
+            left: 0,
+            child: Column(
+              children: [
+                //ylzFutureBuilder(c.table1(), Colors.white),
+                SizedBox(height: 20),
+                ylzFutureBuilder(c.table2(), Colors.grey),
+                SizedBox(height: 8),
+                ylzContainer(
+                    width: Get.mediaQuery.size.width / 2,
+                    height: Get.mediaQuery.size.width / 14,
+                    child: FittedBox(
+                        child: Row(
+                      children: [
+                        Icon(Icons.play_circle_outline_outlined),
+                        Icon(Icons.menu),
+                        Text("hello"),
+                      ],
+                    ))),
+                AspectRatio(
+                    aspectRatio: 1.0,
+                    child: Container(
+                        color: Colors.blue,
+                        height: 50,
+                        width: 50,
+                        alignment: Alignment.center,
+                        child: Icon(Icons.lock)))
+              ],
+            ),
+          ),
+          Positioned(
               left: 20,
               bottom: 50,
-              child: ElevatedButton(
-                onPressed: () => {},
-                child: Text("动画"),
-              ))
+              child: ylzButton(func: () => {}, title: "animate"))
         ],
       ),
     );
