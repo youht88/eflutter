@@ -3,10 +3,7 @@ import 'package:get/get.dart';
 
 import '../comm/components.dart';
 
-class FlchartController extends GetxController {
-  var count = 0.obs;
-  add() => count++;
-}
+class FlchartController extends GetxController {}
 
 class FlchartView extends StatelessWidget {
   @override

@@ -20,10 +20,7 @@ String option(String type) => '''
     }
   ''';
 
-class EchartController extends GetxController {
-  var count = 0.obs;
-  add() => count++;
-}
+class EchartController extends GetxController {}
 
 class EchartView extends StatelessWidget {
   @override

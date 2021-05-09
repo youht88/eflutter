@@ -18,7 +18,7 @@ main() async {
   ));
 }
 
-void init() async {
+init() async {
   Storage.get("keys") ?? Storage.set("keys", "youht88");
   Storage.get("ecKeyPair") ?? Storage.set("ecKeyPair", CryptoLib.genKeyPair());
   Storage.get("rsaKeyPair") ??

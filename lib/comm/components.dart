@@ -16,11 +16,13 @@ var mainGradient = LinearGradient(
 var mainBoxDecoration =
     BoxDecoration(gradient: mainGradient, border: Border.all());
 
-Widget ylzButton({Function func, String title}) => ElevatedButton(
+Widget ylzButton({required Function() func, required String title}) =>
+    ElevatedButton(
       onPressed: func,
       child: Text(title),
     );
-Widget ylzContainer({double width, double height, Widget child}) => Container(
+Widget ylzContainer({double? width, double? height, Widget? child}) =>
+    Container(
       width: width,
       height: height,
       child: child,
@@ -48,15 +50,15 @@ Widget ylzFutureBuilder(Future<Object> func, Color color) => FutureBuilder(
             return new Text('Error: ${snapshot.error}',
                 style: TextStyle(fontSize: 24, color: color));
           else //若_calculation执行正常完成
-            return snapshot.data;
+            return snapshot.data as Widget;
       }
     });
 
 Widget ylzDataTable(
-        {@required List<String> columns,
-        @required List<Map<String, dynamic>> rows,
-        TextStyle headingTextStyle,
-        TextStyle dataTextStyle}) =>
+        {required List<String> columns,
+        required List<Map<String, dynamic>> rows,
+        TextStyle? headingTextStyle,
+        TextStyle? dataTextStyle}) =>
     DataTable(
       columns: columns.map((x) => DataColumn(label: Text('$x'))).toList(),
       rows: rows

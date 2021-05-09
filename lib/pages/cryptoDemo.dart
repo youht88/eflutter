@@ -57,23 +57,23 @@ class CryptoController extends GetxController {
     info["rsa.privatekey"] = keyPairRSA["privateKey"];
     info["rsa.publickey"] = keyPairRSA["publicKey"];
     //EC Sign/Verify
-    info["ec.sign.message"] = CryptoLib.sign("abcd", info["ec.privatekey"]);
+    info["ec.sign.message"] = CryptoLib.sign("abcd", info["ec.privatekey"]!);
     info["ec.verify.message"] =
-        '${CryptoLib.verify("abcd", info["ec.publickey"], info["ec.sign.message"])}';
+        '${CryptoLib.verify("abcd", info["ec.publickey"]!, info["ec.sign.message"]!)}';
     //RSA Sign/Verify
     info["rsa.sign.message"] =
-        CryptoLib.sign("abcd", info["rsa.privatekey"], algType: "RSA");
+        CryptoLib.sign("abcd", info["rsa.privatekey"]!, algType: "RSA");
     info["rsa.verify.message"] =
-        '${CryptoLib.verify("abcd", info["rsa.publickey"], info["rsa.sign.message"], algType: "RSA")}';
+        '${CryptoLib.verify("abcd", info["rsa.publickey"]!, info["rsa.sign.message"]!, algType: "RSA")}';
     //sha256
     info["message.sha256"] = HashLib.sha256(info["message"]);
     info["AES.encipher.message"] =
-        CryptoLib.encipher(info["message"], info["passwd"]);
+        CryptoLib.encipher(info["message"]!, info["passwd"]!);
     //rsa ecrypt/decrypt
     info["rsa.encrypt.message"] =
-        CryptoLib.encrypt(info["message"], info["rsa.publickey"]);
-    info["rsa.decrypt.message"] =
-        CryptoLib.decrypt(info["rsa.encrypt.message"], info["rsa.privatekey"]);
+        CryptoLib.encrypt(info["message"]!, info["rsa.publickey"]!);
+    info["rsa.decrypt.message"] = CryptoLib.decrypt(
+        info["rsa.encrypt.message"]!, info["rsa.privatekey"]!);
     //aes encipher/decipher
     //info["AES.decipher.message"] =
     //    CryptoLib.decipher(info["AES.encipher.message"], info["passwd"]);

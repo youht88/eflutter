@@ -4,10 +4,7 @@ import '../comm/global.dart' as Global;
 
 import '../comm/components/star.dart';
 
-class PathController extends GetxController {
-  var count = 0.obs;
-  add() => count++;
-}
+class PathController extends GetxController {}
 
 class PathDemo extends StatelessWidget {
   @override

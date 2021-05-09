@@ -74,7 +74,7 @@ class LineChartSample5 extends StatelessWidget {
                         FlDotCirclePainter(
                       radius: 8,
                       color: lerpGradient(
-                          barData.colors, barData.colorStops, percent / 100),
+                          barData.colors, barData.colorStops!, percent / 100),
                       strokeWidth: 2,
                       strokeColor: Colors.black,
                     ),
@@ -167,7 +167,7 @@ Color lerpGradient(List<Color> colors, List<double> stops, double t) {
       return leftColor;
     } else if (t < rightStop) {
       final sectionT = (t - leftStop) / (rightStop - leftStop);
-      return Color.lerp(leftColor, rightColor, sectionT);
+      return Color.lerp(leftColor, rightColor, sectionT)!;
     }
   }
   return colors.last;

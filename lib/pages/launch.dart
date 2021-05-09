@@ -39,7 +39,7 @@ class Launch extends StatefulWidget {
 }
 
 class _LaunchState extends State<Launch> {
-  Future<void> _launched;
+  late Future<void> _launched;
 
   Future<void> _launchInBrowser(String url) async {
     if (await canLaunch(url)) {
@@ -108,7 +108,7 @@ class _LaunchState extends State<Launch> {
                 ],
                 maxLength: 50,
                 buildCounter: (BuildContext context,
-                    {int currentLength, bool isFocused, int maxLength}) {
+                    {int? currentLength, bool? isFocused, int? maxLength}) {
                   return Text("$currentLength/$maxLength"); //字符统计
                 },
               ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 class StarPainter extends CustomPainter {
-  Paint _paint;
+  late Paint _paint;
   Path _path = Path();
   int n;
   double R;

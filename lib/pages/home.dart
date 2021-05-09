@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HomeController extends GetxController {
-  var count = 0.obs;
-  add() => count++;
-}
+class HomeController extends GetxController {}
 
 class Home extends StatelessWidget {
   @override
@@ -36,7 +33,9 @@ class Home extends StatelessWidget {
           MyTile(
             title: "echart",
             subtitle: "一个Echart的例子",
-            //func: () => Get.toNamed("/echart"),
+            func: () {
+              //Get.toNamed("/echart"),
+            },
           ),
           MyTile(
             title: "flchart",
@@ -91,12 +90,12 @@ class Home extends StatelessWidget {
 class MyTile extends StatelessWidget {
   final String title;
   final String subtitle;
-  final Function func;
+  final Function()? func;
   const MyTile({
-    this.title,
-    this.subtitle,
+    required this.title,
+    required this.subtitle,
     this.func,
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

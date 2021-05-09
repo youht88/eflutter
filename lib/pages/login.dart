@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class LoginController extends GetxController {
-  var count = 0.obs;
-  add() => count++;
-}
+class LoginController extends GetxController {}
 
 class Login extends StatelessWidget {
   @override

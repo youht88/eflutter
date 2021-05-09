@@ -88,7 +88,7 @@ class Animate extends StatelessWidget {
                         gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Colors.deepOrange, Colors.purple[800]],
+                      colors: [Colors.deepOrange, Colors.purple[800]!],
                     )),
                   ))),
           Positioned(

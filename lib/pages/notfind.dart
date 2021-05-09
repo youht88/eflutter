@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class UnknowController extends GetxController {
-  var count = 0.obs;
-  add() => count++;
+  Rx<int> count = 0.obs;
+  add() => count.value++;
 }
 
 class Unknow extends StatelessWidget {

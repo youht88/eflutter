@@ -55,15 +55,21 @@ class AudioView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
-                //onPressed: () => c.startRecord(),
+                onPressed: () {
+                  //c.startRecord();
+                },
                 child: Text("录音"),
               ),
               ElevatedButton(
-                //onPressed: () => c.stopRecord(),
+                onPressed: () {
+                  //c.stopRecord();
+                },
                 child: Text("stop"),
               ),
               ElevatedButton(
-                //onPressed: () => c.startPlay(),
+                onPressed: () {
+                  //c.startPlay();
+                },
                 child: Text("播放"),
               ),
             ],

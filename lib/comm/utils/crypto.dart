@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:crypton/crypton.dart';
 import 'package:steel_crypt/steel_crypt.dart';
 import 'dart:convert';
@@ -25,23 +27,24 @@ class CryptoLib {
     }
   }
 
-  static Map<String, String> str2PEM(Map<String, String> keyPair,
+  static Map<String, String> str2pem(Map<String, String> keyPair,
       {algType = "RSA"}) {
     assert(algType == "RSA");
-    keyPair["privateKey"] =
-        RSAPrivateKey.fromString(keyPair["privateKey"]).toFormattedPEM();
-    keyPair["publicKey"] =
-        RSAPublicKey.fromString(keyPair["publicKey"]).toFormattedPEM();
+    Map<String, String> keys = {};
+    keys["privateKey"] =
+        RSAPrivateKey.fromString(keyPair["privateKey"]!).toFormattedPEM();
+    keys["publicKey"] =
+        RSAPublicKey.fromString(keyPair["publicKey"]!).toFormattedPEM();
     return keyPair;
   }
 
-  static Map<String, String> PEM2str(Map<String, String> keyPair,
+  static Map<String, String> pem2str(Map<String, String> keyPair,
       {algType = "RSA"}) {
     assert(algType == "RSA");
-    keyPair["privateKey"] =
-        RSAPrivateKey.fromPEM(keyPair["privateKey"]).toString();
-    keyPair["publicKey"] =
-        RSAPublicKey.fromPEM(keyPair["publicKey"]).toString();
+    Map<String, String> keys = {};
+    keys["privateKey"] =
+        RSAPrivateKey.fromPEM(keyPair["privateKey"]!).toString();
+    keys["publicKey"] = RSAPublicKey.fromPEM(keyPair["publicKey"]!).toString();
     return keyPair;
   }
 
@@ -52,20 +55,22 @@ class CryptoLib {
     assert(hashType == "sha256" || hashType == "sha512");
     if (algType == "RSA" && hashType == "sha256") {
       return base64Encode(RSAPrivateKey.fromString(privateKey)
-          .createSHA256Signature(utf8.encode(msg)));
+          .createSHA256Signature(Uint8List.fromList(utf8.encode(msg))));
     }
     if (algType == "EC" && hashType == "sha256") {
       return base64Encode(ECPrivateKey.fromString(privateKey)
-          .createSHA256Signature(utf8.encode(msg)));
+          .createSHA256Signature(Uint8List.fromList(utf8.encode(msg))));
     }
     if (algType == "RSA" && hashType == "sha512") {
       return base64Encode(RSAPrivateKey.fromString(privateKey)
-          .createSHA512Signature(utf8.encode(msg)));
+          .createSHA512Signature(Uint8List.fromList(utf8.encode(msg))));
     }
     if (algType == "EC" && hashType == "sha512") {
       return base64Encode(ECPrivateKey.fromString(privateKey)
-          .createSHA512Signature(utf8.encode(msg)));
+          .createSHA512Signature(Uint8List.fromList(utf8.encode(msg))));
     }
+    throw Exception(
+        "sign function must use algType(EC/RSA) and hashType(sha256/sha512)");
   }
 
   static bool verify(String msg, String publicKey, String sign,
@@ -73,21 +78,23 @@ class CryptoLib {
     assert(algType == "RSA" || algType == "EC");
     assert(hashType == "sha256" || hashType == "sha512");
     if (algType == "EC" && hashType == "sha256") {
-      return ECPublicKey.fromString(publicKey)
-          .verifySHA256Signature(utf8.encode(msg), base64Decode(sign));
+      return ECPublicKey.fromString(publicKey).verifySHA256Signature(
+          Uint8List.fromList(utf8.encode(msg)), base64Decode(sign));
     }
     if (algType == "RSA" && hashType == "sha256") {
-      return RSAPublicKey.fromString(publicKey)
-          .verifySHA256Signature(utf8.encode(msg), base64Decode(sign));
+      return RSAPublicKey.fromString(publicKey).verifySHA256Signature(
+          Uint8List.fromList(utf8.encode(msg)), base64Decode(sign));
     }
     if (algType == "EC" && hashType == "sha512") {
-      return ECPublicKey.fromString(publicKey)
-          .verifySHA512Signature(utf8.encode(msg), base64Decode(sign));
+      return ECPublicKey.fromString(publicKey).verifySHA512Signature(
+          Uint8List.fromList(utf8.encode(msg)), base64Decode(sign));
     }
     if (algType == "RSA" && hashType == "sha512") {
-      return RSAPublicKey.fromString(publicKey)
-          .verifySHA512Signature(utf8.encode(msg), base64Decode(sign));
+      return RSAPublicKey.fromString(publicKey).verifySHA512Signature(
+          Uint8List.fromList(utf8.encode(msg)), base64Decode(sign));
     }
+    throw Exception(
+        "verify function must use algType(EC/RSA) and hashType(sha256/sha512)");
   }
 
   static String encrypt(String msg, String publicKey, {algType: "RSA"}) {

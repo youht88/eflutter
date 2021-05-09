@@ -1,3 +1,4 @@
+import 'package:eflutter/comm/components/expansionPanelList.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -50,6 +51,13 @@ class Config extends StatelessWidget {
         Center(
           child: Container(child: Text("hello ${args['name']}!!")),
         ),
+        Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+          ylzExpansionPanelList([
+            {"head": Text("youht"), "detail": Text("body detail")},
+            {"head": Text("youyc"), "detail": Text("body detail")},
+            {"head": Text("jinli"), "detail": Text("body detail")}
+          ]),
+        ]),
         Align(
           alignment: Alignment(0.75, -0.75),
           child: Obx(() => Container(

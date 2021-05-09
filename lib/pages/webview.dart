@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class WebviewController extends GetxController {
-  var count = 0.obs;
-  add() => count++;
-}
+class WebviewController extends GetxController {}
 
 class Webview extends StatelessWidget {
   @override
