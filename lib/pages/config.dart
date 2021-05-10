@@ -9,7 +9,7 @@ class Controller extends GetxController {
   adds() => s.value = s.value + 's';
 }
 
-class Config extends StatelessWidget {
+class Config extends GetResponsiveView {
   @override
   Widget build(BuildContext context) {
     var args = Get.arguments;
@@ -28,6 +28,13 @@ class Config extends StatelessWidget {
         //   clipper: MyPath(),
         //   child: Container(width: 150, height: 150, color: Colors.green),
         // ),
+        ylzExpansionPanelList([
+            {"head": Text("youht"), "detail": Text("body youht")},
+            {"head": Text("youyc"), "detail": Text("body youyc")},
+            {"head": Text("jinli"), "detail": Text("body jinli")},
+            {"head": Text("flutter",style:TextStyle(color:Colors.amberAccent)), 
+             "detail": Text("body flutter",style:TextStyle(backgroundColor: Colors.blueAccent))},
+        ]),
         Padding(
           padding: EdgeInsets.all(50),
           child: Row(
@@ -51,13 +58,6 @@ class Config extends StatelessWidget {
         Center(
           child: Container(child: Text("hello ${args['name']}!!")),
         ),
-        Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-          ylzExpansionPanelList([
-            {"head": Text("youht"), "detail": Text("body detail")},
-            {"head": Text("youyc"), "detail": Text("body detail")},
-            {"head": Text("jinli"), "detail": Text("body detail")}
-          ]),
-        ]),
         Align(
           alignment: Alignment(0.75, -0.75),
           child: Obx(() => Container(
