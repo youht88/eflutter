@@ -54,8 +54,6 @@ class Config extends StatelessWidget {
         Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
           ylzExpansionPanelList([
             {"head": Text("youht"), "detail": Text("body detail")},
-            {"head": Text("youyc"), "detail": Text("body detail")},
-            {"head": Text("jinli"), "detail": Text("body detail")}
           ]),
         ]),
         Align(
