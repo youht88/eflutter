@@ -1,4 +1,5 @@
 import 'package:eflutter/comm/utils.dart';
+import 'package:eflutter/pages/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -99,14 +100,19 @@ class Login extends GetView<LoginController> {
   Widget build(BuildContext context) {
      print(Storage.get("keys"));
      print(GetPlatform.isMobile);
-     //Get.put(LoginController());
+     SplashController kkk = Get.put(SplashController());
      return Scaffold(
         appBar: AppBar(
           leading: GestureDetector(
             onTap: () => Get.back(),
             child: Icon(Icons.arrow_back),
           ),
-          title: GestureDetector(child: Text('hello'.tr)),
+          title: Column(
+            children: [
+              GestureDetector(child: Text('hello'.trArgs(["youht".tr]))),
+              Text("${kkk.a}")
+            ],
+          ),
         ),
         body: body(context,detail,image)
      );
