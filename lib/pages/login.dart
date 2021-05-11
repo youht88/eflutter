@@ -1,34 +1,24 @@
+import 'package:eflutter/comm/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class LoginController extends GetxController {}
-
-class Login extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final LoginController c = Get.put(LoginController());
-    return Scaffold(
-        appBar: AppBar(
-          leading: GestureDetector(
-            onTap: () => Get.back(),
-            child: Icon(Icons.arrow_back),
-          ),
-          title: Text("login"),
-        ),
-        body: (MediaQuery.of(context).size.width < 768)
-            ? Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-                header,
-                pic,
-              ])
-            : Row(children: [
-                Expanded(flex: 3, child: header),
-                Expanded(child: pic),
-              ]));
-  }
+class LoginController extends GetxController {
+  var a = 10;
 }
 
-Widget header = Container(
-    //width: 250,
+Widget image = Expanded(
+    child: Container(
+        //decoration: BoxDecoration(
+        //border: Border.all(),
+        //borderRadius: BorderRadius.only(
+        //    topLeft: Radius.circular(150),
+        //    topRight: Radius.circular(150))),
+        child: Image.asset(
+  "assets/images/fj1.jpeg",
+  fit: BoxFit.cover,
+)));
+Widget detail = Container(
+    width: 250,
     margin: EdgeInsets.all(20),
     child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -97,14 +87,45 @@ Widget header = Container(
         ),
       ],
     ));
-Widget pic = Expanded(
-    child: Container(
-        //decoration: BoxDecoration(
-        //border: Border.all(),
-        //borderRadius: BorderRadius.only(
-        //    topLeft: Radius.circular(150),
-        //    topRight: Radius.circular(150))),
-        child: Image.asset(
-  "assets/images/fj1.jpeg",
-  fit: BoxFit.cover,
-)));
+
+class Login extends GetView<LoginController> {
+  @override
+  Widget build(BuildContext context) {
+    print(Storage.get("keys"));
+    print(GetPlatform.isMobile);
+    //Get.put(LoginController());
+    return Scaffold(
+        appBar: AppBar(
+          leading: GestureDetector(
+            onTap: () => Get.back(),
+            child: Icon(Icons.arrow_back),
+          ),
+          title: Text("login"),
+        ),
+        body: body(context, detail, image));
+  }
+}
+
+Function body = (BuildContext context, Widget detail, Widget image) {
+  print("??,${GetPlatform.isDesktop}");
+  if (GetPlatform.isMobile && context.isPortrait) {
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [detail, image]);
+  } else if (GetPlatform.isMobile) {
+    return Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [detail, image]);
+  } else if (GetPlatform.isDesktop || GetPlatform.isWeb) {
+    print("isDesktop,${Get.size.width}");
+    if (Get.size.width > 768) {
+      return Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [detail, image]);
+    } else {
+      return Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [detail, image]);
+    }
+  }
+};

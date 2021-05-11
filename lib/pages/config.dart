@@ -1,15 +1,16 @@
 import 'package:eflutter/comm/components/expansionPanelList.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../comm/utils.dart';
 
 class Controller extends GetxController {
   var s = ''.obs;
-  adds() => s.value = s.value + 's';
+  adds() => s.value = s.value + '1';
 }
 
-class Config extends StatelessWidget {
+class Config extends GetResponsiveView {
   @override
   Widget build(BuildContext context) {
     var args = Get.arguments;
@@ -28,6 +29,17 @@ class Config extends StatelessWidget {
         //   clipper: MyPath(),
         //   child: Container(width: 150, height: 150, color: Colors.green),
         // ),
+        ylzExpansionPanelList([
+          {"head": Text("youht"), "detail": Text("body youht")},
+          {"head": Text("youyc"), "detail": Text("body youyc")},
+          {"head": Text("jinli"), "detail": Text("body jinli")},
+          {
+            "head":
+                Text("flutter", style: TextStyle(color: Colors.amberAccent)),
+            "detail": Text("body flutter",
+                style: TextStyle(backgroundColor: Colors.blueAccent))
+          },
+        ]),
         Padding(
           padding: EdgeInsets.all(50),
           child: Row(
@@ -49,24 +61,25 @@ class Config extends StatelessWidget {
           ),
         ),
         Center(
-          child: Container(child: Text("hello ${args['name']}!!")),
+          child: Container(
+              child: RichText(
+                  text: TextSpan(text: "hello", children: [
+            TextSpan(text: "hello ${args['name']}!!"),
+            WidgetSpan(child: FaIcon(FontAwesomeIcons.search)),
+            WidgetSpan(child: FaIcon(FontAwesomeIcons.hamburger))
+          ]))),
         ),
-        Column(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-          ylzExpansionPanelList([
-            {"head": Text("youht"), "detail": Text("body detail")},
-          ]),
-        ]),
         Align(
           alignment: Alignment(0.75, -0.75),
-          child: Obx(() => Container(
-                width: 150,
-                height: 50,
-                decoration: BoxDecoration(color: Colors.blue),
-                child: Center(
-                  child: Text("${c.s}",
-                      style: TextStyle(color: Colors.redAccent, fontSize: 40)),
-                ),
-              )),
+          child: Container(
+            width: 150,
+            height: 50,
+            decoration: BoxDecoration(color: Colors.blue),
+            child: Center(
+              child: Obx(() => Text("${c.s}",
+                  style: TextStyle(color: Colors.redAccent, fontSize: 40))),
+            ),
+          ),
         ),
       ]),
       floatingActionButton: FloatingActionButton(

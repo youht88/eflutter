@@ -28,6 +28,12 @@ class Controller extends GetxController {
         .toList();
     print(data);
   }
+
+  @override
+  onInit() async {
+    super.onInit();
+    getData();
+  }
 }
 
 class HttpView extends StatelessWidget {

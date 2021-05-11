@@ -2,6 +2,7 @@ import 'package:eflutter/comm/components.dart';
 import 'package:eflutter/comm/global.dart' as global;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../comm/utils.dart';
 
