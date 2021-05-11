@@ -106,7 +106,7 @@ class Login extends GetView<LoginController> {
             onTap: () => Get.back(),
             child: Icon(Icons.arrow_back),
           ),
-          title: Text("login"),
+          title: GestureDetector(child: Text('hello'.tr)),
         ),
         body: body(context,detail,image)
      );

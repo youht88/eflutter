@@ -1,3 +1,4 @@
+import 'package:eflutter/language.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,6 +13,10 @@ main() async {
     theme: ThemeData(
       primarySwatch: Colors.red,
     ),
+    translations: Languages(), // 你的翻译
+    locale: Locale('zh', 'CN'), // 将会按照此处指定的语言翻译
+    fallbackLocale: Locale('en', 'US'),
+    debugShowCheckedModeBanner: false,
     initialRoute: MyRoutes.initialPath,
     getPages: MyRoutes.routes,
     unknownRoute: MyRoutes.unknowRoute,

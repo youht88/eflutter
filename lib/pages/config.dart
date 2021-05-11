@@ -29,11 +29,11 @@ class Config extends GetResponsiveView {
         //   child: Container(width: 150, height: 150, color: Colors.green),
         // ),
         ylzExpansionPanelList([
-            {"head": Text("youht"), "detail": Text("body youht")},
-            {"head": Text("youyc"), "detail": Text("body youyc")},
-            {"head": Text("jinli"), "detail": Text("body jinli")},
+            {"head": Text("youht"), "detail": Text("body youht"),"isExpanded":true},
+            {"head": Text("youyc"), "detail": Text("body youyc"),"isExpanded":true},
+            {"head": Text("jinli"), "detail": Text("body jinli"),"isExpanded":true},
             {"head": Text("flutter",style:TextStyle(color:Colors.amberAccent)), 
-             "detail": Text("body flutter",style:TextStyle(backgroundColor: Colors.blueAccent))},
+             "detail": Text("body flutter",style:TextStyle(backgroundColor: Colors.blueAccent)),"isExpanded":true},
         ]),
         Padding(
           padding: EdgeInsets.all(50),
@@ -59,7 +59,7 @@ class Config extends GetResponsiveView {
           child: Container(child: Text("hello ${args['name']}!!")),
         ),
         Align(
-          alignment: Alignment(0.75, -0.75),
+          alignment: Alignment(0.75, 0.75),
           child: Obx(() => Container(
                 width: 150,
                 height: 50,
