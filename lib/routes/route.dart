@@ -16,6 +16,7 @@ import '../pages/animate.dart';
 import '../pages/audio.dart';
 import '../pages/splash.dart';
 import '../pages/cryptoDemo.dart';
+import '../pages/card/card.dart';
 
 class MyRoutes {
   static final initialPath = "/splash";
@@ -35,6 +36,7 @@ class MyRoutes {
     GetPage(name: "/animate", page: () => Animate()),
     GetPage(name: "/audio", page: () => AudioView()),
     GetPage(name: "/crypto", page: () => CryptoPage()),
+    GetPage(name: "/card", page: () => CardView())
   ];
   static final unknowRoute = GetPage(name: "/unknow", page: () => Unknow());
 }
