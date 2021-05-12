@@ -11,22 +11,30 @@ class Controller extends GetxController {
   void getData() async {
     final res1 = await HttpClient.get("http://youht.cc:18083/es/");
     final res2 =
-        await HttpClient.post("http://youht.cc:18083/es/qjzid2/_search", body: {
+        await HttpClient.post("http://10.10.10.171:9200/es/qjzid2/_search", body: {
       "size": 50,
       "query": {
         "match": {"name": "张"}
       }
     });
-    esName.value = res1['name'];
-    esUuid.value = res1['cluster_uuid'];
-    firstName.value = res2['hits']['hits'][0]['_source']['name'];
-    data = res2['hits']['hits']
+    if (res1!=null){
+      esName.value = res1?['name'];
+      esUuid.value = res1?['cluster_uuid'];
+    }else{
+      print("res1 is null");
+    }
+    if (res2!=null){
+      firstName.value = res2?['hits']['hits'][0]['_source']['name'];
+      data = res2?['hits']['hits']
         .map<Widget>((x) => ListTile(
             title: Text('${x["_source"]["name"]}'),
             subtitle: Text(
                 '公司:${x["_source"]["comp"]},工资:${x["_source"]["salary"]}')))
         .toList();
-    print(data);
+      print(data);
+    }else{
+      print("res2 is null");
+    }
   }
 
   @override
@@ -46,7 +54,10 @@ class HttpView extends StatelessWidget {
         //   onTap: () => Get.back(),
         //   child: Icon(Icons.arrow_back),
         // ),
-        title: Text("HTTP"),
+        title: GestureDetector(onTap:(){
+          
+          Get.updateLocale(Locale('en','US'));}
+        ,child: Text("hello".trArgs(["youht".tr])),),
       ),
       body: Stack(children: [
         Obx(() => Padding(

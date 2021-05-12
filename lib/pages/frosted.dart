@@ -81,10 +81,10 @@ class FrostedView extends StatelessWidget {
                     print(c.xxx);
                     c.qrcode1.value = c.xxx["result"];
                     //test safeSend function
-                    c.textData.value = CryptoLib.safeSend(
-                        "what a fun!",
-                        Storage.get("ecKeyPair")["privateKey"],
-                        c.xxx["result"]);
+                    // c.textData.value = CryptoLib.safeSend(
+                    //     "what a fun!",
+                    //     Storage.get("ecKeyPair")["privateKey"],
+                    //     c.xxx["result"]);
                   }),
               SizedBox(width: 16),
               Obx(() => c.qrcode1.value == ""
