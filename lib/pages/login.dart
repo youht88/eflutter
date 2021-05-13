@@ -92,17 +92,10 @@ Widget detail = Container(
 class Login extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
     print(Storage.get("keys"));
     print(GetPlatform.isMobile);
-    //Get.put(LoginController());
+    SplashController kkk = Get.put(SplashController());
     return Scaffold(
-=======
-     print(Storage.get("keys"));
-     print(GetPlatform.isMobile);
-     SplashController kkk = Get.put(SplashController());
-     return Scaffold(
->>>>>>> 1f4e5c2c95049beb2fc8e4e7a2fcae99e452a81d
         appBar: AppBar(
           leading: GestureDetector(
             onTap: () => Get.back(),
