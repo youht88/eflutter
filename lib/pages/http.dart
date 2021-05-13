@@ -7,32 +7,32 @@ class Controller extends GetxController {
   var esName = ''.obs;
   var esUuid = ''.obs;
   var firstName = ''.obs;
-  List<Widget> data = [];
+  late Rx<List<Widget>> data;
   void getData() async {
     final res1 = await HttpClient.get("http://youht.cc:18083/es/");
     final res2 =
-        await HttpClient.post("http://10.10.10.171:9200/es/qjzid2/_search", body: {
+        await HttpClient.post("http://youht.cc:18083/es/qjzid2/_search", body: {
       "size": 50,
       "query": {
         "match": {"name": "张"}
       }
     });
-    if (res1!=null){
+    if (res1 != null) {
       esName.value = res1?['name'];
       esUuid.value = res1?['cluster_uuid'];
-    }else{
+    } else {
       print("res1 is null");
     }
-    if (res2!=null){
+    if (res2 != null) {
       firstName.value = res2?['hits']['hits'][0]['_source']['name'];
-      data = res2?['hits']['hits']
-        .map<Widget>((x) => ListTile(
-            title: Text('${x["_source"]["name"]}'),
-            subtitle: Text(
-                '公司:${x["_source"]["comp"]},工资:${x["_source"]["salary"]}')))
-        .toList();
-      print(data);
-    }else{
+      data.value = res2?['hits']['hits']
+          .map<Widget>((x) => ListTile(
+              title: Text('${x["_source"]["name"]}'),
+              subtitle: Text(
+                  '公司:${x["_source"]["comp"]},工资:${x["_source"]["salary"]}')))
+          .toList();
+      print(data.value[0].runtimeType);
+    } else {
       print("res2 is null");
     }
   }
@@ -54,10 +54,12 @@ class HttpView extends StatelessWidget {
         //   onTap: () => Get.back(),
         //   child: Icon(Icons.arrow_back),
         // ),
-        title: GestureDetector(onTap:(){
-          
-          Get.updateLocale(Locale('en','US'));}
-        ,child: Text("hello".trArgs(["youht".tr])),),
+        title: GestureDetector(
+          onTap: () {
+            Get.updateLocale(Locale('en', 'US'));
+          },
+          child: Text("hello".trArgs(["youht".tr])),
+        ),
       ),
       body: Stack(children: [
         Obx(() => Padding(
@@ -82,7 +84,8 @@ class HttpView extends StatelessWidget {
                 ),
               )),
         ),
-        ListView(padding: EdgeInsets.all(20), children: c.data),
+        Obx(() =>
+            ListView(padding: EdgeInsets.all(20), children: c.data.value)),
       ]),
       floatingActionButton: FloatingActionButton(
         onPressed: c.getData,

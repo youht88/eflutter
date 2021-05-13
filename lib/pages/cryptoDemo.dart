@@ -67,17 +67,23 @@ class CryptoController extends GetxController {
         '${CryptoLib.verify("abcd", info["rsa.publickey"]!, info["rsa.sign.message"]!, algType: "RSA")}';
     //sha256
     info["message.sha256"] = HashLib.sha256(info["message"]);
-    info["AES.encipher.message"] =
-        CryptoLib.encipher(info["message"]!, info["passwd"]!);
     //rsa ecrypt/decrypt
     info["rsa.encrypt.message"] =
         CryptoLib.encrypt(info["message"]!, info["rsa.publickey"]!);
     info["rsa.decrypt.message"] = CryptoLib.decrypt(
         info["rsa.encrypt.message"]!, info["rsa.privatekey"]!);
     //aes encipher/decipher
-    //info["AES.decipher.message"] =
-    //    CryptoLib.decipher(info["AES.encipher.message"], info["passwd"]);
+    info["AES.encipher.message"] =
+        CryptoLib.encipher(info["message"]!, info["passwd"]!);
+    info["AES.decipher.message"] =
+        CryptoLib.decipher(info["AES.encipher.message"]!, info["passwd"]!);
     //print(info);
+    // final toSend = CryptoLib.safeSend(
+    //   msg: "I am youht!",
+    //   selfECPrivateKey: info["ec.privateKey"]!,
+    //   altRSAPublicKey: info["rsa.publicKey"]!,
+    // );
+    // print(toSend);
     super.onInit();
   }
 }

@@ -9,25 +9,23 @@ class CardView extends GetView<CardController> {
   Widget build(BuildContext contenx) {
     return Scaffold(
       appBar: AppBar(),
-      body: Row(children: [
-        ylzCard(
-            height: 400,
-            width: 200,
-            n: 2,
-            gradient: LinearGradient(
-                stops: [0.001, 0.999], colors: [Colors.pink, Colors.blue]),
-            child: Align(alignment: Alignment.center, child: Text("Hello"))),
-        SizedBox(width: 20),
-        ylzCard(
-            height: 400,
-            width: 200,
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: [0.1, 0.5],
-                colors: [Colors.deepOrange, Colors.purple]),
-            child: Align(alignment: Alignment.center, child: Text("Flutter"))),
-      ]),
+      body: GridView.builder(
+          itemCount: 30,
+          itemBuilder: (context, index) {
+            return ylzCard(
+                gradient: LinearGradient(
+                    colors: [Colors.pinkAccent, Colors.blueAccent]),
+                //color: Colors.deepOrangeAccent,
+                child: Align(
+                    alignment: Alignment.center,
+                    child: Text("Hello",
+                        style: TextStyle(fontWeight: FontWeight.bold))));
+          },
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+          )),
     );
   }
 }
@@ -37,30 +35,21 @@ Widget ylzCard(
     double? height = 50,
     Color? color, //Theme.of(context).cardColor,
     Gradient? gradient,
-    int n = 2,
+    int n = 3,
     Widget? child}) {
   List<Widget> circles = List.generate(
-      Random().nextInt(5),
+      Random().nextInt(n),
       (index) => Container(
           alignment: Alignment(
               Random().nextDouble() * 2 - 1, Random().nextDouble() * 2 - 1),
-          width: Random().nextInt(width!.toInt()).toDouble(),
-          height: Random().nextInt(height!.toInt()).toDouble(),
-          //height: 600,
-          //decoration: BoxDecoration(
-          //  color: Colors.white12,
-          //  shape: BoxShape.circle,
-          //),
           child: CustomPaint(
               painter: StarPainter(
-                  n: Random().nextInt(12),
-                  R: Random().nextInt(50).toDouble(),
-                  r: Random().nextInt(50).toDouble(),
-                  color: Colors.white12)))).toList();
+                  n: 5,
+                  R: Random().nextInt(20).toDouble(),
+                  r: Random().nextInt(10).toDouble(),
+                  color: Colors.transparent.withAlpha(20))))).toList();
 
   circles.add(Container(child: child));
-  final abc = [1, 2, 3].map((item) => Text("$item"));
-  print(circles);
 
   return Container(
       width: width,
