@@ -1,12 +1,13 @@
 import 'package:eflutter/comm/components/expansionPanelList.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../comm/utils.dart';
 
 class Controller extends GetxController {
   var s = ''.obs;
-  adds() => s.value = s.value + 's';
+  adds() => s.value = s.value + '1';
 }
 
 class Config extends GetResponsiveView {
@@ -29,11 +30,28 @@ class Config extends GetResponsiveView {
         //   child: Container(width: 150, height: 150, color: Colors.green),
         // ),
         ylzExpansionPanelList([
-            {"head": Text("youht"), "detail": Text("body youht"),"isExpanded":true},
-            {"head": Text("youyc"), "detail": Text("body youyc"),"isExpanded":true},
-            {"head": Text("jinli"), "detail": Text("body jinli"),"isExpanded":true},
-            {"head": Text("flutter",style:TextStyle(color:Colors.amberAccent)), 
-             "detail": Text("body flutter",style:TextStyle(backgroundColor: Colors.blueAccent)),"isExpanded":true},
+          {
+            "head": Text("youht"),
+            "detail": Text("body youht"),
+            "isExpanded": true
+          },
+          {
+            "head": Text("youyc"),
+            "detail": Text("body youyc"),
+            "isExpanded": true
+          },
+          {
+            "head": Text("jinli"),
+            "detail": Text("body jinli"),
+            "isExpanded": true
+          },
+          {
+            "head":
+                Text("flutter", style: TextStyle(color: Colors.amberAccent)),
+            "detail": Text("body flutter",
+                style: TextStyle(backgroundColor: Colors.blueAccent)),
+            "isExpanded": true
+          },
         ]),
         Padding(
           padding: EdgeInsets.all(50),
@@ -56,7 +74,13 @@ class Config extends GetResponsiveView {
           ),
         ),
         Center(
-          child: Container(child: Text("hello ${args['name']}!!")),
+          child: Container(
+              child: RichText(
+                  text: TextSpan(text: "hello", children: [
+            TextSpan(text: "hello ${args['name']}!!"),
+            WidgetSpan(child: FaIcon(FontAwesomeIcons.search)),
+            WidgetSpan(child: FaIcon(FontAwesomeIcons.hamburger))
+          ]))),
         ),
         Align(
           alignment: Alignment(0.75, 0.75),

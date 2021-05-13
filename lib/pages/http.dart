@@ -36,6 +36,12 @@ class Controller extends GetxController {
       print("res2 is null");
     }
   }
+
+  @override
+  onInit() async {
+    super.onInit();
+    getData();
+  }
 }
 
 class HttpView extends StatelessWidget {
