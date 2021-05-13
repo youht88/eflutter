@@ -131,7 +131,7 @@ class CryptoLib {
       required String selfECPrivateKey,
       required String altRSAPublicKey}) {
     //如果存在passwd，说明需要用passwd对称加密原始数据msg
-    var msgObj = {"msg": msg, "passwd": passwd};
+    var msgObj = {"msg": msg};
     if (passwd != null) {
       msgObj = {"msg": encipher(msg, passwd), "passwd": passwd};
     }

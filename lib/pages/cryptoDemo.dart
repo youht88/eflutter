@@ -78,12 +78,16 @@ class CryptoController extends GetxController {
     info["AES.decipher.message"] =
         CryptoLib.decipher(info["AES.encipher.message"]!, info["passwd"]!);
     //print(info);
-    // final toSend = CryptoLib.safeSend(
-    //   msg: "I am youht!",
-    //   selfECPrivateKey: info["ec.privateKey"]!,
-    //   altRSAPublicKey: info["rsa.publicKey"]!,
-    // );
-    // print(toSend);
+    final toSend = CryptoLib.safeSend(
+      msg: "My name is youht!",
+      passwd: "9876543210ab",
+      selfECPrivateKey: info["ec.privatekey"]!,
+      altRSAPublicKey: info["rsa.publickey"]!,
+    );
+    print(toSend);
+    final msg = CryptoLib.safeRecieve(
+        sigObjStr: toSend, selfRSAPrivateKey: info["rsa.privatekey"]!);
+    print(msg);
     super.onInit();
   }
 }
