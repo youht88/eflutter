@@ -35,7 +35,7 @@ class CryptoLib {
         RSAPrivateKey.fromString(keyPair["privateKey"]!).toFormattedPEM();
     keys["publicKey"] =
         RSAPublicKey.fromString(keyPair["publicKey"]!).toFormattedPEM();
-    return keyPair;
+    return keys;
   }
 
   static Map<String, String> pem2str(Map<String, String> keyPair,
@@ -45,7 +45,7 @@ class CryptoLib {
     keys["privateKey"] =
         RSAPrivateKey.fromPEM(keyPair["privateKey"]!).toString();
     keys["publicKey"] = RSAPublicKey.fromPEM(keyPair["publicKey"]!).toString();
-    return keyPair;
+    return keys;
   }
 
   //如果msg是二进制，则用base64转码为字符串。默认用sha256
@@ -130,50 +130,60 @@ class CryptoLib {
       String? passwd,
       required String selfECPrivateKey,
       required String altRSAPublicKey}) {
-    //如果存在passwd，说明需要用passwd对称加密原始数据msg
-    var msgObj = {"msg": msg};
-    if (passwd != null) {
-      msgObj = {"msg": encipher(msg, passwd), "passwd": passwd};
-    }
-    //用对方的RSA公钥加密 msgObj数据
-    final eData = CryptoLib.encrypt(
-      json.encode(msgObj),
-      altRSAPublicKey,
-      algType: "RSA",
-    );
-    final toSend = {"eData": eData, "RSAPublicKey": altRSAPublicKey};
-    //用自己的EC私钥签名
-    final sig = CryptoLib.sign(json.encode(toSend), selfECPrivateKey);
-    final sigObj = {
-      "msg": toSend,
-      "sig": sig,
-      "ECPublicKey":
-          ECPrivateKey.fromString(selfECPrivateKey).publicKey.toString()
-    };
+    try {
+      //如果存在passwd，说明需要用passwd对称加密原始数据msg
+      var msgObj = {"msg": msg};
+      if (passwd != null) {
+        msgObj = {"msg": encipher(msg, passwd), "passwd": passwd};
+      }
+      //用对方的RSA公钥加密 msgObj数据
+      final eData = CryptoLib.encrypt(
+        json.encode(msgObj),
+        altRSAPublicKey,
+        algType: "RSA",
+      );
+      final toSend = {"eData": eData, "RSAPublicKey": altRSAPublicKey};
+      //用自己的EC私钥签名
+      final sig = CryptoLib.sign(json.encode(toSend), selfECPrivateKey);
+      final sigObj = {
+        "msg": toSend,
+        "sig": sig,
+        "ECPublicKey":
+            ECPrivateKey.fromString(selfECPrivateKey).publicKey.toString()
+      };
 
-    return json.encode(sigObj);
+      return json.encode(sigObj);
+    } catch (e) {
+      print("Error on safeSend!");
+      throw FormatException("Error on safeSend!,detail is $e");
+    }
   }
 
   static String safeRecieve({
     required String sigObjStr,
     required String selfRSAPrivateKey,
   }) {
-    //转化为sigObj对象
-    final sigObj = json.decode(sigObjStr);
-    //验证数据完整性
-    assert(verify(
-        json.encode(sigObj["msg"]), sigObj["ECPublicKey"], sigObj["sig"]));
-    print("通过签名验证！！");
-    //解密获得数据串
-    final msgObjStr =
-        CryptoLib.decrypt(sigObj["msg"]["eData"], selfRSAPrivateKey);
-    //解析数据串中的加密串和密文，二次对称解密
-    final msgObj = json.decode(msgObjStr);
-    var msg = msgObj["msg"];
-    if (msgObj["passwd"] != null) {
-      msg = decipher(msg, msgObj["passwd"]);
+    try {
+      //转化为sigObj对象
+      final sigObj = json.decode(sigObjStr);
+      //验证数据完整性
+      assert(verify(
+          json.encode(sigObj["msg"]), sigObj["ECPublicKey"], sigObj["sig"]));
+      print("通过签名验证！！");
+      //解密获得数据串
+      final msgObjStr =
+          CryptoLib.decrypt(sigObj["msg"]["eData"], selfRSAPrivateKey);
+      //解析数据串中的加密串和密文，二次对称解密
+      final msgObj = json.decode(msgObjStr);
+      var msg = msgObj["msg"];
+      if (msgObj["passwd"] != null) {
+        msg = decipher(msg, msgObj["passwd"]);
+      }
+      return msg;
+    } catch (e) {
+      print("Error on safeRecieve!");
+      throw FormatException("Error on safeRecieve!,detail is $e");
     }
-    return msg;
   }
 }
 
@@ -182,6 +192,11 @@ class HashLib {
     //assert(msg.runtimeType == String);
     //if (msg.runtimeType == String) {
     return HashCrypt(algo: algo).hash(inp: msg);
+  }
+
+  static String md5(dynamic msg) {
+    var result = _shax(msg, HashAlgo.MD5);
+    return result;
   }
 
   static String sha256(dynamic msg) {

@@ -10,8 +10,11 @@ class CryptoController extends GetxController {
     "ec.publickey": "",
     "ec.privatekey": "",
     "rsa.publickey": "",
-    "rsa.privatekey": " ",
+    "rsa.privatekey": "",
+    "rsa.publickey.pem": "",
+    "rsa.privatekey.pem": "",
     "message": "I love flutter & dart!",
+    "message.md5": "",
     "message.sha256": "",
     "ec.sign.message": "",
     "ec.verify.message": "",
@@ -38,7 +41,11 @@ class CryptoController extends GetxController {
   }
 
   Widget separatorBuilder(BuildContext context, int index) {
-    return (index == 4 || index == 6 || index == 10 || index == 12)
+    return (index == 6 ||
+            index == 9 ||
+            index == 13 ||
+            index == 15 ||
+            index == 18)
         ? Divider(
             color: Colors.lightGreen,
             thickness: 1.5,
@@ -56,6 +63,9 @@ class CryptoController extends GetxController {
     final keyPairRSA = CryptoLib.genKeyPair(algType: "RSA");
     info["rsa.privatekey"] = keyPairRSA["privateKey"];
     info["rsa.publickey"] = keyPairRSA["publicKey"];
+    final keyPairRSApem = CryptoLib.str2pem(keyPairRSA);
+    info["rsa.privatekey.pem"] = keyPairRSApem["privateKey"]!;
+    info["rsa.publickey.pem"] = keyPairRSApem["publicKey"]!;
     //EC Sign/Verify
     info["ec.sign.message"] = CryptoLib.sign("abcd", info["ec.privatekey"]!);
     info["ec.verify.message"] =
@@ -65,7 +75,8 @@ class CryptoController extends GetxController {
         CryptoLib.sign("abcd", info["rsa.privatekey"]!, algType: "RSA");
     info["rsa.verify.message"] =
         '${CryptoLib.verify("abcd", info["rsa.publickey"]!, info["rsa.sign.message"]!, algType: "RSA")}';
-    //sha256
+    //md5 & sha256
+    info["message.md5"] = HashLib.md5(info["message"]);
     info["message.sha256"] = HashLib.sha256(info["message"]);
     //rsa ecrypt/decrypt
     info["rsa.encrypt.message"] =
@@ -78,16 +89,17 @@ class CryptoController extends GetxController {
     info["AES.decipher.message"] =
         CryptoLib.decipher(info["AES.encipher.message"]!, info["passwd"]!);
     //print(info);
-    final toSend = CryptoLib.safeSend(
-      msg: "My name is youht!",
+    info["safeSend"] = CryptoLib.safeSend(
+      msg: "你好，游海涛!!",
       passwd: "9876543210ab",
       selfECPrivateKey: info["ec.privatekey"]!,
       altRSAPublicKey: info["rsa.publickey"]!,
     );
-    print(toSend);
-    final msg = CryptoLib.safeRecieve(
-        sigObjStr: toSend, selfRSAPrivateKey: info["rsa.privatekey"]!);
-    print(msg);
+    print(info["safeSend"]);
+    info["safeRecieve"] = CryptoLib.safeRecieve(
+        sigObjStr: info["safeSend"]!,
+        selfRSAPrivateKey: info["rsa.privatekey"]!);
+    print(info["safeRecieve"]);
     super.onInit();
   }
 }
