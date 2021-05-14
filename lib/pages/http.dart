@@ -7,40 +7,47 @@ class Controller extends GetxController {
   var esName = ''.obs;
   var esUuid = ''.obs;
   var firstName = ''.obs;
-  late Rx<List<Widget>> data;
-  void getData() async {
-    final res1 = await HttpClient.get("http://youht.cc:18083/es/");
-    final res2 =
-        await HttpClient.post("http://youht.cc:18083/es/qjzid2/_search", body: {
-      "size": 50,
-      "query": {
-        "match": {"name": "张"}
-      }
-    });
-    if (res1 != null) {
-      esName.value = res1?['name'];
-      esUuid.value = res1?['cluster_uuid'];
-    } else {
-      print("res1 is null");
-    }
-    if (res2 != null) {
-      firstName.value = res2?['hits']['hits'][0]['_source']['name'];
-      data.value = res2?['hits']['hits']
-          .map<Widget>((x) => ListTile(
-              title: Text('${x["_source"]["name"]}'),
-              subtitle: Text(
-                  '公司:${x["_source"]["comp"]},工资:${x["_source"]["salary"]}')))
-          .toList();
-      print(data.value[0].runtimeType);
-    } else {
-      print("res2 is null");
-    }
+  //var Rx<List<Widget>> data=[Text("abc")].obs;
+  dynamic getData() async {
+    // final res1 = await HttpClient.get("http://youht.cc:18083/es/");
+    // final res2 =
+    //     await HttpClient.post("http://youht.cc:18083/es/qjzid2/_search", body: {
+    //   "size": 50,
+    //   "query": {
+    //     "match": {"name": "张"}
+    //   }
+    // });
+    // if (res1 != null) {
+    //   esName.value = res1?['name'];
+    //   esUuid.value = res1?['cluster_uuid'];
+    // } else {
+    //   print("res1 is null");
+    // }
+    // if (res2 != null) {
+    //   firstName.value = res2?['hits']['hits'][0]['_source']['name'];
+    //   data.value = res2?['hits']['hits']
+    //       .map<Widget>((x) => ListTile(
+    //           title: Text('${x["_source"]["name"]}'),
+    //           subtitle: Text(
+    //               '公司:${x["_source"]["comp"]},工资:${x["_source"]["salary"]}')))
+    //       .toList();
+    //   print(data.value[0].runtimeType);
+    // } else {
+    //   print("res2 is null");
+    // }
+    //icfs
+    //final icfs = ICFS("http://youht.cc:18083");
+    final icfs = ICFS("http://localhost:8080");
+    final a = await icfs
+        .get("bafk43jqbea5vimjgk5xt6baanerfzn6ugjolh7cxjh3eecjheozvan56w4dp2");
+    return a;
   }
 
   @override
   onInit() async {
     super.onInit();
-    getData();
+    final a = await getData();
+    print(a);
   }
 }
 
@@ -84,8 +91,8 @@ class HttpView extends StatelessWidget {
                 ),
               )),
         ),
-        Obx(() =>
-            ListView(padding: EdgeInsets.all(20), children: c.data.value)),
+        // Obx(() =>
+        //     ListView(padding: EdgeInsets.all(20), children: c.data)),
       ]),
       floatingActionButton: FloatingActionButton(
         onPressed: c.getData,
