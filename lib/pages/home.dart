@@ -86,6 +86,11 @@ class Home extends StatelessWidget {
             subtitle: "自定义card的容器演示，可以定义card的特定渐变背景，以及若干具有特定大小、位置和颜色深浅的圆",
             func: () => Get.toNamed("/card"),
           ),
+          MyTile(
+            title: "test",
+            subtitle: "测试",
+            func: () => Get.toNamed("/test"),
+          ),
         ]),
       ),
     );
