@@ -22,7 +22,7 @@ class CardView extends GetView<CardController> {
                         style: TextStyle(fontWeight: FontWeight.bold))));
           },
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
+            crossAxisCount: 2,
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
           )),
@@ -35,7 +35,7 @@ Widget ylzCard(
     double? height = 50,
     Color? color, //Theme.of(context).cardColor,
     Gradient? gradient,
-    int n = 3,
+    int n = 2,
     Widget? child}) {
   List<Widget> circles = List.generate(
       Random().nextInt(n),
@@ -44,10 +44,14 @@ Widget ylzCard(
               Random().nextDouble() * 2 - 1, Random().nextDouble() * 2 - 1),
           child: CustomPaint(
               painter: StarPainter(
-                  n: 5,
-                  R: Random().nextInt(20).toDouble(),
-                  r: Random().nextInt(10).toDouble(),
-                  color: Colors.transparent.withAlpha(20))))).toList();
+                  n: Random().nextInt(7) + 3,
+                  R: Random().nextInt((width!).toInt()).toDouble(),
+                  r: Random().nextInt(height!.toInt()).toDouble(),
+                  color: Colors.transparent.withAlpha(20)))
+          //child: CircleAvatar(
+          //  radius: Random().nextInt((width! / 4).toInt()).toDouble(),
+          //  backgroundColor: Colors.transparent.withAlpha(20),
+          )).toList();
 
   circles.add(Container(child: child));
 
