@@ -89,6 +89,7 @@ class FoodView extends GetView<CardController> {
         child: Padding(
       padding: EdgeInsets.all(3),
       child: Container(
+        height: 220,
         child: Stack(
           children: [
             Container(
@@ -109,17 +110,23 @@ class FoodView extends GetView<CardController> {
                 top: 60,
                 left: 15,
                 child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("$title",
                           style: TextStyle(color: Colors.white, fontSize: 15)),
                       SizedBox(height: 10),
-                      // ListView.builder(
-                      //   itemCount: arr.length,
-                      //   itemBuilder: (context, idx) => Text("${arr[idx]}",
-                      //       textAlign: TextAlign.left,
-                      //       style: TextStyle(color: Colors.white, fontSize: 8)),
-                      // ),
+                      Container(
+                        height: 45, //必须有高度
+                        width: 150, //必须有宽度
+                        child: ListView.builder(
+                          itemCount: arr.length,
+                          itemBuilder: (context, idx) => Text("${arr[idx]}",
+                              textAlign: TextAlign.left,
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 8)),
+                        ),
+                      ),
                       RichText(
                         text: TextSpan(children: [
                           TextSpan(
