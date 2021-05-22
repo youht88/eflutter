@@ -80,7 +80,7 @@ class CryptoController extends GetxController {
     //print(info);
     final toSend = CryptoLib.safeSend(
       msg: "My name is youht!",
-      passwd: "9876543210ab",
+      passwd: "9876543210ab", //length of passwd must be multi of 4
       selfECPrivateKey: info["ec.privatekey"]!,
       altRSAPublicKey: info["rsa.publickey"]!,
     );

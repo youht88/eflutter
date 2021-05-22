@@ -1,5 +1,6 @@
 import 'package:eflutter/comm/components/star.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'card_controll.dart';
 import 'dart:math';
@@ -7,6 +8,7 @@ import 'dart:math';
 class CardView extends GetView<CardController> {
   @override
   Widget build(BuildContext contenx) {
+    Get.put(CardController());
     return Scaffold(
       appBar: AppBar(),
       body: GridView.builder(
@@ -26,6 +28,10 @@ class CardView extends GetView<CardController> {
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
           )),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => controller.temp.value = "hello",
+        child: Icon(Icons.charging_station),
+      ),
     );
   }
 }
