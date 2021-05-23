@@ -13,14 +13,14 @@ class TestPage extends GetView<TestController> {
     CardController cardController = Get.put(CardController());
     return Scaffold(
         appBar: AppBar(title: Text('TestPage')),
-        body: Column(
-          children: [
+        body: Container(
+          child: Column(children: [
             Row(
               children: [
                 Expanded(
                   child: Center(
-                    child: AspectRatio(
-                      aspectRatio: 16 / 9,
+                    child: Container(
+                      height: 100,
                       child: Container(
                           margin: EdgeInsets.all(8),
                           padding: EdgeInsets.all(8),
@@ -32,8 +32,8 @@ class TestPage extends GetView<TestController> {
                 ),
                 Expanded(
                   child: Center(
-                    child: AspectRatio(
-                      aspectRatio: 16 / 9,
+                    child: Container(
+                      height: 100,
                       child: Container(
                           margin: EdgeInsets.all(8),
                           padding: EdgeInsets.all(8),
@@ -46,36 +46,122 @@ class TestPage extends GetView<TestController> {
               ],
             ),
             Center(child: Obx(() => Text("${cardController.temp}"))),
-            Shimmer.fromColors(
-              child: Column(
-                children: [
-                  Row(children: [
-                    Container(
-                        margin: EdgeInsets.all(8),
-                        width: 50,
-                        height: 50,
-                        color: Colors.white30),
-                    Column(children: [
-                      Container(
-                          margin: EdgeInsets.all(8),
-                          width: 300,
-                          height: 15,
-                          color: Colors.white30),
-                      Container(
-                          margin: EdgeInsets.all(8),
-                          width: 300,
-                          height: 15,
-                          color: Colors.white30),
-                    ])
-                  ]),
-                ],
-              ),
-              
-              //child: Text("Hello world!", style: TextStyle(fontSize: 40)),
-              baseColor: Colors.grey.shade700,
-              highlightColor: Colors.grey.shade100,
-            )
-          ],
+            Obx(() => Container(
+                  height: 200,
+                  child: ListView.builder(
+                      padding: EdgeInsets.all(8),
+                      itemCount: controller.obj.length,
+                      itemBuilder: (context, index) => ListTile(
+                          leading: CircleAvatar(
+                              child: Text(
+                                  "${controller.obj[index]['_source']['grade']}")),
+                          title: Text(
+                              "${controller.obj[index]['_source']['name']}",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.amber)),
+                          subtitle: Text(
+                              "${controller.obj[index]['_source']['score']}"))),
+                )),
+            //制作一个精美的组件
+            SizedBox(height: 8),
+            Row(
+              children: [
+                FoodView(Colors.blueAccent, "Breakfast",
+                    ["Bread", "Peanet butter", "Apple"], 525),
+                FoodView(Colors.orangeAccent, "Lunch",
+                    ["Salmon,", "Mixed veggles,", "Avocado"], 602),
+                FoodView(Colors.pinkAccent, "Snack", ["eggs,", "milk"], 200),
+                FoodView(Colors.lightGreen, "Dinner", ["Cake"], 400),
+              ],
+            ),
+            SizedBox(height: 8),
+            MomentView(),
+          ]),
         ));
+  }
+}
+
+class MomentView extends GetView {
+  @override
+  Widget build(BuildContext context) {
+    return Text("abc");
+  }
+}
+
+class FoodView extends GetView<CardController> {
+  final Color cl;
+  final String title;
+  final List<String> arr;
+  final int value;
+  FoodView(this.cl, this.title, this.arr, this.value);
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+        child: Padding(
+      padding: EdgeInsets.all(3),
+      child: Container(
+        height: 150,
+        child: Stack(
+          children: [
+            Container(
+                height: 170,
+                width: 100,
+                decoration: BoxDecoration(
+                  borderRadius:
+                      BorderRadius.only(topRight: Radius.circular(30)),
+                  gradient: LinearGradient(colors: [cl, cl.withAlpha(400)]),
+                )),
+            Positioned(
+                top: -30,
+                left: -20,
+                width: 90,
+                height: 90,
+                child: CircleAvatar(backgroundColor: cl.withAlpha(200))),
+            Positioned(
+                top: 60,
+                left: 15,
+                child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("$title",
+                          style: TextStyle(color: Colors.white, fontSize: 15)),
+                      SizedBox(height: 10),
+                      Container(
+                        height: 30, //必须有高度
+                        width: 170, //必须有宽度
+                        child: ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: arr.length,
+                          itemBuilder: (context, idx) => Text("${arr[idx]}",
+                              textAlign: TextAlign.left,
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 8)),
+                        ),
+                      ),
+                      RichText(
+                        text: TextSpan(children: [
+                          TextSpan(
+                              text: "$value",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white)),
+                          TextSpan(
+                              text: "kcal",
+                              style:
+                                  TextStyle(fontSize: 8, color: Colors.white))
+                        ]),
+                        textAlign: TextAlign.left,
+                      ),
+                    ])),
+            Positioned(
+                left: 20,
+                child: Placeholder(
+                    fallbackWidth: 25,
+                    fallbackHeight: 30,
+                    color: cl.withAlpha(200))),
+          ],
+        ),
+      ),
+    ));
   }
 }
