@@ -8,14 +8,14 @@ class TestController extends GetxController {
     super.onInit();
     final esInfo =
         await HttpClient.post("http://youht.cc:18083/es/test/_search", body: {
-      "size": 50,
+      "size": 150,
       "query": {
-        "match": {"name": "游"}
+        "match": {"name": "国"}
       }
     });
 
     obj.value = esInfo['hits']['hits'];
-    print(obj.value);
+    //print(obj.value);
     print("onInit");
   }
 
