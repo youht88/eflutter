@@ -6,29 +6,58 @@ import 'moment_controller.dart';
 class MomentPage extends GetView<MomentController> {
   @override
   Widget build(BuildContext context) {
+    MomentController c = Get.put(MomentController());
     return Scaffold(
-        appBar: AppBar(title: Text('MomentPage')),
-        body: SafeArea(
-            child: SingleChildScrollView(
-                padding: EdgeInsets.all(8),
-                child: Column(
-                  children: [
-                    MomentWidget(),
-                    MomentWidget(),
-                    MomentWidget(),
-                    MomentWidget(),
-                    MomentWidget(),
-                    MomentWidget(),
-                    MomentWidget(),
-                    MomentWidget(),
-                    MomentWidget(),
-                    MomentWidget(),
-                  ],
-                ))));
+      appBar: AppBar(title: Text('MomentPage'), actions: [
+        GestureDetector(
+            onTap: () {
+              c.reset();
+            },
+            child: Icon(Icons.refresh)),
+      ]),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(8),
+          child: Container(
+            width: 400,
+            height: 2000,
+            child: GetBuilder<MomentController>(
+                builder: (c) => ListView.builder(
+                    itemCount: controller.data.length,
+                    itemBuilder: (context, index) => AnimatedContainer(
+                          duration: 3.seconds,
+                          transformAlignment: Alignment.centerLeft,
+                          child: MomentWidget(
+                              leading: controller.data[index]["leading"],
+                              leadingColor: controller.data[index]
+                                  ["leadingColor"],
+                              color: controller.data[index]["color"],
+                              title: controller.data[index]["title"],
+                              timeStr: controller.data[index]["timeStr"],
+                              metric: controller.data[index]["metric"]),
+                        ))),
+          ),
+        ),
+      ),
+    );
   }
 }
 
 class MomentWidget extends GetView {
+  final IconData? leading;
+  final Color? leadingColor;
+  final Color? color;
+  final String? title;
+  final String? timeStr;
+  final List<Map<String, dynamic>>? metric;
+  MomentWidget(
+      {Key? key,
+      this.leading,
+      this.leadingColor,
+      this.color,
+      this.title,
+      this.timeStr,
+      this.metric});
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -46,10 +75,8 @@ class MomentWidget extends GetView {
                   // ],
                   borderRadius:
                       BorderRadius.only(topRight: Radius.circular(30)),
-                  gradient: LinearGradient(colors: [
-                    Colors.blueAccent,
-                    Colors.blueAccent.withOpacity(0.7)
-                  ]),
+                  gradient:
+                      LinearGradient(colors: [color!, color!.withOpacity(0.7)]),
                 ),
                 height: 100,
                 child: Container(
@@ -57,8 +84,8 @@ class MomentWidget extends GetView {
                   children: [
                     Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child:
-                            CircleAvatar(child: Icon(Icons.food_bank_rounded))),
+                        child: CircleAvatar(
+                            child: Icon(leading, color: leadingColor))),
                     Expanded(
                       child: Padding(
                         padding: EdgeInsets.all(8),
@@ -70,7 +97,7 @@ class MomentWidget extends GetView {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("西红柿炒蛋",
+                                  Text("$title",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 14,
@@ -79,7 +106,7 @@ class MomentWidget extends GetView {
                                     alignment: Alignment.topCenter,
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Text("3 hours ago",
+                                      child: Text("$timeStr",
                                           style: TextStyle(
                                               fontSize: 14,
                                               color: Colors.white
@@ -92,45 +119,24 @@ class MomentWidget extends GetView {
                             //  thickness: 0.5,
                             //),
                             SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  MetricWidget(
-                                      barColor: Colors.red,
-                                      value: 200.23,
-                                      unit: "千卡",
-                                      iconData: FontAwesomeIcons.burn,
-                                      type: "热量"),
-                                  MetricWidget(
-                                      barColor: Colors.purpleAccent,
-                                      value: 20.23,
-                                      unit: "克",
-                                      iconData: FontAwesomeIcons.tree,
-                                      type: "蛋白"),
-                                  MetricWidget(
-                                      barColor: Colors.amberAccent,
-                                      value: 122.44,
-                                      unit: "克",
-                                      iconData: FontAwesomeIcons.water,
-                                      type: "脂肪"),
-                                  MetricWidget(
-                                      barColor: Colors.lightGreenAccent,
-                                      value: 0.01,
-                                      unit: "克",
-                                      iconData: Icons.ac_unit,
-                                      type: "碳水"),
-                                  MetricWidget(
-                                      barColor: Colors.cyanAccent,
-                                      value: 12.75,
-                                      unit: "毫克",
-                                      iconData:
-                                          FontAwesomeIcons.solidStickyNote,
-                                      type: "钠"),
-                                ],
-                              ),
-                            )
+                                scrollDirection: Axis.horizontal,
+                                child: Container(
+                                  width: 600,
+                                  height: 40,
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: metric!.length,
+                                    itemBuilder: (context, index) =>
+                                        MetricWidget(
+                                            barColor: metric![index]
+                                                ["barColor"],
+                                            value: metric![index]["value"],
+                                            unit: metric![index]["unit"],
+                                            iconData: metric![index]
+                                                ["iconData"],
+                                            type: metric![index]["type"]),
+                                  ),
+                                ))
                           ],
                         ),
                       ),
