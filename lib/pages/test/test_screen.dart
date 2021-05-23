@@ -112,12 +112,17 @@ class FoodView extends GetView<CardController> {
                         BorderRadius.only(topRight: Radius.circular(30)),
                     gradient: LinearGradient(colors: [cl, cl.withAlpha(400)]),
                   )),
+              //LayoutBuilder(builder: (context, size) {
+              //print(80 - size.biggest.width);
+              //return
               Positioned(
                   top: -30,
-                  left: -20,
+                  left: -20, //-size.biggest.width / 3,
                   width: 90,
                   height: 90,
                   child: CircleAvatar(backgroundColor: cl.withAlpha(200))),
+              //}),
+
               Positioned(
                   top: 60,
                   left: 15,

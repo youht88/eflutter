@@ -18,30 +18,79 @@ class MomentPage extends GetView<MomentController> {
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(8),
-          child: Container(
-            width: 400,
-            height: 2000,
-            child: GetBuilder<MomentController>(
-                builder: (c) => ListView.builder(
-                    itemCount: controller.data.length,
-                    itemBuilder: (context, index) => AnimatedContainer(
-                          duration: 3.seconds,
-                          transformAlignment: Alignment.centerLeft,
-                          child: MomentWidget(
-                              leading: controller.data[index]["leading"],
-                              leadingColor: controller.data[index]
-                                  ["leadingColor"],
-                              color: controller.data[index]["color"],
-                              title: controller.data[index]["title"],
-                              timeStr: controller.data[index]["timeStr"],
-                              metric: controller.data[index]["metric"]),
-                        ))),
+          child: Column(
+            children: [
+              Container(
+                width: 400,
+                height: 600,
+                child: GetBuilder<MomentController>(
+                    builder: (c) => ListView.builder(
+                        itemCount: c.data.length,
+                        itemBuilder: (context, index) => AnimatedContainer(
+                              duration: 3.seconds,
+                              transformAlignment: Alignment.centerLeft,
+                              child: MomentWidget(
+                                  leading: c.data[index]["leading"],
+                                  leadingColor: c.data[index]["leadingColor"],
+                                  color: c.data[index]["color"],
+                                  title: c.data[index]["title"],
+                                  timeStr: c.data[index]["timeStr"],
+                                  metric: c.data[index]["metric"]),
+                            ))),
+              ),
+              c.flchart(width: 150, height: 50, title: "aa"),
+              indicatedBar(
+                  color: Colors.blue,
+                  size: 200,
+                  vertical: false,
+                  thickness: 8,
+                  value: 0.60)
+            ],
           ),
         ),
       ),
     );
   }
 }
+
+Widget indicatedBar(
+        {Color color: Colors.red,
+        required double value,
+        bool vertical: false,
+        double size: 80,
+        double thickness: 6}) =>
+    Stack(
+      alignment: Alignment.topLeft,
+      children: [
+        Container(
+          width: vertical ? thickness : size,
+          height: vertical ? size : thickness,
+          decoration: BoxDecoration(
+              color: color.withOpacity(0.3),
+              borderRadius: BorderRadius.all(Radius.circular(thickness / 2))),
+        ),
+        Container(
+          width: vertical ? thickness : value * size,
+          height: vertical ? value * size : thickness,
+          decoration: BoxDecoration(
+              color: color,
+              boxShadow: [
+                BoxShadow(blurRadius: thickness / 2, color: Colors.yellow)
+              ],
+              borderRadius: vertical
+                  ? value < 0.9
+                      ? BorderRadius.only(
+                          topLeft: Radius.circular(thickness / 2),
+                          topRight: Radius.circular(thickness / 2))
+                      : BorderRadius.all(Radius.circular(thickness / 2))
+                  : value < 0.9
+                      ? BorderRadius.only(
+                          topLeft: Radius.circular(thickness / 2),
+                          bottomLeft: Radius.circular(thickness / 2))
+                      : BorderRadius.all(Radius.circular(thickness / 2))),
+        ),
+      ],
+    );
 
 class MomentWidget extends GetView {
   final IconData? leading;
@@ -77,6 +126,8 @@ class MomentWidget extends GetView {
                       BorderRadius.only(topRight: Radius.circular(30)),
                   gradient:
                       LinearGradient(colors: [color!, color!.withOpacity(0.7)]),
+                  //LinearGradient(
+                  //    colors: [Color(0xff23b6e6), Color(0xff02d39a)]),
                 ),
                 height: 100,
                 child: Container(
@@ -130,7 +181,11 @@ class MomentWidget extends GetView {
                                         MetricWidget(
                                             barColor: metric![index]
                                                 ["barColor"],
-                                            value: metric![index]["value"],
+                                            value:
+                                                metric![index]["value"] ?? 0.0,
+                                            indicate: metric![index]
+                                                    ["indicate"] ??
+                                                0.0,
                                             unit: metric![index]["unit"],
                                             iconData: metric![index]
                                                 ["iconData"],
@@ -151,13 +206,15 @@ class MomentWidget extends GetView {
 class MetricWidget extends StatelessWidget {
   final Color barColor;
   final double value;
+  final double? indicate;
   final String unit;
   final IconData? iconData;
   final String type;
   const MetricWidget({
     Key? key,
     this.barColor: Colors.white,
-    this.value: 123.45,
+    this.value: 0.0,
+    this.indicate,
     this.unit: "千卡",
     this.iconData,
     this.type: "热量",
@@ -216,6 +273,8 @@ class MetricWidget extends StatelessWidget {
                   )
                 ],
               )
-            : SizedBox.shrink());
+            : SizedBox.shrink()
+        //(true ? indicatedBar(value: indicate) : SizedBox.shrink())
+        );
   }
 }
