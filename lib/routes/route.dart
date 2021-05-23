@@ -1,3 +1,4 @@
+import 'package:eflutter/pages/moment/moment_screen.dart';
 import 'package:get/get.dart';
 
 import '../pages/home.dart';
@@ -39,6 +40,7 @@ class MyRoutes {
     GetPage(name: "/crypto", page: () => CryptoPage()),
     GetPage(name: "/card", page: () => CardView()),
     GetPage(name: "/test", page: () => TestPage()),
+    GetPage(name: "/moment", page: () => MomentPage()),
   ];
   static final unknowRoute = GetPage(name: "/unknow", page: () => Unknow());
 }

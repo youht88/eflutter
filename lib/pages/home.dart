@@ -15,6 +15,11 @@ class Home extends StatelessWidget {
       body: Center(
         child: ListView(children: [
           MyTile(
+            title: "moment",
+            subtitle: "一个moment的例子",
+            func: () => Get.toNamed("/moment"),
+          ),
+          MyTile(
             title: "login",
             subtitle: "一个login的例子",
             func: () => Get.toNamed("/login"),

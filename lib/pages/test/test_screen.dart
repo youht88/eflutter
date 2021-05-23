@@ -2,6 +2,7 @@ import 'package:eflutter/comm/utils.dart';
 import 'package:eflutter/pages/card/card.dart';
 //import 'package:eflutter/pages/card/card.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'test_controll.dart';
@@ -59,7 +60,7 @@ class TestPage extends GetView<TestController> {
                           title: Text(
                               "${controller.obj[index]['_source']['name']}",
                               style:
-                                  TextStyle(fontSize: 20, color: Colors.amber)),
+                                  TextStyle(fontSize: 14, color: Colors.amber)),
                           subtitle: Text(
                               "${controller.obj[index]['_source']['score']}"))),
                 )),
@@ -76,69 +77,8 @@ class TestPage extends GetView<TestController> {
               ],
             ),
             SizedBox(height: 8),
-            MomentView(),
           ]),
         ));
-  }
-}
-
-class MomentView extends GetView {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-            child: Container(
-                height: 50,
-                color: Colors.blue,
-                child: Container(
-                    child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: CircleAvatar(child: Icon(Icons.access_alarm)),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("西红柿炒蛋",
-                                style: TextStyle(
-                                    fontSize: 12, color: Colors.white)),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("a",
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        color: Colors.white.withOpacity(0.8))),
-                                Text("b",
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        color: Colors.white.withOpacity(0.8))),
-                                Text("c",
-                                    style: TextStyle(
-                                        fontSize: 10,
-                                        color: Colors.white.withOpacity(0.8))),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text("3 hours ago",
-                          style: TextStyle(
-                              fontSize: 10,
-                              color: Colors.white.withOpacity(0.8))),
-                    ),
-                  ],
-                )))),
-      ],
-    );
   }
 }
 

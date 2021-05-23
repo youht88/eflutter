@@ -6,16 +6,22 @@ class TestController extends GetxController {
   @override
   onInit() async {
     super.onInit();
-    final esInfo =
-        await HttpClient.post("http://youht.cc:18083/es/test/_search", body: {
-      "size": 150,
-      "query": {
-        "match": {"name": "国"}
-      }
-    });
-
-    obj.value = esInfo['hits']['hits'];
-    //print(obj.value);
+    //var user1, user2, user3, user4;
+    try {
+      final esInfo = await HttpClient.post(
+          "http://youht.cc:18083/es/test/_search",
+          body: {
+            "size": 150,
+            "query": {
+              "match": {"name": "国家"}
+            }
+          });
+      //if esInfo
+      obj.value = esInfo['hits']['hits'];
+      print(obj.value);
+    } catch (e) {
+      print(e);
+    }
     print("onInit");
   }
 
