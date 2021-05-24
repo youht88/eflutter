@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -189,31 +191,89 @@ class MomentController extends GetxController {
     });
   }
 
-  Widget flchart({double width: 150, double height: 50, String? title}) {
-    final spots = List.generate(5, (i) => (i - 50) / 10)
-        .map((x) => FlSpot(x, sin(x)))
+  Widget flLineChart({
+    double width: 150,
+    double height: 50,
+    required List<bool> below,
+    required List<bool> dot,
+    double thickness: 3.0,
+    required List<List<double>> data,
+    required List<List<Color>> colors,
+    String? title,
+  }) {
+    assert(data.length == colors.length &&
+        data.length == below.length &&
+        data.length == dot.length);
+    final spots = data
+        .map((items) => (items
+            .asMap()
+            .keys
+            .map((idx) => FlSpot(idx.toDouble(), items[idx]))).toList())
         .toList();
+
     return Container(
       width: width,
       height: height,
       child: LineChart(LineChartData(
-        lineBarsData: [
-          LineChartBarData(
-            colors: [
-              Colors.red,
-            ],
-            spots: spots,
-            curveSmoothness: 2,
-            isCurved: true,
-            isStrokeCapRound: false,
-            barWidth: 1,
-            belowBarData: BarAreaData(
-              show: true,
-            ),
-            dotData: FlDotData(show: false),
-          ),
-        ],
+        gridData: FlGridData(show: false),
+        borderData: FlBorderData(show: false),
+        titlesData: FlTitlesData(
+            show: false,
+            topTitles:
+                SideTitles(showTitles: true, getTitles: (value) => title!)),
+        lineBarsData: spots
+            .asMap()
+            .keys
+            .map((idx) => LineChartBarData(
+                  colors: colors[idx],
+                  spots: spots[idx],
+                  isCurved: true,
+                  barWidth: thickness,
+                  belowBarData: BarAreaData(
+                    colors: colors[idx],
+                    show: below[idx],
+                  ),
+                  dotData: FlDotData(show: dot[idx]),
+                ))
+            .toList(),
       )),
     );
   }
+
+  // Widget flBarChart({
+  //   double width: 150,
+  //   double height: 50,
+  //   required List<List<double>> data,
+  //   required List<List<Color>> colors,
+  //   String? title,
+  // }) {
+  //   assert(data.length == colors.length);
+  //   final spots = data
+  //       .map((items) => (items.map((item) => FlSpot(item, item))).toList())
+  //       .toList();
+  //   return Container(
+  //       width: width,
+  //       height: height,
+  //       child: LineChart(LineChartData(
+  //         gridData: FlGridData(show: false),
+  //         borderData: FlBorderData(show: false),
+  //         titlesData: FlTitlesData(
+  //             show: false,
+  //             topTitles:
+  //                 SideTitles(showTitles: true, getTitles: (value) => title!)),
+  //         lineBarsData: spots
+  //             .map((item) => LineChartBarData(
+  //                   colors: [Colors.red, Colors.blue],
+  //                   spots: item,
+  //                   isCurved: true,
+  //                   barWidth: 5,
+  //                   belowBarData: BarAreaData(
+  //                     colors: [Colors.red, Colors.blue],
+  //                     show: true,
+  //                   ),
+  //                   dotData: FlDotData(show: true),
+  //                 ))
+  //             .toList(),
+  //       )));
+  // }
 }

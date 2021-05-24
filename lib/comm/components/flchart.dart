@@ -103,7 +103,7 @@ class LineChartSample1State extends State<LineChartSample1> {
         handleBuiltInTouches: true,
       ),
       gridData: FlGridData(
-        show: false,
+        show: true,
       ),
       titlesData: FlTitlesData(
         bottomTitles: SideTitles(
@@ -188,17 +188,17 @@ class LineChartSample1State extends State<LineChartSample1> {
         FlSpot(12, 2.2),
         FlSpot(13, 1.8),
       ],
-      isCurved: true,
+      isCurved: false,
       colors: [
         const Color(0xff4af699),
       ],
       barWidth: 2,
       isStrokeCapRound: true,
       dotData: FlDotData(
-        show: false,
+        show: true,
       ),
       belowBarData: BarAreaData(
-        show: false,
+        show: true,
       ),
     );
     final LineChartBarData lineChartBarData2 = LineChartBarData(
