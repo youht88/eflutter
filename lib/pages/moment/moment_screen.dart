@@ -59,18 +59,19 @@ class MomentPage extends GetView<MomentController> {
                     [Colors.deepOrange, Colors.purple]
                   ],
                   title: "just a linechart"),
-              // c.flBarChart(
-              //     width: 200,
-              //     height: 80,
-              //     data: [
-              //       [1, 3, 5, 6],
-              //       [1, 2, 3, 4]
-              //     ],
-              //     colors: [
-              //       [Colors.red, Colors.blue],
-              //       [Colors.deepOrange, Colors.purple]
-              //     ],
-              //     title: "just a barchart"),
+              c.flBarChart(
+                  width: 100,
+                  height: 50,
+                  thickness: 5,
+                  data: [
+                    [1, 3, 5, 6],
+                    [1, 2, 3, 9]
+                  ],
+                  colors: [
+                    [Colors.red, Colors.blue],
+                    [Colors.deepOrange, Colors.purple]
+                  ],
+                  title: "just a barchart"),
               SizedBox(height: 20),
               indicatedBar(
                   color: Colors.blue,

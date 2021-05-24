@@ -240,40 +240,38 @@ class MomentController extends GetxController {
     );
   }
 
-  // Widget flBarChart({
-  //   double width: 150,
-  //   double height: 50,
-  //   required List<List<double>> data,
-  //   required List<List<Color>> colors,
-  //   String? title,
-  // }) {
-  //   assert(data.length == colors.length);
-  //   final spots = data
-  //       .map((items) => (items.map((item) => FlSpot(item, item))).toList())
-  //       .toList();
-  //   return Container(
-  //       width: width,
-  //       height: height,
-  //       child: LineChart(LineChartData(
-  //         gridData: FlGridData(show: false),
-  //         borderData: FlBorderData(show: false),
-  //         titlesData: FlTitlesData(
-  //             show: false,
-  //             topTitles:
-  //                 SideTitles(showTitles: true, getTitles: (value) => title!)),
-  //         lineBarsData: spots
-  //             .map((item) => LineChartBarData(
-  //                   colors: [Colors.red, Colors.blue],
-  //                   spots: item,
-  //                   isCurved: true,
-  //                   barWidth: 5,
-  //                   belowBarData: BarAreaData(
-  //                     colors: [Colors.red, Colors.blue],
-  //                     show: true,
-  //                   ),
-  //                   dotData: FlDotData(show: true),
-  //                 ))
-  //             .toList(),
-  //       )));
-  // }
+  Widget flBarChart({
+    double width: 150,
+    double height: 50,
+    double thickness: 3.0,
+    required List<List<double>> data,
+    required List<List<Color>> colors,
+    String? title,
+  }) {
+    assert(data.length == colors.length);
+    return Container(
+        margin: EdgeInsets.all(8),
+        width: width,
+        height: height,
+        child: BarChart(BarChartData(
+            gridData: FlGridData(show: true),
+            borderData: FlBorderData(show: false),
+            backgroundColor: Colors.transparent,
+            titlesData: FlTitlesData(
+                show: false,
+                topTitles:
+                    SideTitles(showTitles: true, getTitles: (value) => title!)),
+            barGroups: data
+                .asMap()
+                .keys
+                .map((idx) => BarChartGroupData(
+                    x: idx,
+                    barRods: data[idx]
+                        .asMap()
+                        .keys
+                        .map((jdx) => BarChartRodData(
+                            y: data[idx][jdx], colors: colors[idx]))
+                        .toList()))
+                .toList())));
+  }
 }
