@@ -71,6 +71,21 @@ class MomentPage extends GetView<MomentController> {
                             unit: 'Cm'))),
               ]),
               SizedBox(height: 8),
+              Container(
+                width: 450,
+                height: 230,
+                child: ReportWidget(
+                    gradient: LinearGradient(colors: [
+                      Colors.black87,
+                      Colors.greenAccent,
+                      Colors.yellow.shade700
+                    ]),
+                    title: "总摄入能量",
+                    subTitle: "2021.05.25",
+                    type: '',
+                    value: 3415.27,
+                    unit: '千卡'),
+              ),
               Wrap(
                 spacing: 20,
                 children: [
@@ -450,7 +465,7 @@ class ReportWidget extends StatelessWidget {
                 thickness: 2,
                 curved: [true],
                 below: [true],
-                dot: [true],
+                //dot: [true],
                 data: [
                   //1, 4, 9, 16, 25, 36, 49, 64, 81],
                   [81.3, 81.5, 81.4, 81.3, 81.6, 81.5, 81.2, 81.2, 81.5]
