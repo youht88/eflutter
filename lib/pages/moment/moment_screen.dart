@@ -24,9 +24,8 @@ class MomentPage extends GetView<MomentController> {
           padding: EdgeInsets.all(8),
           child: Column(
             children: [
-              LimitedBox(
-                maxWidth: 400,
-                maxHeight: 600,
+              Container(
+                height: 600,
                 child: GetBuilder<MomentController>(
                     builder: (c) => ListView.builder(
                         itemCount: c.data.length,
@@ -44,28 +43,57 @@ class MomentPage extends GetView<MomentController> {
                                   metric: c.data[index]["metric"]),
                             ))),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 8),
+              Row(children: [
+                Expanded(
+                    child: AspectRatio(
+                        aspectRatio: 10 / 5,
+                        child: ReportWidget(
+                            gradient: LinearGradient(colors: [
+                              Colors.deepOrange,
+                              Colors.purple,
+                              Colors.pink
+                            ]),
+                            title: "平均体重",
+                            subTitle: "2021.03.05",
+                            type: '',
+                            value: 81.5,
+                            unit: 'Kg'))),
+                SizedBox(width: 10),
+                Expanded(
+                    child: AspectRatio(
+                        aspectRatio: 10 / 5,
+                        child: ReportWidget(
+                            title: "身高",
+                            subTitle: "2021.03.05",
+                            type: '',
+                            value: 174,
+                            unit: 'Cm'))),
+              ]),
+              SizedBox(height: 8),
               Wrap(
                 spacing: 20,
                 children: [
-                  c.flLineChart(
-                      width: 100,
-                      height: 60,
-                      thickness: 2,
-                      below: [true, false],
-                      dot: [false, true],
-                      data: [
-                        List.generate(
-                                10000, (index) => (index * index).toDouble())
-                            .toList(),
-                        //1, 4, 9, 16, 25, 36, 49, 64, 81],
-                        [1, 10, 2, 9, 67, 4, 87, 23, 44]
-                      ],
-                      colors: [
-                        [Colors.red, Colors.blue],
-                        [Colors.deepOrange, Colors.purple]
-                      ],
-                      title: "just a linechart"),
+                  Container(
+                    width: 400,
+                    height: 300,
+                    child: c.flLineChart(
+                        thickness: 2,
+                        below: [true, false],
+                        dot: [false, true],
+                        data: [
+                          List.generate(
+                                  10000, (index) => (index * index).toDouble())
+                              .toList(),
+                          //1, 4, 9, 16, 25, 36, 49, 64, 81],
+                          [1, 10, 2, 9, 67, 4, 87, 23, 44]
+                        ],
+                        colors: [
+                          [Colors.red, Colors.blue],
+                          [Colors.deepOrange, Colors.purple]
+                        ],
+                        title: "just a linechart"),
+                  ),
                   c.flBarChart(
                       width: 300,
                       height: 150,
@@ -120,7 +148,7 @@ class MomentPage extends GetView<MomentController> {
                   ])
                 ],
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 8),
               indicatedBar(
                   color: Colors.blue,
                   size: 200,
@@ -255,28 +283,33 @@ class MomentWidget extends GetView {
                             //),
                             SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
-                                child: Container(
-                                  width: 300,
-                                  height: 40,
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: metric!.length,
-                                    itemBuilder: (context, index) =>
-                                        MetricWidget(
-                                            barColor: metric![index]
-                                                    ["barColor"] ??
-                                                Colors.lightGreenAccent,
-                                            value:
-                                                metric![index]["value"] ?? 0.0,
-                                            indicate: metric![index]
-                                                ["indicate"],
-                                            unit: metric![index]["unit"] ?? "",
-                                            iconData: metric![index]
-                                                ["iconData"],
-                                            type:
-                                                metric![index]["type"] ?? "未知"),
-                                  ),
-                                ))
+                                child: LayoutBuilder(
+                                    builder: (context, size) => Container(
+                                          width: Get.width * 0.7,
+                                          height: 40,
+                                          child: ListView.builder(
+                                            scrollDirection: Axis.horizontal,
+                                            itemCount: metric!.length,
+                                            itemBuilder: (context, index) =>
+                                                MetricWidget(
+                                                    barColor: metric![index]
+                                                            ["barColor"] ??
+                                                        Colors.lightGreenAccent,
+                                                    value: metric![index]
+                                                            ["value"] ??
+                                                        0.0,
+                                                    indicate: metric![index]
+                                                        ["indicate"],
+                                                    unit: metric![index]
+                                                            ["unit"] ??
+                                                        "",
+                                                    iconData: metric![index]
+                                                        ["iconData"],
+                                                    type: metric![index]
+                                                            ["type"] ??
+                                                        "未知"),
+                                          ),
+                                        )))
                           ],
                         ),
                       ),
@@ -383,5 +416,85 @@ class MetricWidget extends StatelessWidget {
                 ],
               )
             : SizedBox.shrink());
+  }
+}
+
+class ReportWidget extends StatelessWidget {
+  Gradient? gradient;
+  String? title;
+  String? subTitle;
+  String? type;
+  double? value;
+  String? unit;
+  ReportWidget(
+      {this.gradient:
+          const LinearGradient(colors: [Colors.orange, Colors.green]),
+      this.title: "",
+      this.subTitle: "",
+      this.type: "",
+      this.value: 0.0,
+      this.unit: ""});
+  @override
+  Widget build(BuildContext context) {
+    MomentController c = Get.put(MomentController());
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(15)),
+          boxShadow: [BoxShadow(offset: Offset(0.8, 0.8), blurRadius: 10)],
+          gradient: gradient),
+      child: Stack(
+        children: [
+          Container(
+            alignment: Alignment.center,
+            child: c.flLineChart(
+                thickness: 2,
+                curved: [true],
+                below: [true],
+                dot: [true],
+                data: [
+                  //1, 4, 9, 16, 25, 36, 49, 64, 81],
+                  [81.3, 81.5, 81.4, 81.3, 81.6, 81.5, 81.2, 81.2, 81.5]
+                ],
+                colors: [
+                  [Colors.lightBlueAccent],
+                  //[Colors.deepOrange, Colors.purple]
+                ],
+                title: "just a linechart"),
+          ),
+          Align(
+              alignment: Alignment(-0.8, -0.9),
+              child: Column(
+                children: [
+                  Text("$title",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold)),
+                  SizedBox(height: 3),
+                  Text("$subTitle",
+                      style: TextStyle(
+                          color: Colors.white60,
+                          fontSize: 8,
+                          fontWeight: FontWeight.bold))
+                ],
+              )),
+          Align(
+            alignment: Alignment(0, 0),
+            child: RichText(
+                text: TextSpan(children: [
+              TextSpan(
+                  text: "$type",
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+              TextSpan(
+                  text: "$value",
+                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold)),
+              TextSpan(
+                  text: "$unit",
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+            ])),
+          ),
+        ],
+      ),
+    );
   }
 }
