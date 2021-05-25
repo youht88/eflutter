@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'dart:math';
 import 'moment_controller.dart';
 
 class MomentPage extends GetView<MomentController> {
@@ -44,34 +45,81 @@ class MomentPage extends GetView<MomentController> {
                             ))),
               ),
               SizedBox(height: 20),
-              c.flLineChart(
-                  width: 250,
-                  height: 60,
-                  thickness: 2,
-                  below: [true, false],
-                  dot: [false, true],
-                  data: [
-                    [1, 4, 9, 16, 25, 36, 49, 64, 81],
-                    [1, 10, 2, 9, 67, 4, 87, 23, 44]
-                  ],
-                  colors: [
-                    [Colors.red, Colors.blue],
-                    [Colors.deepOrange, Colors.purple]
-                  ],
-                  title: "just a linechart"),
-              c.flBarChart(
-                  width: 100,
-                  height: 50,
-                  thickness: 5,
-                  data: [
-                    [1, 3, 5, 6],
-                    [1, 2, 3, 9]
-                  ],
-                  colors: [
-                    [Colors.red, Colors.blue],
-                    [Colors.deepOrange, Colors.purple]
-                  ],
-                  title: "just a barchart"),
+              Wrap(
+                spacing: 20,
+                children: [
+                  c.flLineChart(
+                      width: 100,
+                      height: 60,
+                      thickness: 2,
+                      below: [true, false],
+                      dot: [false, true],
+                      data: [
+                        List.generate(
+                                10000, (index) => (index * index).toDouble())
+                            .toList(),
+                        //1, 4, 9, 16, 25, 36, 49, 64, 81],
+                        [1, 10, 2, 9, 67, 4, 87, 23, 44]
+                      ],
+                      colors: [
+                        [Colors.red, Colors.blue],
+                        [Colors.deepOrange, Colors.purple]
+                      ],
+                      title: "just a linechart"),
+                  c.flBarChart(
+                      width: 300,
+                      height: 150,
+                      //thickness: 5,
+                      data: [
+                        [1],
+                        [3],
+                        [5],
+                        [7],
+                        [9]
+                      ],
+                      colors: [
+                        [Colors.red],
+                        [Colors.blue],
+                        [Colors.purple],
+                        [Colors.pink],
+                        [Colors.green]
+                      ],
+                      title: "just a barchart"),
+                  c.flBarChart(
+                      width: 200,
+                      height: 200,
+                      thickness: 5,
+                      data: [
+                        [1, 3, 5, 6],
+                        [1, 2, 3, 9]
+                      ],
+                      colors: [
+                        [Colors.red, Colors.blue],
+                        [Colors.deepOrange, Colors.purple]
+                      ],
+                      title: "just a barchart"),
+                  c.flPieChart(width: 150, height: 150, data: [
+                    10,
+                    20,
+                    30,
+                    40
+                  ], colors: [
+                    Colors.red,
+                    Colors.blue,
+                    Colors.green,
+                    Colors.purple
+                  ], titles: [
+                    Text("East",
+                        style: TextStyle(color: Colors.white, fontSize: 10)),
+                    Text("South",
+                        style: TextStyle(color: Colors.white, fontSize: 10)),
+                    Text("West",
+                        style: TextStyle(color: Colors.white, fontSize: 10)),
+                    Text("North",
+                        style: TextStyle(color: Colors.white, fontSize: 10))
+                  ])
+                ],
+              ),
               SizedBox(height: 20),
               indicatedBar(
                   color: Colors.blue,

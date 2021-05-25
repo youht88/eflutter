@@ -194,16 +194,22 @@ class MomentController extends GetxController {
   Widget flLineChart({
     double width: 150,
     double height: 50,
-    required List<bool> below,
-    required List<bool> dot,
+    List<bool>? below,
+    List<bool>? dot,
     double thickness: 3.0,
     required List<List<double>> data,
     required List<List<Color>> colors,
     String? title,
   }) {
-    assert(data.length == colors.length &&
-        data.length == below.length &&
-        data.length == dot.length);
+    assert(data.length == colors.length);
+    assert(below == null || below.length == data.length);
+    assert(dot == null || dot.length == data.length);
+    if (below == null) {
+      below = List.generate(data.length, (index) => false).toList();
+    }
+    if (dot == null) {
+      dot = List.generate(data.length, (index) => false).toList();
+    }
     final spots = data
         .map((items) => (items
             .asMap()
@@ -231,9 +237,9 @@ class MomentController extends GetxController {
                   barWidth: thickness,
                   belowBarData: BarAreaData(
                     colors: colors[idx],
-                    show: below[idx],
+                    show: below![idx],
                   ),
-                  dotData: FlDotData(show: dot[idx]),
+                  dotData: FlDotData(show: dot![idx]),
                 ))
             .toList(),
       )),
@@ -259,8 +265,9 @@ class MomentController extends GetxController {
             backgroundColor: Colors.transparent,
             titlesData: FlTitlesData(
                 show: false,
-                topTitles:
-                    SideTitles(showTitles: true, getTitles: (value) => title!)),
+                topTitles: SideTitles(
+                    showTitles: true,
+                    getTitles: (value) => value == 0 ? title! : "")),
             barGroups: data
                 .asMap()
                 .keys
@@ -273,5 +280,51 @@ class MomentController extends GetxController {
                             y: data[idx][jdx], colors: colors[idx]))
                         .toList()))
                 .toList())));
+  }
+
+  Widget flPieChart({
+    double width: 150,
+    double height: 150,
+    double centerSpaceRadius: double.infinity,
+    double sectionsSpace: 2,
+    required List<double> data,
+    required List<Color> colors,
+    required List<Widget> titles,
+  }) {
+    assert(data.length == colors.length && data.length == titles.length);
+    return Container(
+        margin: EdgeInsets.all(8),
+        width: width,
+        height: height,
+        child: PieChart(PieChartData(
+            centerSpaceRadius: centerSpaceRadius,
+            borderData: FlBorderData(show: false),
+            sectionsSpace: sectionsSpace,
+            sections: data
+                .asMap()
+                .keys
+                .map(
+                  (idx) => PieChartSectionData(
+                      value: data[idx],
+                      color: colors[idx],
+                      radius: 40,
+                      showTitle: false,
+                      badgeWidget: titles[idx],
+                      badgePositionPercentageOffset: 0.5),
+                )
+                .toList()
+            // data
+            //     .asMap()
+            //     .keys
+            //     .map((idx) => BarChartGroupData(
+            //         x: idx,
+            //         barRods: data[idx]
+            //             .asMap()
+            //             .keys
+            //             .map((jdx) => BarChartRodData(
+            //                 y: data[idx][jdx], colors: colors[idx]))
+            //             .toList()))
+            //     .toList(),
+            )));
   }
 }
