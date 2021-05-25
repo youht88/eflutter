@@ -277,7 +277,9 @@ class MomentController extends GetxController {
                         .asMap()
                         .keys
                         .map((jdx) => BarChartRodData(
-                            y: data[idx][jdx], colors: colors[idx]))
+                            width: thickness,
+                            y: data[idx][jdx],
+                            colors: colors[idx]))
                         .toList()))
                 .toList())));
   }

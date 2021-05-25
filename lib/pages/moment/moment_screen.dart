@@ -67,13 +67,13 @@ class MomentPage extends GetView<MomentController> {
                       ],
                       title: "just a linechart"),
                   c.flBarChart(
-                      width: 300,
-                      height: 150,
-                      //thickness: 5,
+                      width: 150,
+                      height: 80,
+                      thickness: 15,
                       data: [
                         [1],
                         [3],
-                        [5],
+                        [20],
                         [7],
                         [9]
                       ],
