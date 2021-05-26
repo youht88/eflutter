@@ -37,7 +37,7 @@ class MomentController extends GetxController {
   void refresh3() {
     var random = Random();
     data1 = MathUtil.randomDouble(60.0, 90.0, 3);
-    data2 = MathUtil.randomDouble(50, 300, 5);
+    data2 = MathUtil.randomDouble(50.0, 300.0, 5);
     data3 = [
       random.nextDouble() * 100,
       random.nextDouble() * 200,
@@ -319,24 +319,15 @@ class MomentController extends GetxController {
     Duration swapAnimationDuration: const Duration(milliseconds: 1000),
     Curve swapAnimationCurve: Curves.bounceOut,
     double thickness: 3.0,
-    required List data,
-    required List colors,
+    required List<List<double>> data,
+    required List<List<Color>> colors,
     String? title,
   }) {
-    late List<List<double>> newData;
-    late List<List<Color>> newColors;
     assert(data.length == colors.length);
-    //由于传过来的List是dynamic,如果是int需要先转为double，flchart才接受
-    if (data[0].runtimeType == int) {
-      data = data.map((x) => x.toDouble()).toList();
-    }
     //如果是一维数组，转换为二维，并确保数据转换到二维中的第一列
-    if (data[0].runtimeType == double) {
-      newData = data.map((x) => [x as double]).toList();
-      newColors = colors.map((x) => [x as Color]).toList();
-    } else {
-      newData = data.map((x) => x as List<double>).toList();
-      newColors = colors.map((x) => x as List<Color>).toList();
+    if (data.length == 1) {
+      data = data[0].map((x) => [x]).toList();
+      colors = colors[0].map((x) => [x]).toList();
     }
     return Container(
       padding: padding,
@@ -350,19 +341,19 @@ class MomentController extends GetxController {
               topTitles: SideTitles(
                   showTitles: true,
                   getTitles: (value) => value == 0 ? title! : "")),
-          barGroups: newData
+          barGroups: data
               .asMap()
               .keys
               .map(
                 (idx) => BarChartGroupData(
                   x: idx,
-                  barRods: newData[idx]
+                  barRods: data[idx]
                       .asMap()
                       .keys
                       .map((jdx) => BarChartRodData(
                           width: thickness,
-                          y: newData[idx][jdx],
-                          colors: newColors[idx]))
+                          y: data[idx][jdx],
+                          colors: colors[idx]))
                       .toList(),
                 ),
               )

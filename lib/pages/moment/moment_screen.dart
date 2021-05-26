@@ -69,8 +69,8 @@ class MomentPage extends GetView<MomentController> {
                                     data: x.data1,
                                     flchart: c.flBarChart(
                                       thickness: 6,
-                                      data: c.data1,
-                                      colors: c.data1_colors,
+                                      data: [c.data1],
+                                      colors: [c.data1_colors],
                                     ),
                                     title: "平均体重",
                                     subTitle: "2021.03.05",
@@ -87,20 +87,20 @@ class MomentPage extends GetView<MomentController> {
                       child: AspectRatio(
                           aspectRatio: 10 / 5,
                           child: GetBuilder<MomentController>(
-                            builder: (_) {
+                            builder: (x) {
                               return ReportWidget(
                                   title: "饮食结构",
                                   subTitle: "2021.03.05",
-                                  data: c.data2,
-                                  flchart: c.flPieChart(
+                                  data: x.data2,
+                                  flchart: x.flPieChart(
                                       padding: EdgeInsets.all(10),
                                       sectionsSpace: 10,
-                                      data: c.data2,
-                                      colors: c.data2_colors,
-                                      titles: c.data2_titles,
+                                      data: x.data2,
+                                      colors: x.data2_colors,
+                                      titles: x.data2_titles,
                                       c: c),
                                   type: '',
-                                  value: MathUtil.stat(c.data2)["avg"]!
+                                  value: MathUtil.stat(x.data2)["avg"]!
                                       .toPrecision(1),
                                   unit: 'Cm');
                             },
@@ -184,13 +184,17 @@ class MomentPage extends GetView<MomentController> {
                     height: 150,
                     child: c.flBarChart(
                         thickness: 15,
-                        data: [1, 3, 20, 7, 9],
+                        data: [
+                          [1.0, 3.0, 20.0, 7.0, 9.0]
+                        ],
                         colors: [
-                          Colors.red,
-                          Colors.blue,
-                          Colors.purple,
-                          Colors.pink,
-                          Colors.green
+                          [
+                            Colors.red,
+                            Colors.blue,
+                            Colors.purple,
+                            Colors.pink,
+                            Colors.green
+                          ]
                         ],
                         title: "just a barchart"),
                   ),
