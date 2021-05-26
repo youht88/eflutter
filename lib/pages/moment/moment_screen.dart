@@ -155,88 +155,105 @@ class MomentPage extends GetView<MomentController> {
                   },
                 ),
               ),
+              SizedBox(height: 10),
               Wrap(
                 spacing: 20,
+                runSpacing: 10,
                 children: [
                   Container(
                     width: 400,
                     height: 300,
-                    child: FlLineChart(
-                        thickness: 2,
-                        below: [true, false],
-                        dot: [false, true],
-                        xPoint: 3,
-                        yPoint: 3,
-                        data: [
-                          List.generate(
-                                  10, (index) => (index * index).toDouble())
-                              .toList(),
-                          //1, 4, 9, 16, 25, 36, 49, 64, 81],
-                          [1, 10, 2, 9, 67, 4, 87, 23, 44]
-                        ],
-                        colors: [
-                          [Colors.red, Colors.blue],
-                          [Colors.deepOrange, Colors.purple]
-                        ],
-                        title: "just a linechart"),
+                    child: ReportWidget(
+                      data: [1.2, 2.3, 4.5],
+                      flchart: FlLineChart(
+                          thickness: 2,
+                          below: [true, false],
+                          dot: [false, true],
+                          xPoint: 3,
+                          yPoint: 3,
+                          data: [
+                            List.generate(
+                                    10, (index) => (index * index).toDouble())
+                                .toList(),
+                            //1, 4, 9, 16, 25, 36, 49, 64, 81],
+                            [1, 10, 2, 9, 67, 4, 87, 23, 44]
+                          ],
+                          colors: [
+                            [Colors.red, Colors.blue],
+                            [Colors.deepOrange, Colors.purple]
+                          ],
+                          title: "just a linechart"),
+                    ),
                   ),
                   Container(
                     width: 150,
                     height: 150,
-                    child: FlBarChart(
-                        thickness: 15,
-                        data: [
-                          [1.0, 3.0, 20.0, 7.0, 9.0]
-                        ],
-                        colors: [
-                          [
-                            Colors.red,
-                            Colors.blue,
-                            Colors.purple,
-                            Colors.pink,
-                            Colors.green
-                          ]
-                        ],
-                        title: "just a barchart"),
+                    child: ReportWidget(
+                      data: [0.0],
+                      flchart: FlBarChart(
+                          thickness: 15,
+                          data: [
+                            [1.0, 3.0, 20.0, 7.0, 9.0]
+                          ],
+                          colors: [
+                            [
+                              Colors.red,
+                              Colors.blue,
+                              Colors.purple,
+                              Colors.pink,
+                              Colors.green
+                            ]
+                          ],
+                          title: "just a barchart"),
+                    ),
                   ),
                   Container(
                     width: 200,
                     height: 150,
-                    child: FlBarChart(
-                        thickness: 5,
-                        data: [
-                          [1.3, 3.0, 5.0, 6.0],
-                          [1.0, 2.0, 3.0, 9.0]
-                        ],
-                        colors: [
-                          [Colors.red, Colors.blue],
-                          [Colors.deepOrange, Colors.purple]
-                        ],
-                        title: "just a barchart"),
+                    child: ReportWidget(
+                      data: [9, 0, 8],
+                      flchart: FlBarChart(
+                          thickness: 5,
+                          data: [
+                            [1.3, 3.0, 5.0, 6.0],
+                            [1.0, 2.0, 3.0, 9.0]
+                          ],
+                          colors: [
+                            [Colors.red, Colors.blue],
+                            [Colors.deepOrange, Colors.purple]
+                          ],
+                          title: "just a barchart"),
+                    ),
                   ),
                   Container(
                     width: 150,
                     height: 150,
-                    child: FlPieChart(data: [
-                      10,
-                      20,
-                      30,
-                      40
-                    ], colors: [
-                      Colors.red,
-                      Colors.blue,
-                      Colors.green,
-                      Colors.purple
-                    ], titles: [
-                      Text("East",
-                          style: TextStyle(color: Colors.white, fontSize: 10)),
-                      Text("South",
-                          style: TextStyle(color: Colors.white, fontSize: 10)),
-                      Text("West",
-                          style: TextStyle(color: Colors.white, fontSize: 10)),
-                      Text("North",
-                          style: TextStyle(color: Colors.white, fontSize: 10))
-                    ]),
+                    child: ReportWidget(
+                      data: [7, 9, 0],
+                      flchart: FlPieChart(data: [
+                        10,
+                        20,
+                        30,
+                        40
+                      ], colors: [
+                        Colors.red,
+                        Colors.blue,
+                        Colors.green,
+                        Colors.purple
+                      ], titles: [
+                        Text("East",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 10)),
+                        Text("South",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 10)),
+                        Text("West",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 10)),
+                        Text("North",
+                            style: TextStyle(color: Colors.white, fontSize: 10))
+                      ]),
+                    ),
                   )
                 ],
               ),
