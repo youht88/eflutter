@@ -93,12 +93,12 @@ class MomentPage extends GetView<MomentController> {
                                   subTitle: "2021.03.05",
                                   data: x.data2,
                                   flchart: x.flPieChart(
-                                      padding: EdgeInsets.all(10),
-                                      sectionsSpace: 10,
-                                      data: x.data2,
-                                      colors: x.data2_colors,
-                                      titles: x.data2_titles,
-                                      c: c),
+                                    padding: EdgeInsets.all(10),
+                                    sectionsSpace: 10,
+                                    data: x.data2,
+                                    colors: x.data2_colors,
+                                    titles: x.data2_titles,
+                                  ),
                                   type: '',
                                   value: MathUtil.stat(x.data2)["avg"]!
                                       .toPrecision(1),
@@ -135,7 +135,6 @@ class MomentPage extends GetView<MomentController> {
                         subTitle: "2021.05.25",
                         data: c.data3,
                         flchart: c.flLineChart(
-                          c: c,
                           thickness: 1,
                           curved: [true],
                           below: [true],
@@ -162,7 +161,6 @@ class MomentPage extends GetView<MomentController> {
                     width: 400,
                     height: 300,
                     child: c.flLineChart(
-                        c: c,
                         thickness: 2,
                         below: [true, false],
                         dot: [false, true],
@@ -216,7 +214,7 @@ class MomentPage extends GetView<MomentController> {
                   Container(
                     width: 150,
                     height: 150,
-                    child: c.flPieChart(c: c, data: [
+                    child: c.flPieChart(data: [
                       10,
                       20,
                       30,

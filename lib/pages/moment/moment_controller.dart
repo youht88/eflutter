@@ -233,7 +233,6 @@ class MomentController extends GetxController {
     required List<List<double>> data,
     required List<List<Color>> colors,
     String? title,
-    required MomentController c,
   }) {
     assert(data.length == colors.length);
     assert(curved == null || curved.length == data.length);
@@ -265,32 +264,32 @@ class MomentController extends GetxController {
           gridData: FlGridData(show: false),
           borderData: FlBorderData(show: false),
           titlesData: FlTitlesData(
-              show: c.simple.value ? false : true,
+              show: false,
               topTitles:
                   SideTitles(showTitles: true, getTitles: (value) => "")),
-          rangeAnnotations: RangeAnnotations(
-            horizontalRangeAnnotations: [
-              HorizontalRangeAnnotation(
-                  y1: stat["avg"]!, y2: stat["std"]!, color: Colors.red)
-            ],
-          ),
-          extraLinesData: ExtraLinesData(
-            horizontalLines: [
-              HorizontalLine(
-                  y: stat["avg"]!,
-                  label: HorizontalLineLabel(
-                      style: TextStyle(color: Colors.white),
-                      show: true,
-                      labelResolver: (_) => "avg")),
-              HorizontalLine(
-                  y: stat["std"]!,
-                  label: HorizontalLineLabel(
-                      style: TextStyle(color: Colors.white),
-                      show: true,
-                      labelResolver: (_) => "std"))
-            ],
-            extraLinesOnTop: true,
-          ),
+          // rangeAnnotations: RangeAnnotations(
+          //   horizontalRangeAnnotations: [
+          //     HorizontalRangeAnnotation(
+          //         y1: stat["avg"]!, y2: stat["std"]!, color: Colors.red)
+          //   ],
+          // ),
+          // extraLinesData: ExtraLinesData(
+          //   horizontalLines: [
+          //     HorizontalLine(
+          //         y: stat["avg"]!,
+          //         label: HorizontalLineLabel(
+          //             style: TextStyle(color: Colors.white),
+          //             show: true,
+          //             labelResolver: (_) => "avg")),
+          //     HorizontalLine(
+          //         y: stat["std"]!,
+          //         label: HorizontalLineLabel(
+          //             style: TextStyle(color: Colors.white),
+          //             show: true,
+          //             labelResolver: (_) => "std"))
+          //   ],
+          //   extraLinesOnTop: true,
+          // ),
           lineTouchData: LineTouchData(enabled: false),
           lineBarsData: spots
               .asMap()
@@ -365,16 +364,16 @@ class MomentController extends GetxController {
     );
   }
 
-  Widget flPieChart(
-      {EdgeInsets padding: const EdgeInsets.all(20),
-      Duration swapAnimationDuration: const Duration(milliseconds: 1000),
-      Curve swapAnimationCurve: Curves.bounceOut,
-      double centerSpaceRadius: double.infinity,
-      double sectionsSpace: 2,
-      required List<double> data,
-      required List<Color> colors,
-      required List<Widget> titles,
-      required MomentController c}) {
+  Widget flPieChart({
+    EdgeInsets padding: const EdgeInsets.all(20),
+    Duration swapAnimationDuration: const Duration(milliseconds: 1000),
+    Curve swapAnimationCurve: Curves.bounceOut,
+    double centerSpaceRadius: double.infinity,
+    double sectionsSpace: 2,
+    required List<double> data,
+    required List<Color> colors,
+    required List<Widget> titles,
+  }) {
     assert(data.length == colors.length && data.length == titles.length);
     return Container(
         padding: padding,
@@ -392,7 +391,7 @@ class MomentController extends GetxController {
                           color: colors[idx],
                           radius: 40,
                           showTitle: false,
-                          badgeWidget: c.simple.value ? null : titles[idx],
+                          badgeWidget: titles[idx],
                           badgePositionPercentageOffset: 0.5),
                     )
                     .toList()),
