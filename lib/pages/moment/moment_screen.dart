@@ -536,9 +536,13 @@ class ReportWidget extends StatelessWidget {
           gradient: gradient),
       child: Stack(
         children: [
-          Container(
-            alignment: Alignment.center,
-            child: flchart,
+          AnimatedOpacity(
+            duration: 1000.milliseconds,
+            opacity: c.simple.value ? 0.9 : 1,
+            child: Container(
+              alignment: Alignment.center,
+              child: flchart,
+            ),
           ),
           Positioned(
               left: 10,
