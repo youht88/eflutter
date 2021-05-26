@@ -67,19 +67,10 @@ class MomentPage extends GetView<MomentController> {
                                       Colors.pink
                                     ]),
                                     data: x.data1,
-                                    flchart: c.flLineChart(
-                                      thickness: 1,
-                                      curved: [true],
-                                      below: [true],
-                                      //dot: [true],
-                                      data: [x.data1],
-                                      colors: [
-                                        [
-                                          Colors.lightBlueAccent,
-                                          Colors.blueGrey,
-                                          Colors.cyanAccent.shade700
-                                        ]
-                                      ],
+                                    flchart: c.flBarChart(
+                                      thickness: 6,
+                                      data: c.data1,
+                                      colors: c.data1_colors,
                                     ),
                                     title: "平均体重",
                                     subTitle: "2021.03.05",
@@ -98,19 +89,16 @@ class MomentPage extends GetView<MomentController> {
                           child: GetBuilder<MomentController>(
                             builder: (_) {
                               return ReportWidget(
-                                  title: "身高",
+                                  title: "饮食结构",
                                   subTitle: "2021.03.05",
                                   data: c.data2,
-                                  flchart: c.flLineChart(
-                                    thickness: 1,
-                                    curved: [true],
-                                    below: [true],
-                                    //dot: [true],
-                                    data: [c.data2],
-                                    colors: [
-                                      [Colors.purple]
-                                    ],
-                                  ),
+                                  flchart: c.flPieChart(
+                                      padding: EdgeInsets.all(10),
+                                      sectionsSpace: 10,
+                                      data: c.data2,
+                                      colors: c.data2_colors,
+                                      titles: c.data2_titles,
+                                      c: c),
                                   type: '',
                                   value: MathUtil.stat(c.data2)["avg"]!
                                       .toPrecision(1),
@@ -147,6 +135,7 @@ class MomentPage extends GetView<MomentController> {
                         subTitle: "2021.05.25",
                         data: c.data3,
                         flchart: c.flLineChart(
+                          c: c,
                           thickness: 1,
                           curved: [true],
                           below: [true],
@@ -173,6 +162,7 @@ class MomentPage extends GetView<MomentController> {
                     width: 400,
                     height: 300,
                     child: c.flLineChart(
+                        c: c,
                         thickness: 2,
                         below: [true, false],
                         dot: [false, true],
@@ -189,58 +179,60 @@ class MomentPage extends GetView<MomentController> {
                         ],
                         title: "just a linechart"),
                   ),
-                  c.flBarChart(
-                      width: 150,
-                      height: 80,
-                      thickness: 15,
-                      data: [
-                        [1],
-                        [3],
-                        [20],
-                        [7],
-                        [9]
-                      ],
-                      colors: [
-                        [Colors.red],
-                        [Colors.blue],
-                        [Colors.purple],
-                        [Colors.pink],
-                        [Colors.green]
-                      ],
-                      title: "just a barchart"),
-                  c.flBarChart(
-                      width: 200,
-                      height: 200,
-                      thickness: 5,
-                      data: [
-                        [1, 3, 5, 6],
-                        [1, 2, 3, 9]
-                      ],
-                      colors: [
-                        [Colors.red, Colors.blue],
-                        [Colors.deepOrange, Colors.purple]
-                      ],
-                      title: "just a barchart"),
-                  c.flPieChart(width: 150, height: 150, data: [
-                    10,
-                    20,
-                    30,
-                    40
-                  ], colors: [
-                    Colors.red,
-                    Colors.blue,
-                    Colors.green,
-                    Colors.purple
-                  ], titles: [
-                    Text("East",
-                        style: TextStyle(color: Colors.white, fontSize: 10)),
-                    Text("South",
-                        style: TextStyle(color: Colors.white, fontSize: 10)),
-                    Text("West",
-                        style: TextStyle(color: Colors.white, fontSize: 10)),
-                    Text("North",
-                        style: TextStyle(color: Colors.white, fontSize: 10))
-                  ])
+                  Container(
+                    width: 150,
+                    height: 150,
+                    child: c.flBarChart(
+                        thickness: 15,
+                        data: [1, 3, 20, 7, 9],
+                        colors: [
+                          Colors.red,
+                          Colors.blue,
+                          Colors.purple,
+                          Colors.pink,
+                          Colors.green
+                        ],
+                        title: "just a barchart"),
+                  ),
+                  Container(
+                    width: 200,
+                    height: 150,
+                    child: c.flBarChart(
+                        thickness: 5,
+                        data: [
+                          [1.3, 3.0, 5.0, 6.0],
+                          [1.0, 2.0, 3.0, 9.0]
+                        ],
+                        colors: [
+                          [Colors.red, Colors.blue],
+                          [Colors.deepOrange, Colors.purple]
+                        ],
+                        title: "just a barchart"),
+                  ),
+                  Container(
+                    width: 150,
+                    height: 150,
+                    child: c.flPieChart(c: c, data: [
+                      10,
+                      20,
+                      30,
+                      40
+                    ], colors: [
+                      Colors.red,
+                      Colors.blue,
+                      Colors.green,
+                      Colors.purple
+                    ], titles: [
+                      Text("East",
+                          style: TextStyle(color: Colors.white, fontSize: 10)),
+                      Text("South",
+                          style: TextStyle(color: Colors.white, fontSize: 10)),
+                      Text("West",
+                          style: TextStyle(color: Colors.white, fontSize: 10)),
+                      Text("North",
+                          style: TextStyle(color: Colors.white, fontSize: 10))
+                    ]),
+                  )
                 ],
               ),
               SizedBox(height: 8),
@@ -515,14 +507,14 @@ class MetricWidget extends StatelessWidget {
 }
 
 class ReportWidget extends StatelessWidget {
-  Gradient? gradient;
-  String? title;
-  String? subTitle;
-  String? type;
-  List<double> data;
-  Widget? flchart;
-  double? value;
-  String? unit;
+  final Gradient? gradient;
+  final String? title;
+  final String? subTitle;
+  final String? type;
+  final List<double> data;
+  final Widget? flchart;
+  final double? value;
+  final String? unit;
   ReportWidget(
       {this.gradient:
           const LinearGradient(colors: [Colors.orange, Colors.green]),
@@ -547,18 +539,6 @@ class ReportWidget extends StatelessWidget {
           Container(
             alignment: Alignment.center,
             child: flchart,
-            // c.flLineChart(
-            //     thickness: 1,
-            //     curved: [true],
-            //     below: [true],
-            //     //dot: [true],
-            //     data: [data],
-            //     colors: [
-            //       colors
-            //       //[Colors.lightBlueAccent],
-            //       //[Colors.deepOrange, Colors.purple]
-            //     ],
-            //     title: "just a linechart"),
           ),
           Positioned(
               left: 10,
@@ -579,29 +559,50 @@ class ReportWidget extends StatelessWidget {
                           fontWeight: FontWeight.bold))
                 ],
               )),
-          Align(
-            alignment: Alignment(0, 0),
-            child: RichText(
-                text: TextSpan(children: [
-              TextSpan(
-                  text: "$type",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold)),
-              TextSpan(
-                  text: "$value",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold)),
-              TextSpan(
-                  text: "$unit",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold)),
-            ])),
+          GestureDetector(
+            onTap: () {
+              c.simple.value = !c.simple.value;
+              if (c.opacity.value == 1) {
+                c.opacity.value = 0.2;
+              } else {
+                c.opacity.value = 1;
+              }
+              c.update();
+            },
+            child: AnimatedOpacity(
+              opacity: c.opacity.value,
+              duration: 1000.milliseconds,
+              child: GetBuilder<MomentController>(
+                init: MomentController(),
+                initState: (_) {},
+                builder: (_) {
+                  return Align(
+                    alignment: Alignment(0, 0),
+                    child: RichText(
+                        text: TextSpan(children: [
+                      TextSpan(
+                          text: "$type",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold)),
+                      TextSpan(
+                          text: "$value",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold)),
+                      TextSpan(
+                          text: "$unit",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold)),
+                    ])),
+                  );
+                },
+              ),
+            ),
           ),
         ],
       ),

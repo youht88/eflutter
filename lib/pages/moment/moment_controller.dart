@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:eflutter/comm/utils.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -9,9 +7,23 @@ import 'dart:async';
 import 'dart:math';
 
 class MomentController extends GetxController {
+  var opacity = 1.0.obs;
+  var simple = true.obs;
   var data = [];
-  List<double> data1 = [81.4, 81.1, 81.3, 81.0, 81.5];
-  List<double> data2 = [174.1, 174.2, 174.1, 174.0, 174.2];
+  List<double> data1 = [81.4, 81.1, 81.3];
+  List<Color> data1_colors = [Colors.blue, Colors.yellow, Colors.brown];
+  List<double> data2 = [50.77, 80.79, 120.22, 40.45, 30.56];
+  List<Color> data2_colors = [
+    Colors.red,
+    Colors.blue,
+    Colors.pink,
+    Colors.purple,
+    Colors.brown
+  ];
+  List<Widget> data2_titles = ["蔬菜类", "肉蛋类", "谷物类", "饮品", "水果类"]
+      .map((item) =>
+          Text(item, style: TextStyle(fontSize: 8, color: Colors.white)))
+      .toList();
   List<double> data3 = [100, 200, 300, 400, 500];
   var item = [];
   @override
@@ -24,8 +36,8 @@ class MomentController extends GetxController {
 
   void refresh3() {
     var random = Random();
-    data1 = MathUtil.randomDouble(81.0, 82.0, 5);
-    data2 = MathUtil.randomDouble(174.0, 174.5, 5);
+    data1 = MathUtil.randomDouble(60.0, 90.0, 3);
+    data2 = MathUtil.randomDouble(50, 300, 5);
     data3 = [
       random.nextDouble() * 100,
       random.nextDouble() * 200,
@@ -221,6 +233,7 @@ class MomentController extends GetxController {
     required List<List<double>> data,
     required List<List<Color>> colors,
     String? title,
+    required MomentController c,
   }) {
     assert(data.length == colors.length);
     assert(curved == null || curved.length == data.length);
@@ -235,6 +248,7 @@ class MomentController extends GetxController {
     if (dot == null) {
       dot = List.generate(data.length, (index) => false).toList();
     }
+    Map<String, double> stat = MathUtil.stat(data[0], extra: true);
     final spots = data
         .map((items) => (items
             .asMap()
@@ -251,9 +265,33 @@ class MomentController extends GetxController {
           gridData: FlGridData(show: false),
           borderData: FlBorderData(show: false),
           titlesData: FlTitlesData(
-              show: false,
+              show: c.simple.value ? false : true,
               topTitles:
-                  SideTitles(showTitles: true, getTitles: (value) => title!)),
+                  SideTitles(showTitles: true, getTitles: (value) => "")),
+          rangeAnnotations: RangeAnnotations(
+            horizontalRangeAnnotations: [
+              HorizontalRangeAnnotation(
+                  y1: stat["avg"]!, y2: stat["std"]!, color: Colors.red)
+            ],
+          ),
+          extraLinesData: ExtraLinesData(
+            horizontalLines: [
+              HorizontalLine(
+                  y: stat["avg"]!,
+                  label: HorizontalLineLabel(
+                      style: TextStyle(color: Colors.white),
+                      show: true,
+                      labelResolver: (_) => "avg")),
+              HorizontalLine(
+                  y: stat["std"]!,
+                  label: HorizontalLineLabel(
+                      style: TextStyle(color: Colors.white),
+                      show: true,
+                      labelResolver: (_) => "std"))
+            ],
+            extraLinesOnTop: true,
+          ),
+          lineTouchData: LineTouchData(enabled: false),
           lineBarsData: spots
               .asMap()
               .keys
@@ -277,86 +315,97 @@ class MomentController extends GetxController {
   }
 
   Widget flBarChart({
-    double width: 150,
-    double height: 50,
+    EdgeInsets padding: const EdgeInsets.all(20),
+    Duration swapAnimationDuration: const Duration(milliseconds: 1000),
+    Curve swapAnimationCurve: Curves.bounceOut,
     double thickness: 3.0,
-    required List<List<double>> data,
-    required List<List<Color>> colors,
+    required List data,
+    required List colors,
     String? title,
   }) {
+    late List<List<double>> newData;
+    late List<List<Color>> newColors;
     assert(data.length == colors.length);
+    //由于传过来的List是dynamic,如果是int需要先转为double，flchart才接受
+    if (data[0].runtimeType == int) {
+      data = data.map((x) => x.toDouble()).toList();
+    }
+    //如果是一维数组，转换为二维，并确保数据转换到二维中的第一列
+    if (data[0].runtimeType == double) {
+      newData = data.map((x) => [x as double]).toList();
+      newColors = colors.map((x) => [x as Color]).toList();
+    } else {
+      newData = data.map((x) => x as List<double>).toList();
+      newColors = colors.map((x) => x as List<Color>).toList();
+    }
     return Container(
-        margin: EdgeInsets.all(8),
-        width: width,
-        height: height,
-        child: BarChart(BarChartData(
-            gridData: FlGridData(show: true),
-            borderData: FlBorderData(show: false),
-            backgroundColor: Colors.transparent,
-            titlesData: FlTitlesData(
-                show: false,
-                topTitles: SideTitles(
-                    showTitles: true,
-                    getTitles: (value) => value == 0 ? title! : "")),
-            barGroups: data
-                .asMap()
-                .keys
-                .map((idx) => BarChartGroupData(
-                    x: idx,
-                    barRods: data[idx]
-                        .asMap()
-                        .keys
-                        .map((jdx) => BarChartRodData(
-                            width: thickness,
-                            y: data[idx][jdx],
-                            colors: colors[idx]))
-                        .toList()))
-                .toList())));
+      padding: padding,
+      child: BarChart(
+        BarChartData(
+          gridData: FlGridData(show: true),
+          borderData: FlBorderData(show: false),
+          backgroundColor: Colors.transparent,
+          titlesData: FlTitlesData(
+              show: false,
+              topTitles: SideTitles(
+                  showTitles: true,
+                  getTitles: (value) => value == 0 ? title! : "")),
+          barGroups: newData
+              .asMap()
+              .keys
+              .map(
+                (idx) => BarChartGroupData(
+                  x: idx,
+                  barRods: newData[idx]
+                      .asMap()
+                      .keys
+                      .map((jdx) => BarChartRodData(
+                          width: thickness,
+                          y: newData[idx][jdx],
+                          colors: newColors[idx]))
+                      .toList(),
+                ),
+              )
+              .toList(),
+        ),
+        swapAnimationDuration: swapAnimationDuration,
+        swapAnimationCurve: swapAnimationCurve,
+      ),
+    );
   }
 
-  Widget flPieChart({
-    double width: 150,
-    double height: 150,
-    double centerSpaceRadius: double.infinity,
-    double sectionsSpace: 2,
-    required List<double> data,
-    required List<Color> colors,
-    required List<Widget> titles,
-  }) {
+  Widget flPieChart(
+      {EdgeInsets padding: const EdgeInsets.all(20),
+      Duration swapAnimationDuration: const Duration(milliseconds: 1000),
+      Curve swapAnimationCurve: Curves.bounceOut,
+      double centerSpaceRadius: double.infinity,
+      double sectionsSpace: 2,
+      required List<double> data,
+      required List<Color> colors,
+      required List<Widget> titles,
+      required MomentController c}) {
     assert(data.length == colors.length && data.length == titles.length);
     return Container(
-        margin: EdgeInsets.all(8),
-        width: width,
-        height: height,
-        child: PieChart(PieChartData(
-            centerSpaceRadius: centerSpaceRadius,
-            borderData: FlBorderData(show: false),
-            sectionsSpace: sectionsSpace,
-            sections: data
-                .asMap()
-                .keys
-                .map(
-                  (idx) => PieChartSectionData(
-                      value: data[idx],
-                      color: colors[idx],
-                      radius: 40,
-                      showTitle: false,
-                      badgeWidget: titles[idx],
-                      badgePositionPercentageOffset: 0.5),
-                )
-                .toList()
-            // data
-            //     .asMap()
-            //     .keys
-            //     .map((idx) => BarChartGroupData(
-            //         x: idx,
-            //         barRods: data[idx]
-            //             .asMap()
-            //             .keys
-            //             .map((jdx) => BarChartRodData(
-            //                 y: data[idx][jdx], colors: colors[idx]))
-            //             .toList()))
-            //     .toList(),
-            )));
+        padding: padding,
+        child: PieChart(
+            PieChartData(
+                centerSpaceRadius: centerSpaceRadius,
+                borderData: FlBorderData(show: false),
+                sectionsSpace: sectionsSpace,
+                sections: data
+                    .asMap()
+                    .keys
+                    .map(
+                      (idx) => PieChartSectionData(
+                          value: data[idx],
+                          color: colors[idx],
+                          radius: 40,
+                          showTitle: false,
+                          badgeWidget: c.simple.value ? null : titles[idx],
+                          badgePositionPercentageOffset: 0.5),
+                    )
+                    .toList()),
+            swapAnimationCurve: swapAnimationCurve,
+            swapAnimationDuration: swapAnimationDuration));
   }
 }
