@@ -1,3 +1,4 @@
+import 'package:eflutter/comm/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -20,6 +21,10 @@ class MomentPage extends GetView<MomentController> {
               child: Icon(Icons.refresh)),
         )
       ]),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => c.refresh3(),
+        child: Icon(Icons.refresh),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(8),
@@ -28,75 +33,138 @@ class MomentPage extends GetView<MomentController> {
               Container(
                 height: 600,
                 child: GetBuilder<MomentController>(
-                    builder: (c) => ListView.builder(
-                        itemCount: c.data.length,
+                    builder: (x) => ListView.builder(
+                        itemCount: x.data.length,
                         itemBuilder: (context, index) => AnimatedContainer(
                               duration: 3.seconds,
                               //transformAlignment: Alignment.centerLeft,
                               child: MomentWidget(
-                                  leading: c.data[index]["leading"],
-                                  leadingColor: c.data[index]["leadingColor"] ??
+                                  leading: x.data[index]["leading"],
+                                  leadingColor: x.data[index]["leadingColor"] ??
                                       Colors.black87,
                                   color:
-                                      c.data[index]["color"] ?? Colors.black87,
-                                  title: c.data[index]["title"] ?? "",
-                                  timeStr: c.data[index]["timeStr"] ?? "",
-                                  metric: c.data[index]["metric"]),
+                                      x.data[index]["color"] ?? Colors.black87,
+                                  title: x.data[index]["title"] ?? "",
+                                  timeStr: x.data[index]["timeStr"] ?? "",
+                                  metric: x.data[index]["metric"]),
                             ))),
               ),
               SizedBox(height: 8),
-              Row(children: [
-                Expanded(
-                    child: AspectRatio(
-                        aspectRatio: 10 / 5,
-                        child: ReportWidget(
-                            gradient: LinearGradient(colors: [
-                              Colors.deepOrange,
-                              Colors.purple,
-                              Colors.pink
-                            ]),
-                            data: [1, 3, 5, 7, 9],
-                            title: "平均体重",
-                            subTitle: "2021.03.05",
-                            type: '',
-                            value: 81.5,
-                            unit: 'Kg'))),
-                SizedBox(width: 10),
-                Expanded(
-                    child: AspectRatio(
-                        aspectRatio: 10 / 5,
-                        child: ReportWidget(
-                            title: "身高",
-                            subTitle: "2021.03.05",
-                            data: [9, 8, 7, 6, 5, 4],
-                            type: '',
-                            value: 174,
-                            unit: 'Cm'))),
-              ]),
+              GetBuilder<MomentController>(
+                init: MomentController(),
+                initState: (_) {},
+                builder: (_) {
+                  return Row(children: [
+                    Expanded(
+                        child: AspectRatio(
+                            aspectRatio: 10 / 5,
+                            child: GetBuilder<MomentController>(
+                              builder: (x) {
+                                return ReportWidget(
+                                    gradient: LinearGradient(colors: [
+                                      Colors.deepOrange,
+                                      Colors.purple,
+                                      Colors.pink
+                                    ]),
+                                    data: x.data1,
+                                    flchart: c.flLineChart(
+                                      thickness: 1,
+                                      curved: [true],
+                                      below: [true],
+                                      //dot: [true],
+                                      data: [x.data1],
+                                      colors: [
+                                        [
+                                          Colors.lightBlueAccent,
+                                          Colors.blueGrey,
+                                          Colors.cyanAccent.shade700
+                                        ]
+                                      ],
+                                    ),
+                                    title: "平均体重",
+                                    subTitle: "2021.03.05",
+                                    type: '',
+                                    value: MathUtil.stat(x.data1)["avg"]!
+                                        .toPrecision(2),
+                                    unit: 'Kg');
+                              },
+                            ))),
+                    SizedBox(width: 10),
+                    Expanded(
+                        child: Align(
+                      alignment: Alignment.topLeft,
+                      child: AspectRatio(
+                          aspectRatio: 10 / 5,
+                          child: GetBuilder<MomentController>(
+                            builder: (_) {
+                              return ReportWidget(
+                                  title: "身高",
+                                  subTitle: "2021.03.05",
+                                  data: c.data2,
+                                  flchart: c.flLineChart(
+                                    thickness: 1,
+                                    curved: [true],
+                                    below: [true],
+                                    //dot: [true],
+                                    data: [c.data2],
+                                    colors: [
+                                      [Colors.purple]
+                                    ],
+                                  ),
+                                  type: '',
+                                  value: MathUtil.stat(c.data2)["avg"]!
+                                      .toPrecision(1),
+                                  unit: 'Cm');
+                            },
+                          )),
+                    )),
+                  ]);
+                },
+              ),
               SizedBox(height: 8),
-              AnimatedContainer(
-                duration: 4.seconds,
-                transform: Matrix4Transform()
-                    //.scale(0.5)
-                    //.rotateByCenterDegrees(180, Size(350, 350))
-                    //.upRight(35)
-                    //.rotate(pi)
-                    .flipHorizontally(origin: Offset(200, 200))
-                    .matrix4,
+              Container(
+                //duration: 4.seconds,
+                // transform: Matrix4Transform()
+                //     //.scale(0.5)
+                //     //.rotateByCenterDegrees(180, Size(350, 350))
+                //     //.upRight(35)
+                //     //.rotate(pi)
+                //     .flipHorizontally(origin: Offset(200, 200))
+                //     .matrix4,
                 width: 450,
                 height: 230,
-                child: ReportWidget(
-                    gradient: LinearGradient(colors: [
-                      Colors.black87,
-                      Colors.greenAccent,
-                      Colors.yellow.shade700
-                    ]),
-                    title: "总摄入能量",
-                    subTitle: "2021.05.25",
-                    data: [100, 300, 200, 400, 500],
-                    type: '',
-                    value: 3415.27,
-                    unit: '千卡'),
+                child: GetBuilder<MomentController>(
+                  //init: MomentController(),
+                  //initState: (_) {},
+                  builder: (_) {
+                    return ReportWidget(
+                        gradient: LinearGradient(colors: [
+                          Colors.black87,
+                          Colors.greenAccent,
+                          Colors.yellow.shade700
+                        ]),
+                        title: "总摄入能量方差",
+                        subTitle: "2021.05.25",
+                        data: c.data3,
+                        flchart: c.flLineChart(
+                          thickness: 1,
+                          curved: [true],
+                          below: [true],
+                          //dot: [true],
+                          data: [c.data3],
+                          colors: [
+                            [Colors.pink, Colors.black54]
+                          ],
+                        ),
+                        type: '',
+                        value: MathUtil.stat(
+                          c.data3,
+                          extra: true,
+                        )["std"]!
+                            .toPrecision(2),
+                        unit: '千卡');
+                  },
+                ),
               ),
               Wrap(
                 spacing: 20,
@@ -452,6 +520,7 @@ class ReportWidget extends StatelessWidget {
   String? subTitle;
   String? type;
   List<double> data;
+  Widget? flchart;
   double? value;
   String? unit;
   ReportWidget(
@@ -460,6 +529,8 @@ class ReportWidget extends StatelessWidget {
       this.title: "",
       this.subTitle: "",
       required this.data,
+      this.flchart,
+      //this.colors: const [Colors.lightBlue],
       this.type: "",
       this.value: 0.0,
       this.unit: ""});
@@ -475,21 +546,25 @@ class ReportWidget extends StatelessWidget {
         children: [
           Container(
             alignment: Alignment.center,
-            child: c.flLineChart(
-                thickness: 2,
-                curved: [true],
-                below: [true],
-                //dot: [true],
-                data: [data],
-                colors: [
-                  [Colors.lightBlueAccent],
-                  //[Colors.deepOrange, Colors.purple]
-                ],
-                title: "just a linechart"),
+            child: flchart,
+            // c.flLineChart(
+            //     thickness: 1,
+            //     curved: [true],
+            //     below: [true],
+            //     //dot: [true],
+            //     data: [data],
+            //     colors: [
+            //       colors
+            //       //[Colors.lightBlueAccent],
+            //       //[Colors.deepOrange, Colors.purple]
+            //     ],
+            //     title: "just a linechart"),
           ),
-          Align(
-              alignment: Alignment(-0.8, -0.9),
+          Positioned(
+              left: 10,
+              top: 5,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("$title",
                       style: TextStyle(

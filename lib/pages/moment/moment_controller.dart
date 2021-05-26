@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:eflutter/comm/utils.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -9,6 +10,9 @@ import 'dart:math';
 
 class MomentController extends GetxController {
   var data = [];
+  List<double> data1 = [81.4, 81.1, 81.3, 81.0, 81.5];
+  List<double> data2 = [174.1, 174.2, 174.1, 174.0, 174.2];
+  List<double> data3 = [100, 200, 300, 400, 500];
   var item = [];
   @override
   void onInit() async {
@@ -16,6 +20,21 @@ class MomentController extends GetxController {
     init();
     reset();
     print("onInit");
+  }
+
+  void refresh3() {
+    var random = Random();
+    data1 = MathUtil.randomDouble(81.0, 82.0, 5);
+    data2 = MathUtil.randomDouble(174.0, 174.5, 5);
+    data3 = [
+      random.nextDouble() * 100,
+      random.nextDouble() * 200,
+      random.nextDouble() * 300,
+      random.nextDouble() * 400,
+      random.nextDouble() * 500
+    ];
+    //print(data3);
+    update();
   }
 
   void reset() async {
@@ -193,6 +212,8 @@ class MomentController extends GetxController {
 
   Widget flLineChart({
     EdgeInsets padding: const EdgeInsets.all(20),
+    Duration swapAnimationDuration: const Duration(milliseconds: 1000),
+    Curve swapAnimationCurve: Curves.bounceOut,
     List<bool>? curved,
     List<bool>? below,
     List<bool>? dot,
@@ -225,29 +246,33 @@ class MomentController extends GetxController {
       //width: width,
       //height: height,
       padding: padding,
-      child: LineChart(LineChartData(
-        gridData: FlGridData(show: false),
-        borderData: FlBorderData(show: false),
-        titlesData: FlTitlesData(
-            show: false,
-            topTitles:
-                SideTitles(showTitles: true, getTitles: (value) => title!)),
-        lineBarsData: spots
-            .asMap()
-            .keys
-            .map((idx) => LineChartBarData(
-                  colors: colors[idx],
-                  spots: spots[idx],
-                  isCurved: curved![idx],
-                  barWidth: thickness,
-                  belowBarData: BarAreaData(
+      child: LineChart(
+        LineChartData(
+          gridData: FlGridData(show: false),
+          borderData: FlBorderData(show: false),
+          titlesData: FlTitlesData(
+              show: false,
+              topTitles:
+                  SideTitles(showTitles: true, getTitles: (value) => title!)),
+          lineBarsData: spots
+              .asMap()
+              .keys
+              .map((idx) => LineChartBarData(
                     colors: colors[idx],
-                    show: below![idx],
-                  ),
-                  dotData: FlDotData(show: dot![idx]),
-                ))
-            .toList(),
-      )),
+                    spots: spots[idx],
+                    isCurved: curved![idx],
+                    barWidth: thickness,
+                    belowBarData: BarAreaData(
+                      colors: colors[idx],
+                      show: below![idx],
+                    ),
+                    dotData: FlDotData(show: dot![idx]),
+                  ))
+              .toList(),
+        ),
+        swapAnimationDuration: swapAnimationDuration,
+        swapAnimationCurve: swapAnimationCurve,
+      ),
     );
   }
 
