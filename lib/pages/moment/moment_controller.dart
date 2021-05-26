@@ -192,8 +192,8 @@ class MomentController extends GetxController {
   }
 
   Widget flLineChart({
-    double width: 150,
-    double height: 50,
+    EdgeInsets padding: const EdgeInsets.all(20),
+    List<bool>? curved,
     List<bool>? below,
     List<bool>? dot,
     double thickness: 3.0,
@@ -202,8 +202,12 @@ class MomentController extends GetxController {
     String? title,
   }) {
     assert(data.length == colors.length);
+    assert(curved == null || curved.length == data.length);
     assert(below == null || below.length == data.length);
     assert(dot == null || dot.length == data.length);
+    if (curved == null) {
+      curved = List.generate(data.length, (index) => false).toList();
+    }
     if (below == null) {
       below = List.generate(data.length, (index) => false).toList();
     }
@@ -218,8 +222,9 @@ class MomentController extends GetxController {
         .toList();
 
     return Container(
-      width: width,
-      height: height,
+      //width: width,
+      //height: height,
+      padding: padding,
       child: LineChart(LineChartData(
         gridData: FlGridData(show: false),
         borderData: FlBorderData(show: false),
@@ -233,7 +238,7 @@ class MomentController extends GetxController {
             .map((idx) => LineChartBarData(
                   colors: colors[idx],
                   spots: spots[idx],
-                  isCurved: true,
+                  isCurved: curved![idx],
                   barWidth: thickness,
                   belowBarData: BarAreaData(
                     colors: colors[idx],
