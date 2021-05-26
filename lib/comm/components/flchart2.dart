@@ -116,7 +116,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
             return '';
           },
           reservedSize: 28,
-          margin: 12,
+          margin: 10,
         ),
       ),
       borderData: FlBorderData(

@@ -1,6 +1,7 @@
 import 'package:eflutter/comm/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:eflutter/comm/components.dart';
 import 'package:get/get.dart';
 import 'dart:math';
 import 'moment_controller.dart';
@@ -67,7 +68,7 @@ class MomentPage extends GetView<MomentController> {
                                       Colors.pink
                                     ]),
                                     data: x.data1,
-                                    flchart: c.flBarChart(
+                                    flchart: FlBarChart(
                                       thickness: 6,
                                       data: [c.data1],
                                       colors: [c.data1_colors],
@@ -92,7 +93,7 @@ class MomentPage extends GetView<MomentController> {
                                   title: "饮食结构",
                                   subTitle: "2021.03.05",
                                   data: x.data2,
-                                  flchart: x.flPieChart(
+                                  flchart: FlPieChart(
                                     padding: EdgeInsets.all(10),
                                     sectionsSpace: 10,
                                     data: x.data2,
@@ -134,16 +135,16 @@ class MomentPage extends GetView<MomentController> {
                         title: "总摄入能量方差",
                         subTitle: "2021.05.25",
                         data: c.data3,
-                        flchart: c.flLineChart(
-                          thickness: 1,
-                          curved: [true],
-                          below: [true],
-                          //dot: [true],
-                          data: [c.data3],
-                          colors: [
-                            [Colors.pink, Colors.black54]
-                          ],
-                        ),
+                        flchart: FlLineChart(
+                            thickness: 1,
+                            curved: [true],
+                            below: [true],
+                            //dot: [true],
+                            data: [c.data3],
+                            colors: [
+                              [Colors.pink, Colors.black54]
+                            ],
+                            title: "test line chart"),
                         type: '',
                         value: MathUtil.stat(
                           c.data3,
@@ -160,13 +161,15 @@ class MomentPage extends GetView<MomentController> {
                   Container(
                     width: 400,
                     height: 300,
-                    child: c.flLineChart(
+                    child: FlLineChart(
                         thickness: 2,
                         below: [true, false],
                         dot: [false, true],
+                        xPoint: 3,
+                        yPoint: 3,
                         data: [
                           List.generate(
-                                  10000, (index) => (index * index).toDouble())
+                                  10, (index) => (index * index).toDouble())
                               .toList(),
                           //1, 4, 9, 16, 25, 36, 49, 64, 81],
                           [1, 10, 2, 9, 67, 4, 87, 23, 44]
@@ -180,7 +183,7 @@ class MomentPage extends GetView<MomentController> {
                   Container(
                     width: 150,
                     height: 150,
-                    child: c.flBarChart(
+                    child: FlBarChart(
                         thickness: 15,
                         data: [
                           [1.0, 3.0, 20.0, 7.0, 9.0]
@@ -199,7 +202,7 @@ class MomentPage extends GetView<MomentController> {
                   Container(
                     width: 200,
                     height: 150,
-                    child: c.flBarChart(
+                    child: FlBarChart(
                         thickness: 5,
                         data: [
                           [1.3, 3.0, 5.0, 6.0],
@@ -214,7 +217,7 @@ class MomentPage extends GetView<MomentController> {
                   Container(
                     width: 150,
                     height: 150,
-                    child: c.flPieChart(data: [
+                    child: FlPieChart(data: [
                       10,
                       20,
                       30,

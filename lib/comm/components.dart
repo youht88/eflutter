@@ -3,6 +3,9 @@ export 'components/flchart.dart';
 export 'components/flchart1.dart';
 export 'components/flchart2.dart';
 export 'components/flchart3.dart';
+export 'components/flLineChart/flLineChart.dart';
+export 'components/flBarChart/flBarChart.dart';
+export 'components/flPieChart/flPieChart.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
