@@ -1,3 +1,4 @@
+import 'package:eflutter/comm/components/indicateBarWidget/indicateBarWidget_screen.dart';
 import 'package:eflutter/comm/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,6 +12,7 @@ class MomentPage extends GetView<MomentController> {
   @override
   Widget build(BuildContext context) {
     MomentController c = Get.put(MomentController());
+    ReportWidgetController report = Get.put(ReportWidgetController());
     return Scaffold(
       appBar: AppBar(title: Text('MomentPage'), actions: [
         GestureDetector(
@@ -168,6 +170,8 @@ class MomentPage extends GetView<MomentController> {
                     height: 300,
                     child: ReportWidget(
                       alignment: Alignment.topRight,
+                      value: "20.00",
+                      unit: "Kg",
                       flchart: FlLineChart(
                           thickness: 2,
                           below: [true, false],
@@ -260,12 +264,14 @@ class MomentPage extends GetView<MomentController> {
                 ],
               ),
               SizedBox(height: 8),
-              indicatedBar(
-                  color: Colors.blue,
-                  size: 200,
-                  vertical: false,
-                  thickness: 8,
-                  value: 0.60)
+              Container(
+                child: IndicateBarWidget(
+                    color: Colors.blue,
+                    size: 200,
+                    vertical: false,
+                    thickness: 8,
+                    value: 0.6),
+              )
             ],
           ),
         ),
@@ -273,47 +279,6 @@ class MomentPage extends GetView<MomentController> {
     );
   }
 }
-
-Widget indicatedBar(
-        {Color color: Colors.red,
-        required double value,
-        bool vertical: false,
-        double size: 80,
-        double thickness: 6}) =>
-    Stack(
-      alignment: Alignment.topLeft,
-      children: [
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 3),
-          width: vertical ? thickness : size,
-          height: vertical ? size : thickness,
-          decoration: BoxDecoration(
-              color: color.withOpacity(0.3),
-              borderRadius: BorderRadius.all(Radius.circular(thickness / 2))),
-        ),
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 3),
-          width: vertical ? thickness : value * size,
-          height: vertical ? value * size : thickness,
-          decoration: BoxDecoration(
-              color: color,
-              boxShadow: [
-                BoxShadow(blurRadius: thickness / 2, color: Colors.yellow)
-              ],
-              borderRadius: vertical
-                  ? value < 0.9
-                      ? BorderRadius.only(
-                          topLeft: Radius.circular(thickness / 2),
-                          topRight: Radius.circular(thickness / 2))
-                      : BorderRadius.all(Radius.circular(thickness / 2))
-                  : value < 0.9
-                      ? BorderRadius.only(
-                          topLeft: Radius.circular(thickness / 2),
-                          bottomLeft: Radius.circular(thickness / 2))
-                      : BorderRadius.all(Radius.circular(thickness / 2))),
-        ),
-      ],
-    );
 
 class MomentWidget extends GetView {
   final IconData? leading;
@@ -428,215 +393,6 @@ class MomentWidget extends GetView {
                   ],
                 )))),
       ],
-    );
-  }
-}
-
-class MetricWidget extends StatelessWidget {
-  final Color barColor;
-  final double value;
-  final double? indicate;
-  final String unit;
-  final IconData? iconData;
-  final String type;
-  const MetricWidget({
-    Key? key,
-    this.barColor: Colors.white,
-    this.value: 0.0,
-    this.indicate,
-    this.unit: "千卡",
-    this.iconData,
-    this.type: "热量",
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    //print("$value,$indicate,$type");
-    return Container(
-        //margin: EdgeInsets.all(8),
-        height: 35,
-        child: value != 0
-            ? Row(
-                children: [
-                  VerticalDivider(
-                    thickness: 3,
-                    indent: 2,
-                    endIndent: 2,
-                    color: barColor,
-                  ),
-                  Column(
-                    children: [
-                      indicate != null
-                          ? Row(children: [
-                              indicatedBar(
-                                  size: 50,
-                                  thickness: 5,
-                                  color: Colors.pinkAccent,
-                                  value: indicate!),
-                              RichText(
-                                  text: TextSpan(children: [
-                                TextSpan(
-                                    text: "$value",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14,
-                                        color: Colors.white)),
-                                TextSpan(
-                                    text: "$unit",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 8,
-                                        color: Colors.white))
-                              ])),
-                            ])
-                          : RichText(
-                              text: TextSpan(children: [
-                              TextSpan(
-                                  text: "$value",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14,
-                                      color: Colors.white)),
-                              TextSpan(
-                                  text: "$unit",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 8,
-                                      color: Colors.white))
-                            ])),
-                      RichText(
-                          text: TextSpan(children: [
-                        iconData != null
-                            ? WidgetSpan(
-                                child: Icon(
-                                iconData,
-                                size: 14,
-                                color: barColor,
-                              ))
-                            : WidgetSpan(child: SizedBox.shrink()),
-                        WidgetSpan(child: SizedBox(width: 3)),
-                        TextSpan(
-                            text: "$type",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                                color: Colors.white))
-                      ]))
-                    ],
-                  )
-                ],
-              )
-            : SizedBox.shrink());
-  }
-}
-
-class ReportWidget extends StatelessWidget {
-  final Gradient gradient;
-  final String title;
-  final String subTitle;
-  final String type;
-  final Widget? flchart;
-  final String? value;
-  final String? unit;
-  final AlignmentGeometry alignment;
-  ReportWidget(
-      {this.gradient:
-          const LinearGradient(colors: [Colors.orange, Colors.green]),
-      this.title: "",
-      this.subTitle: "",
-      this.flchart,
-      //this.colors: const [Colors.lightBlue],
-      this.type: "",
-      this.value: "",
-      this.unit: "",
-      this.alignment: Alignment.center});
-  @override
-  Widget build(BuildContext context) {
-    MomentController c = Get.put(MomentController());
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(15)),
-          boxShadow: [BoxShadow(offset: Offset(0.8, 0.8), blurRadius: 10)],
-          gradient: gradient),
-      child: Stack(
-        children: [
-          AnimatedOpacity(
-            duration: 1000.milliseconds,
-            opacity: c.simple.value ? 0.5 : 1,
-            child: Container(
-              alignment: Alignment.center,
-              child: flchart,
-            ),
-          ),
-          Positioned(
-              left: 10,
-              top: 5,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("$title",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold)),
-                  SizedBox(height: 3),
-                  Text("$subTitle",
-                      style: TextStyle(
-                          color: Colors.white60,
-                          fontSize: 8,
-                          fontWeight: FontWeight.bold))
-                ],
-              )),
-          GestureDetector(
-            onTap: () {
-              c.simple.value = !c.simple.value;
-              if (c.opacity.value == 1) {
-                c.opacity.value = 0.2;
-              } else {
-                c.opacity.value = 1;
-              }
-              c.update();
-            },
-            child: AnimatedOpacity(
-              opacity: c.opacity.value,
-              duration: 1000.milliseconds,
-              child: GetBuilder<MomentController>(
-                init: MomentController(),
-                initState: (_) {},
-                builder: (_) {
-                  return Align(
-                    alignment: alignment,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: RichText(
-                          text: TextSpan(children: [
-                        TextSpan(
-                            text: "$type",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold)),
-                        TextSpan(
-                            text: "$value",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold)),
-                        TextSpan(
-                            text: "$unit",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold)),
-                      ])),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

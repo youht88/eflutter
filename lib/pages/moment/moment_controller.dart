@@ -8,8 +8,8 @@ import 'dart:async';
 import 'dart:math';
 
 class MomentController extends GetxController {
-  var opacity = 1.0.obs;
-  var simple = true.obs;
+  //var opacity = 1.0.obs;
+  //var simple = true.obs;
   var data = [];
   List<double> data1 = [81.4, 81.1, 81.3];
   List<Color> data1_colors = [Colors.blue, Colors.yellow, Colors.brown];
