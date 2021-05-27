@@ -1,6 +1,7 @@
-import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'flLineChart_controller.dart';
@@ -17,6 +18,7 @@ class FlLineChart extends GetView<FlLineChartController> {
   int xPoint;
   int yPoint;
   TextStyle? textStyle;
+  bool? showAvgLine;
   List<List<double>> data;
   List<List<Color>> colors;
   String? title;
@@ -30,6 +32,7 @@ class FlLineChart extends GetView<FlLineChartController> {
     this.thickness: 3.0,
     this.xPoint: 5,
     this.yPoint: 4,
+    this.showAvgLine: true,
     this.textStyle: const TextStyle(fontSize: 12, color: Colors.white),
     required this.data,
     required this.colors,
@@ -76,17 +79,18 @@ class FlLineChart extends GetView<FlLineChartController> {
               )),
           titlesData: FlTitlesData(
               show: true,
-              leftTitles: SideTitles(
-                  getTextStyles: (_) => textStyle!,
-                  showTitles: true,
-                  interval: 100 //stat["max"]! / yPoint
-                  // getTitles: (value) {
-                  //   if (value > 2) {
-                  //     return "2";
-                  //   }
-                  //   return "";
-                  // }
-                  ),
+              leftTitles: SideTitles(showTitles: false),
+              rightTitles: SideTitles(
+                getTextStyles: (_) => textStyle!,
+                showTitles: false,
+                //interval: 100
+                // getTitles: (value) {
+                //   if (value.round() == stat["avg"]!.round()) {
+                //     return (stat["avg"]! / 10).toStringAsFixed(0) + "0";
+                //   }
+                //   return "";
+                // }
+              ),
               bottomTitles: SideTitles(
                   getTextStyles: (_) => textStyle!,
                   showTitles: true,
@@ -98,7 +102,8 @@ class FlLineChart extends GetView<FlLineChartController> {
                   //   return "";
                   // }
                   )),
-          // rangeAnnotations: RangeAnnotations(
+          //导致android崩溃的原因
+          //rangeAnnotations: RangeAnnotations(
           //   horizontalRangeAnnotations: [
           //     HorizontalRangeAnnotation(
           //         y1: stat["avg"]! * 1.05,
@@ -110,11 +115,15 @@ class FlLineChart extends GetView<FlLineChartController> {
             horizontalLines: [
               HorizontalLine(
                   y: stat["avg"]!,
+                  dashArray: [5, 10, 5],
+                  color: Colors.redAccent,
                   label: HorizontalLineLabel(
+                      alignment: Alignment.centerRight,
+                      padding: EdgeInsets.symmetric(horizontal: 8),
                       style: TextStyle(color: Colors.white),
                       show: true,
                       labelResolver: (_) =>
-                          "平均值:${stat['avg']!.toPrecision(2)}")),
+                          "均值:${stat['avg']!.toPrecision(2)}")),
             ],
             extraLinesOnTop: true,
           ),

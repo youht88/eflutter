@@ -9,17 +9,19 @@ class FlBarChart extends GetView<FlBarChartController> {
   final Duration swapAnimationDuration;
   final Curve swapAnimationCurve;
   final double? thickness;
+  final TextStyle textStyle;
   List<List<double>> data;
   List<List<Color>> colors;
-  String? title;
+  List<String> titles;
   FlBarChart({
     this.padding: const EdgeInsets.all(20),
     this.swapAnimationDuration: const Duration(milliseconds: 1000),
     this.swapAnimationCurve: Curves.bounceOut,
     this.thickness: 3.0,
+    this.textStyle: const TextStyle(fontSize: 12, color: Colors.white),
     required this.data,
     required this.colors,
-    this.title,
+    required this.titles,
   });
   @override
   Widget build(BuildContext context) {
@@ -37,10 +39,13 @@ class FlBarChart extends GetView<FlBarChartController> {
           borderData: FlBorderData(show: false),
           backgroundColor: Colors.transparent,
           titlesData: FlTitlesData(
-              show: false,
-              topTitles: SideTitles(
+              show: true,
+              leftTitles: SideTitles(showTitles: false),
+              bottomTitles: SideTitles(
                   showTitles: true,
-                  getTitles: (value) => value == 0 ? title! : "")),
+                  rotateAngle: -45,
+                  getTextStyles: (_) => textStyle,
+                  getTitles: (value) => "${titles[value.toInt()]}")),
           barGroups: data
               .asMap()
               .keys

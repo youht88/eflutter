@@ -7,6 +7,7 @@ import '../comm/utils.dart';
 class FlchartController extends GetxController {
   List<double> data1 = [81.4, 81.1, 81.3];
   List<Color> data1_colors = [Colors.blue, Colors.yellow, Colors.brown];
+  List<String> data1_titles = ["早上", "中午", "晚上"];
   List<double> data2 = [50.77, 80.79, 120.22, 40.45, 30.56];
   List<Color> data2_colors = [
     Colors.red,
@@ -19,7 +20,7 @@ class FlchartController extends GetxController {
       .map((item) =>
           Text(item, style: TextStyle(fontSize: 8, color: Colors.white)))
       .toList();
-  List<double> data3 = [100, 200, 300, 400, 500];
+  List<double> data3 = MathUtil.randomDouble(100, 500, 5);
   void refresh3() {
     data1 = MathUtil.randomDouble(60.0, 90.0, 3);
     data2 = MathUtil.randomDouble(50.0, 300.0, 5);
@@ -72,10 +73,10 @@ class FlchartView extends StatelessWidget {
                                       Colors.pink
                                     ]),
                                     flchart: FlBarChart(
-                                      thickness: 6,
-                                      data: [c.data1],
-                                      colors: [c.data1_colors],
-                                    ),
+                                        thickness: 25,
+                                        data: [c.data1],
+                                        colors: [c.data1_colors],
+                                        titles: c.data1_titles),
                                     title: "平均体重",
                                     subTitle: "2021.03.05",
                                     type: '',
@@ -151,7 +152,7 @@ class FlchartView extends StatelessWidget {
                             colors: [
                               [Colors.pink, Colors.black54]
                             ],
-                            title: "test line chart"),
+                            title: ""),
                         type: '',
                         value: MathUtil.stat(
                           c.data3,
@@ -193,38 +194,39 @@ class FlchartView extends StatelessWidget {
                 width: 150,
                 height: 150,
                 child: ReportWidget(
-                  flchart: FlBarChart(
-                      thickness: 15,
-                      data: [
-                        [1.0, 3.0, 20.0, 7.0, 9.0]
-                      ],
-                      colors: [
-                        [
-                          Colors.red,
-                          Colors.blue,
-                          Colors.purple,
-                          Colors.pink,
-                          Colors.green
-                        ]
-                      ],
-                      title: "just a barchart"),
+                  flchart: FlBarChart(thickness: 15, data: [
+                    [1.0, 3.0, 20.0, 7.0, 9.0]
+                  ], colors: [
+                    [
+                      Colors.red,
+                      Colors.blue,
+                      Colors.purple,
+                      Colors.pink,
+                      Colors.green
+                    ]
+                  ], titles: [
+                    "one",
+                    "two",
+                    "three",
+                    "four",
+                    "five"
+                  ]),
                 ),
               ),
               Container(
                 width: 200,
                 height: 150,
                 child: ReportWidget(
-                  flchart: FlBarChart(
-                      thickness: 5,
-                      data: [
-                        [1.3, 3.0, 5.0, 6.0],
-                        [1.0, 2.0, 3.0, 9.0]
-                      ],
-                      colors: [
-                        [Colors.red, Colors.blue],
-                        [Colors.deepOrange, Colors.purple]
-                      ],
-                      title: "just a barchart"),
+                  flchart: FlBarChart(thickness: 10, data: [
+                    [1.3, 3.0, 5.0, 6.0],
+                    [1.0, 2.0, 3.0, 9.0]
+                  ], colors: [
+                    [Colors.red, Colors.blue],
+                    [Colors.deepOrange, Colors.purple]
+                  ], titles: [
+                    "中国",
+                    "美国",
+                  ]),
                 ),
               ),
               Container(
