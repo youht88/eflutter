@@ -101,26 +101,23 @@ class FlLineChart extends GetView<FlLineChartController> {
           // rangeAnnotations: RangeAnnotations(
           //   horizontalRangeAnnotations: [
           //     HorizontalRangeAnnotation(
-          //         y1: stat["avg"]!, y2: stat["std"]!, color: Colors.red)
+          //         y1: stat["avg"]! * 1.05,
+          //         y2: stat["avg"]! * 0.95,
+          //         color: Colors.red)
           //   ],
-          // ),
-          // extraLinesData: ExtraLinesData(
-          //   horizontalLines: [
-          //     HorizontalLine(
-          //         y: stat["avg"]!,
-          //         label: HorizontalLineLabel(
-          //             style: TextStyle(color: Colors.white),
-          //             show: true,
-          //             labelResolver: (_) => "avg")),
-          //     HorizontalLine(
-          //         y: stat["std"]!,
-          //         label: HorizontalLineLabel(
-          //             style: TextStyle(color: Colors.white),
-          //             show: true,
-          //             labelResolver: (_) => "std"))
-          //   ],
-          //   extraLinesOnTop: true,
-          // ),
+          //),
+          extraLinesData: ExtraLinesData(
+            horizontalLines: [
+              HorizontalLine(
+                  y: stat["avg"]!,
+                  label: HorizontalLineLabel(
+                      style: TextStyle(color: Colors.white),
+                      show: true,
+                      labelResolver: (_) =>
+                          "平均值:${stat['avg']!.toPrecision(2)}")),
+            ],
+            extraLinesOnTop: true,
+          ),
           lineTouchData: LineTouchData(enabled: false),
           lineBarsData: spots
               .asMap()

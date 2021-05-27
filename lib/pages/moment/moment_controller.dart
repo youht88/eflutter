@@ -12,7 +12,7 @@ class MomentController extends GetxController {
   //var simple = true.obs;
   var data = [];
   var item = [];
-
+  var size = 0.0.obs;
   @override
   void onInit() async {
     super.onInit();
@@ -21,7 +21,12 @@ class MomentController extends GetxController {
     print("onInit");
   }
 
+  void addSize() {
+    size.value += 5;
+  }
+
   void reset() async {
+    size.value = 0;
     data = data.sublist(0, 0);
     //data.addAll(item);
     update();

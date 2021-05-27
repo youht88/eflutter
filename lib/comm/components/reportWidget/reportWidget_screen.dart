@@ -35,30 +35,35 @@ class ReportWidget extends GetView<ReportWidgetController> {
           Obx(() => AnimatedOpacity(
                 duration: 1000.milliseconds,
                 opacity: c.opacity_chart.value,
-                child: Container(
-                  alignment: Alignment.center,
-                  child: flchart,
-                ),
+                child: flchart,
               )),
-          Positioned(
-              left: 10,
-              top: 5,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("$title",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold)),
-                  SizedBox(height: 3),
-                  Text("$subTitle",
-                      style: TextStyle(
-                          color: Colors.white60,
-                          fontSize: 8,
-                          fontWeight: FontWeight.bold))
-                ],
-              )),
+          Align(
+            alignment: Alignment(-0.9, -0.9),
+            child: LayoutBuilder(
+                builder: (context, size) => Container(
+                      width: size.biggest.width * 0.15,
+                      height: size.biggest.height * 0.15,
+                      //color: Colors.grey,
+                      child: FittedBox(
+                        child: Column(
+                          //crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("$title",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold)),
+                            SizedBox(height: 3),
+                            Text("$subTitle",
+                                style: TextStyle(
+                                    color: Colors.white60,
+                                    fontSize: 8,
+                                    fontWeight: FontWeight.bold))
+                          ],
+                        ),
+                      ),
+                    )),
+          ),
           GestureDetector(
             onTap: () => c.change(),
             child: Obx(() => AnimatedOpacity(
@@ -66,29 +71,38 @@ class ReportWidget extends GetView<ReportWidgetController> {
                 duration: 1000.milliseconds,
                 child: Align(
                   alignment: alignment,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: RichText(
-                        text: TextSpan(children: [
-                      TextSpan(
-                          text: "$type",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold)),
-                      TextSpan(
-                          text: "$value",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold)),
-                      TextSpan(
-                          text: "$unit",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold)),
-                    ])),
+                  child: LayoutBuilder(
+                    builder: (context, size) => Container(
+                      width: size.biggest.width * 0.5,
+                      height: size.biggest.height * 0.5,
+                      //color: Colors.grey,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: FittedBox(
+                          child: RichText(
+                              text: TextSpan(children: [
+                            TextSpan(
+                                text: "$type",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold)),
+                            TextSpan(
+                                text: "$value",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 40,
+                                    fontWeight: FontWeight.bold)),
+                            TextSpan(
+                                text: "$unit",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold)),
+                          ])),
+                        ),
+                      ),
+                    ),
                   ),
                 ))),
           ),

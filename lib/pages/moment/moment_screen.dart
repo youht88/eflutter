@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'dart:math';
 import 'moment_controller.dart';
 import 'package:matrix4_transform/matrix4_transform.dart';
+import 'package:auto_size_text_pk/auto_size_text_pk.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class MomentPage extends GetView<MomentController> {
   @override
@@ -24,11 +26,33 @@ class MomentPage extends GetView<MomentController> {
               child: Icon(Icons.refresh)),
         )
       ]),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () => c.addSize(), child: Icon(Icons.plus_one)),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(8),
           child: Column(
             children: [
+              CircularPercentIndicator(
+                radius: 50.0,
+                lineWidth: 6.0,
+                percent: 0.30,
+                center: new Text("30%", style: TextStyle(color: Colors.blue)),
+                circularStrokeCap: CircularStrokeCap.round,
+                animation: true,
+                //progressColor: Colors.red,
+              ),
+              Obx(() => Container(
+                  width: 50 + c.size.value,
+                  height: 50 + c.size.value,
+                  color: Colors.lightBlue,
+                  child: Row(
+                    children: [
+                      Expanded(flex: 2, child: FittedBox(child: Text("aaa"))),
+                      Expanded(flex: 3, child: SizedBox.shrink()),
+                      Expanded(child: FittedBox(child: Text("bbb")))
+                    ],
+                  ))),
               Container(
                 height: 600,
                 child: GetBuilder<MomentController>(
@@ -48,18 +72,61 @@ class MomentPage extends GetView<MomentController> {
                                   metric: x.data[index]["metric"]),
                             ))),
               ),
-              Container(
-                child: IndicateBarWidget(
-                    color: Colors.blue,
-                    size: 200,
-                    vertical: false,
-                    thickness: 8,
-                    value: 0.6),
-              )
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class FitText extends StatelessWidget {
+  final String? text;
+  final AlignmentGeometry alignment;
+  final double widthFactor;
+  final double heightFactor;
+  final double? minWidth;
+  final double? maxWidth;
+  final double? minHeight;
+  final double? maxHeight;
+
+  const FitText({
+    Key? key,
+    this.text,
+    this.alignment: const Alignment(0.0, 0.0),
+    this.widthFactor: 0.2,
+    this.heightFactor: 0.2,
+    this.minWidth,
+    this.maxWidth,
+    this.minHeight,
+    this.maxHeight,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    print(widthFactor);
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return Stack(
+          children: [
+            Align(
+                alignment: alignment,
+                child: Container(
+                    constraints: BoxConstraints(
+                      minWidth: minWidth ?? 0,
+                      maxWidth: maxWidth ?? 0,
+                      minHeight: minHeight ?? double.infinity,
+                      maxHeight: maxHeight ?? double.infinity,
+                    ),
+                    width: constraints.biggest.width * widthFactor,
+                    height: constraints.biggest.height * heightFactor,
+                    color: Colors.red,
+                    child: Container(
+                        child: Text("$text",
+                            style: TextStyle(color: Colors.purple)))))
+          ],
+        );
+      },
     );
   }
 }
