@@ -77,9 +77,9 @@ class FlchartView extends StatelessWidget {
                                         data: [c.data1],
                                         colors: [c.data1_colors],
                                         titles: c.data1_titles),
-                                    title: "平均体重",
+                                    title: "体重情况",
                                     subTitle: "2021.03.05",
-                                    type: '',
+                                    type: '平均体重',
                                     value: MathUtil.stat(x.data1)["avg"]!
                                         .toPrecision(2)
                                         .toString(),
@@ -153,7 +153,7 @@ class FlchartView extends StatelessWidget {
                               [Colors.pink, Colors.black54]
                             ],
                             title: ""),
-                        type: '',
+                        type: '摄入总能量',
                         value: MathUtil.stat(
                           c.data3,
                           extra: true,

@@ -46,7 +46,7 @@ class ReportWidget extends GetView<ReportWidgetController> {
                       //color: Colors.grey,
                       child: FittedBox(
                         child: Column(
-                          //crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text("$title",
                                 style: TextStyle(
@@ -79,27 +79,30 @@ class ReportWidget extends GetView<ReportWidgetController> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: FittedBox(
-                          child: RichText(
-                              text: TextSpan(children: [
-                            TextSpan(
-                                text: "$type",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold)),
-                            TextSpan(
-                                text: "$value",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 40,
-                                    fontWeight: FontWeight.bold)),
-                            TextSpan(
-                                text: "$unit",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold)),
-                          ])),
+                          child: Column(
+                            children: [
+                              Row(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text("$value",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 40,
+                                            fontWeight: FontWeight.bold)),
+                                    Text("$unit",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.bold)),
+                                  ]),
+                              Text("$type",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      letterSpacing: 12,
+                                      fontWeight: FontWeight.bold)),
+                            ],
+                          ),
                         ),
                       ),
                     ),
