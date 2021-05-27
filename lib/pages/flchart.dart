@@ -21,6 +21,7 @@ class FlchartController extends GetxController {
           Text(item, style: TextStyle(fontSize: 8, color: Colors.white)))
       .toList();
   List<double> data3 = MathUtil.randomDouble(100, 500, 5);
+
   void refresh3() {
     data1 = MathUtil.randomDouble(60.0, 90.0, 3);
     data2 = MathUtil.randomDouble(50.0, 300.0, 5);

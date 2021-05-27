@@ -1,10 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'reportWidget_controller.dart';
 
 class ReportWidget extends GetView<ReportWidgetController> {
-  final Gradient gradient;
+  Gradient? gradient;
   final String title;
   final String subTitle;
   final String type;
@@ -13,8 +15,7 @@ class ReportWidget extends GetView<ReportWidgetController> {
   final String? unit;
   final AlignmentGeometry alignment;
   ReportWidget(
-      {this.gradient:
-          const LinearGradient(colors: [Colors.orange, Colors.green]),
+      {this.gradient,
       this.title: "",
       this.subTitle: "",
       this.flchart,
@@ -25,6 +26,10 @@ class ReportWidget extends GetView<ReportWidgetController> {
   @override
   Widget build(BuildContext context) {
     ReportWidgetController c = Get.put(ReportWidgetController());
+    if (gradient == null) {
+      gradient = LinearGradient(
+          colors: c.gradient[Random().nextInt(c.gradient.length - 1)]);
+    }
     return Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(15)),
