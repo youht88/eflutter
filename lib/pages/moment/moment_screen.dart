@@ -90,6 +90,7 @@ class MomentPage extends GetView<MomentController> {
                           child: GetBuilder<MomentController>(
                             builder: (x) {
                               return ReportWidget(
+                                  alignment: Alignment.bottomRight,
                                   title: "饮食结构",
                                   subTitle: "2021.03.05",
                                   flchart: FlPieChart(
@@ -99,11 +100,13 @@ class MomentPage extends GetView<MomentController> {
                                     colors: x.data2_colors,
                                     titles: x.data2_titles,
                                   ),
-                                  type: '',
-                                  value: MathUtil.stat(x.data2)["avg"]!
+                                  type: '蔬菜类',
+                                  value: (x.data2[0] /
+                                          MathUtil.stat(x.data2)["sum"]! *
+                                          100)
                                       .toPrecision(1)
                                       .toString(),
-                                  unit: 'Cm');
+                                  unit: '%');
                             },
                           )),
                     )),
