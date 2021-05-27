@@ -67,7 +67,6 @@ class MomentPage extends GetView<MomentController> {
                                       Colors.purple,
                                       Colors.pink
                                     ]),
-                                    data: x.data1,
                                     flchart: FlBarChart(
                                       thickness: 6,
                                       data: [c.data1],
@@ -77,7 +76,8 @@ class MomentPage extends GetView<MomentController> {
                                     subTitle: "2021.03.05",
                                     type: '',
                                     value: MathUtil.stat(x.data1)["avg"]!
-                                        .toPrecision(2),
+                                        .toPrecision(2)
+                                        .toString(),
                                     unit: 'Kg');
                               },
                             ))),
@@ -92,7 +92,6 @@ class MomentPage extends GetView<MomentController> {
                               return ReportWidget(
                                   title: "饮食结构",
                                   subTitle: "2021.03.05",
-                                  data: x.data2,
                                   flchart: FlPieChart(
                                     padding: EdgeInsets.all(10),
                                     sectionsSpace: 10,
@@ -102,7 +101,8 @@ class MomentPage extends GetView<MomentController> {
                                   ),
                                   type: '',
                                   value: MathUtil.stat(x.data2)["avg"]!
-                                      .toPrecision(1),
+                                      .toPrecision(1)
+                                      .toString(),
                                   unit: 'Cm');
                             },
                           )),
@@ -134,7 +134,6 @@ class MomentPage extends GetView<MomentController> {
                         ]),
                         title: "总摄入能量方差",
                         subTitle: "2021.05.25",
-                        data: c.data3,
                         flchart: FlLineChart(
                             thickness: 1,
                             curved: [true],
@@ -150,7 +149,8 @@ class MomentPage extends GetView<MomentController> {
                           c.data3,
                           extra: true,
                         )["std"]!
-                            .toPrecision(2),
+                            .toPrecision(2)
+                            .toString(),
                         unit: '千卡');
                   },
                 ),
@@ -164,7 +164,7 @@ class MomentPage extends GetView<MomentController> {
                     width: 400,
                     height: 300,
                     child: ReportWidget(
-                      data: [1.2, 2.3, 4.5],
+                      alignment: Alignment.topRight,
                       flchart: FlLineChart(
                           thickness: 2,
                           below: [true, false],
@@ -189,7 +189,6 @@ class MomentPage extends GetView<MomentController> {
                     width: 150,
                     height: 150,
                     child: ReportWidget(
-                      data: [0.0],
                       flchart: FlBarChart(
                           thickness: 15,
                           data: [
@@ -211,7 +210,6 @@ class MomentPage extends GetView<MomentController> {
                     width: 200,
                     height: 150,
                     child: ReportWidget(
-                      data: [9, 0, 8],
                       flchart: FlBarChart(
                           thickness: 5,
                           data: [
@@ -229,7 +227,8 @@ class MomentPage extends GetView<MomentController> {
                     width: 150,
                     height: 150,
                     child: ReportWidget(
-                      data: [7, 9, 0],
+                      gradient: LinearGradient(
+                          colors: [Colors.grey, Colors.blueGrey]),
                       flchart: FlPieChart(data: [
                         10,
                         20,
@@ -529,25 +528,25 @@ class MetricWidget extends StatelessWidget {
 }
 
 class ReportWidget extends StatelessWidget {
-  final Gradient? gradient;
-  final String? title;
-  final String? subTitle;
-  final String? type;
-  final List<double> data;
+  final Gradient gradient;
+  final String title;
+  final String subTitle;
+  final String type;
   final Widget? flchart;
-  final double? value;
+  final String? value;
   final String? unit;
+  final AlignmentGeometry alignment;
   ReportWidget(
       {this.gradient:
           const LinearGradient(colors: [Colors.orange, Colors.green]),
       this.title: "",
       this.subTitle: "",
-      required this.data,
       this.flchart,
       //this.colors: const [Colors.lightBlue],
       this.type: "",
-      this.value: 0.0,
-      this.unit: ""});
+      this.value: "",
+      this.unit: "",
+      this.alignment: Alignment.center});
   @override
   Widget build(BuildContext context) {
     MomentController c = Get.put(MomentController());
@@ -560,7 +559,7 @@ class ReportWidget extends StatelessWidget {
         children: [
           AnimatedOpacity(
             duration: 1000.milliseconds,
-            opacity: c.simple.value ? 0.9 : 1,
+            opacity: c.simple.value ? 0.5 : 1,
             child: Container(
               alignment: Alignment.center,
               child: flchart,
@@ -603,28 +602,31 @@ class ReportWidget extends StatelessWidget {
                 initState: (_) {},
                 builder: (_) {
                   return Align(
-                    alignment: Alignment(0, 0),
-                    child: RichText(
-                        text: TextSpan(children: [
-                      TextSpan(
-                          text: "$type",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold)),
-                      TextSpan(
-                          text: "$value",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold)),
-                      TextSpan(
-                          text: "$unit",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold)),
-                    ])),
+                    alignment: alignment,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: RichText(
+                          text: TextSpan(children: [
+                        TextSpan(
+                            text: "$type",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold)),
+                        TextSpan(
+                            text: "$value",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold)),
+                        TextSpan(
+                            text: "$unit",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold)),
+                      ])),
+                    ),
                   );
                 },
               ),
