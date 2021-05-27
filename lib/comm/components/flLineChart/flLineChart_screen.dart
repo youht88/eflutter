@@ -79,7 +79,7 @@ class FlLineChart extends GetView<FlLineChartController> {
               leftTitles: SideTitles(
                   getTextStyles: (_) => textStyle!,
                   showTitles: true,
-                  interval: stat["max"]! / yPoint
+                  interval: 100 //stat["max"]! / yPoint
                   // getTitles: (value) {
                   //   if (value > 2) {
                   //     return "2";

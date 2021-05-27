@@ -11,43 +11,14 @@ class MomentController extends GetxController {
   //var opacity = 1.0.obs;
   //var simple = true.obs;
   var data = [];
-  List<double> data1 = [81.4, 81.1, 81.3];
-  List<Color> data1_colors = [Colors.blue, Colors.yellow, Colors.brown];
-  List<double> data2 = [50.77, 80.79, 120.22, 40.45, 30.56];
-  List<Color> data2_colors = [
-    Colors.red,
-    Colors.blue,
-    Colors.pink,
-    Colors.purple,
-    Colors.brown
-  ];
-  List<Widget> data2_titles = ["蔬菜类", "肉蛋类", "谷物类", "饮品", "水果类"]
-      .map((item) =>
-          Text(item, style: TextStyle(fontSize: 8, color: Colors.white)))
-      .toList();
-  List<double> data3 = [100, 200, 300, 400, 500];
   var item = [];
+
   @override
   void onInit() async {
     super.onInit();
     init();
     reset();
     print("onInit");
-  }
-
-  void refresh3() {
-    var random = Random();
-    data1 = MathUtil.randomDouble(60.0, 90.0, 3);
-    data2 = MathUtil.randomDouble(50.0, 300.0, 5);
-    data3 = [
-      random.nextDouble() * 100,
-      random.nextDouble() * 200,
-      random.nextDouble() * 300,
-      random.nextDouble() * 400,
-      random.nextDouble() * 500
-    ];
-    //print(data3);
-    update();
   }
 
   void reset() async {
@@ -70,7 +41,7 @@ class MomentController extends GetxController {
     item.add({
       "leading": FontAwesomeIcons.nutritionix,
       //"leadingColor": Colors.black87,
-      //"color": Colors.black87,
+      "colors": [Colors.cyan, Colors.blue, Colors.amber],
       "title": "西红柿蛋花汤 1 Bowl",
       "timeStr": "3小时前",
       "metric": [
@@ -121,7 +92,7 @@ class MomentController extends GetxController {
     item.add({
       "leading": FontAwesomeIcons.stepForward,
       "leadingColor": Colors.black87,
-      "color": Colors.black,
+      "colors": [Colors.black, Colors.blueGrey, Colors.orange],
       "title": "慢走",
       "timeStr": "6小时前",
       "metric": [
@@ -145,7 +116,7 @@ class MomentController extends GetxController {
     item.add({
       "leading": FontAwesomeIcons.meetup,
       "leadingColor": Colors.black87,
-      "color": Colors.black,
+      "colors": [Colors.purple, Colors.brown, Colors.indigo],
       "title": "看抖音",
       "timeStr": "15分钟前",
       "metric": [
@@ -162,7 +133,7 @@ class MomentController extends GetxController {
     item.add({
       "leading": FontAwesomeIcons.hospital,
       "leadingColor": Colors.black87,
-      "color": Colors.black,
+      "colors": [Colors.blueGrey, Colors.grey],
       "title": "血压",
       "timeStr": "刚刚",
       "metric": [
@@ -186,7 +157,12 @@ class MomentController extends GetxController {
     item.add({
       "leading": FontAwesomeIcons.hospital,
       "leadingColor": Colors.black87,
-      "color": Colors.black87,
+      "colors": [
+        Colors.grey.shade400,
+        Colors.red,
+        Colors.blue,
+        Colors.lightBlue
+      ],
       "title": "体重",
       "timeStr": "12小时前",
       "metric": [
