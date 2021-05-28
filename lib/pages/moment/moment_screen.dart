@@ -33,26 +33,26 @@ class MomentPage extends GetView<MomentController> {
           padding: EdgeInsets.all(8),
           child: Column(
             children: [
-              CircularPercentIndicator(
-                radius: 50.0,
-                lineWidth: 6.0,
-                percent: 0.30,
-                center: new Text("30%", style: TextStyle(color: Colors.blue)),
-                circularStrokeCap: CircularStrokeCap.round,
-                animation: true,
-                //progressColor: Colors.red,
-              ),
-              Obx(() => Container(
-                  width: 50 + c.size.value,
-                  height: 50 + c.size.value,
-                  color: Colors.lightBlue,
-                  child: Row(
-                    children: [
-                      Expanded(flex: 2, child: FittedBox(child: Text("aaa"))),
-                      Expanded(flex: 3, child: SizedBox.shrink()),
-                      Expanded(child: FittedBox(child: Text("bbb")))
-                    ],
-                  ))),
+              // CircularPercentIndicator(
+              //   radius: 50.0,
+              //   lineWidth: 6.0,
+              //   percent: 0.30,
+              //   center: new Text("30%", style: TextStyle(color: Colors.blue)),
+              //   circularStrokeCap: CircularStrokeCap.round,
+              //   animation: true,
+              //   //progressColor: Colors.red,
+              // ),
+              // Obx(() => Container(
+              //     width: 50 + c.size.value,
+              //     height: 50 + c.size.value,
+              //     color: Colors.lightBlue,
+              //     child: Row(
+              //       children: [
+              //         Expanded(flex: 2, child: FittedBox(child: Text("aaa"))),
+              //         Expanded(flex: 3, child: SizedBox.shrink()),
+              //         Expanded(child: FittedBox(child: Text("bbb")))
+              //       ],
+              //     ))),
               Container(
                 height: 600,
                 child: GetBuilder<MomentController>(
@@ -61,17 +61,48 @@ class MomentPage extends GetView<MomentController> {
                         itemBuilder: (context, index) => AnimatedContainer(
                               duration: 3.seconds,
                               //transformAlignment: Alignment.centerLeft,
-                              child: MomentWidget(
-                                  leading: x.data[index]["leading"],
-                                  leadingColor: x.data[index]["leadingColor"] ??
-                                      Colors.black87,
-                                  colors: x.data[index]["colors"] ??
-                                      [Colors.black87],
-                                  title: x.data[index]["title"] ?? "",
-                                  timeStr: x.data[index]["timeStr"] ?? "",
-                                  metric: x.data[index]["metric"]),
+                              child: GestureDetector(
+                                onTap: () {
+                                  print("abc");
+                                  Get.bottomSheet(
+                                      Container(height: 200, color: Colors.red),
+                                      backgroundColor: Colors.blue);
+                                },
+                                child: MomentWidget(
+                                    leading: x.data[index]["leading"],
+                                    leadingColor: x.data[index]
+                                            ["leadingColor"] ??
+                                        Colors.black87,
+                                    colors: x.data[index]["colors"] ??
+                                        [Colors.black87],
+                                    title: x.data[index]["title"] ?? "",
+                                    timeStr: x.data[index]["timeStr"] ?? "",
+                                    metric: x.data[index]["metric"]),
+                              ),
                             ))),
               ),
+              Container(
+                height: 100,
+                width: 300,
+                color: Colors.grey,
+                child: FittedWidget(
+                  child: Text("hello"),
+                  //alignment: Alignment(0, 0),
+                  //widthFactor: 0.6,
+                  //heightFactor: 0.6,
+                ),
+              ),
+              Container(
+                height: 50,
+                width: 200,
+                color: Colors.grey,
+                child: FittedWidget(
+                  child: Text("hello"),
+                  //alignment: Alignment(0, 0),
+                  //widthFactor: 0.5,
+                  //heightFactor: 0.5,
+                ),
+              )
             ],
           ),
         ),
@@ -80,8 +111,8 @@ class MomentPage extends GetView<MomentController> {
   }
 }
 
-class FitText extends StatelessWidget {
-  final String? text;
+class FittedWidget extends StatelessWidget {
+  final Widget? child;
   final AlignmentGeometry alignment;
   final double widthFactor;
   final double heightFactor;
@@ -90,12 +121,12 @@ class FitText extends StatelessWidget {
   final double? minHeight;
   final double? maxHeight;
 
-  const FitText({
+  const FittedWidget({
     Key? key,
-    this.text,
+    this.child,
     this.alignment: const Alignment(0.0, 0.0),
-    this.widthFactor: 0.2,
-    this.heightFactor: 0.2,
+    this.widthFactor: 0.5,
+    this.heightFactor: 0.5,
     this.minWidth,
     this.maxWidth,
     this.minHeight,
@@ -105,28 +136,23 @@ class FitText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print(widthFactor);
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        return Stack(
-          children: [
-            Align(
-                alignment: alignment,
-                child: Container(
-                    constraints: BoxConstraints(
-                      minWidth: minWidth ?? 0,
-                      maxWidth: maxWidth ?? 0,
-                      minHeight: minHeight ?? double.infinity,
-                      maxHeight: maxHeight ?? double.infinity,
-                    ),
-                    width: constraints.biggest.width * widthFactor,
-                    height: constraints.biggest.height * heightFactor,
-                    color: Colors.red,
-                    child: Container(
-                        child: Text("$text",
-                            style: TextStyle(color: Colors.purple)))))
-          ],
-        );
-      },
+    return Align(
+      alignment: alignment,
+      child: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints size) {
+          return Container(
+              constraints: BoxConstraints(
+                minWidth: minWidth ?? 0,
+                maxWidth: maxWidth ?? double.infinity,
+                minHeight: minHeight ?? 0,
+                maxHeight: maxHeight ?? double.infinity,
+              ),
+              width: size.biggest.width * widthFactor,
+              height: size.biggest.height * heightFactor,
+              //color: Colors.grey.shade400,
+              child: FittedBox(child: child, alignment: Alignment.topLeft));
+        },
+      ),
     );
   }
 }
@@ -154,13 +180,13 @@ class MomentWidget extends GetView {
             child: Container(
                 margin: EdgeInsets.all(2),
                 decoration: BoxDecoration(
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     offset: Offset(0.5, 0.5),
-                  //     color: Colors.black,
-                  //     blurRadius: 3,
-                  //   )
-                  // ],
+                  boxShadow: [
+                    BoxShadow(
+                      offset: Offset(2, 2),
+                      color: Colors.grey,
+                      blurRadius: 5,
+                    )
+                  ],
                   borderRadius:
                       BorderRadius.only(topRight: Radius.circular(30)),
                   gradient: (colors.length == 1)

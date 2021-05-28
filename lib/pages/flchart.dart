@@ -257,6 +257,22 @@ class FlchartView extends StatelessWidget {
                         style: TextStyle(color: Colors.white, fontSize: 10))
                   ]),
                 ),
+              ),
+              Container(
+                width: 150,
+                height: 150,
+                child: ReportWidget(
+                    gradient:
+                        LinearGradient(colors: [Colors.grey, Colors.blueGrey]),
+                    flchart: FlScatterChart(data: [
+                      {"x": 1, "y": 1, "value": 1},
+                      {"x": 2, "y": 2, "value": 2},
+                      {"x": 3, "y": 3, "value": 3}
+                    ], colors: [
+                      Colors.red,
+                      Colors.blue,
+                      Colors.green
+                    ])),
               )
             ],
           ),

@@ -2,6 +2,7 @@ export 'components/echart.dart';
 export 'components/flLineChart/flLineChart.dart';
 export 'components/flBarChart/flBarChart.dart';
 export 'components/flPieChart/flPieChart.dart';
+export 'components/flScatterChart/flScatterChart.dart';
 export 'components/reportWidget/reportWidget.dart';
 export 'components/metricWidget/metricWidget.dart';
 export 'components/indicateBarWidget/indicateBarWidget.dart';
